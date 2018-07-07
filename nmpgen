@@ -1,0 +1,85 @@
+#!/usr/bin/env python3
+import json
+from functools import partial
+from inspect import getsource
+from math import log
+import hashlib
+from sys import argv
+
+
+def sha512(s, d):
+    return hashlib.sha512(s.encode()).hexdigest()[:d]
+
+hashfunc = sha512
+
+def hashfunc_non_conflict(name_list, digest):
+    hashs = [hashfunc(e, digest) for e in name_list]
+    return len(name_list) == len(set(hashs)), hashs
+
+def digest_lower_bound(name_list):
+    lower, upper = 0, int(log(len(name_list), 2) + 1) >> 2 # bit * 2 / 8 => bit / 4
+    distance = upper - lower
+    last, last_hashs = upper, []
+    while upper - lower > 0:
+        distance = upper - lower + 1
+        isOK, hashs = hashfunc_non_conflict(name_list, upper)
+        if isOK:
+            last, last_hashs = upper, hashs
+            upper -= distance // 2
+        else:
+            lower, upper = upper + 1, 2 * upper
+    return last, last_hashs
+
+
+if __name__ == '__main__':
+    map_in_name, script_name = argv[1], argv[2]
+
+    map_in_file = open(map_in_name)
+    origin_mapping = json.load(map_in_file)
+    map_in_file.close()
+
+    origin_keys, origin_values = map(list, zip(*origin_mapping.items()))
+    keys_digest, hashed_keys = digest_lower_bound(origin_keys)
+    values_digest, hashed_values = digest_lower_bound(origin_values)
+    hashed_mapping = {}
+    for i in range(len(hashed_keys)):
+        if hashed_keys[i] == hashed_values[i]:
+            continue;
+        hashed_mapping[hashed_keys[i]] = hashed_values[i]
+    
+    document = """
+import json
+import hashlib
+from sys import argv
+
+_m = {0}
+kd, vd = {1}, {2}
+nf, of = argv[1], argv[2]
+nf = open(nf, 'r')
+nf = json.load(nf)
+keys, values = nf[0], nf[1]
+
+{3}
+
+hash_keys = {{}}
+for e in keys:
+    hash_keys[{4}(e, kd)] = e
+
+hash_values = {{}}
+for e in values:
+    hash_values[{4}(e, vd)] = e
+
+nm = {{}}
+for k, v in hash_keys.items():
+    if k in _m:
+        nm[v] = hash_values[_m[k]]
+    else:
+        nm[v] = v
+
+of = open(of, 'w')
+of.write(json.dumps(nm))
+of.close()
+    """.format(str(hashed_mapping), keys_digest, values_digest, getsource(hashfunc), hashfunc.__name__)
+    script = open(script_name, 'w')
+    script.write(document)
+    script.close()

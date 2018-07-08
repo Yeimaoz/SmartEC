@@ -30,15 +30,19 @@ def digest_lower_bound(name_list):
             lower, upper = upper + 1, 2 * upper
     return last, last_hashs
 
-def classifier(origin_keys,origin_values):
+def classifier(origin_mapping):
+    
+    origin_mapping = origin_mapping.copy()
+    
     container = {}
     nm_type = ['exactly_same','postfix_append','others']
     for item in nm_type:
         container[item] = []
-    
-    for i in range(len(origin_keys)):
-        if origin_keys[i] == origin_values[i]:
-            container['exactly_same'].append(origin_keys[i])
+        
+    for origin_key in origin_keys:
+        if origin_key == origin_mapping[origin_key]:
+            container['exactly_same'].append(origin_key)
+            del origin_mapping[origin_key]
     return container
 
 if __name__ == '__main__':
@@ -50,7 +54,7 @@ if __name__ == '__main__':
 
     origin_keys, origin_values = map(list, zip(*origin_mapping.items()))
     
-    container = classifier(origin_keys,origin_values)
+    container = classifier(origin_mapping)
     
     keys_digest, hashed_keys = digest_lower_bound(origin_keys)
     values_digest, hashed_values = digest_lower_bound(origin_values)

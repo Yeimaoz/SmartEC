@@ -30,19 +30,39 @@ def digest_lower_bound(name_list):
             lower, upper = upper + 1, 2 * upper
     return last, last_hashs
 
-def classifier(origin_mapping):
-    
+def classifier(origin_mapping):   
+    # python function call is passed reference
     origin_mapping = origin_mapping.copy()
     
+    # create a container to classfy all type of name mapping, and initialize the container 
     container = {}
     nm_type = ['exactly_same','postfix_append','others']
+    keywords = ['/lurg6/f_msg','/resizes0/f_msg']
     for item in nm_type:
         container[item] = []
+    container['postfix_append'] = {}
+    for item in keywords:
+        container['postfix_append'][item] = []
         
+    # pick out the exactly same type of name mapping
+    origin_keys = list(origin_mapping.keys())
     for origin_key in origin_keys:
         if origin_key == origin_mapping[origin_key]:
             container['exactly_same'].append(origin_key)
             del origin_mapping[origin_key]
+    
+    # pick out the postfix appned type of name mapping
+    origin_keys = list(origin_mapping.keys())
+    for origin_key in origin_keys:
+        for i in range(len(keywords)):
+            idx = origin_mapping[origin_key].find(keywords[i])
+            if idx != -1 and origin_mapping[origin_key][idx:] == keywords[i]:
+                container['postfix_append'][keywords[i]].append(origin_key)
+                del origin_mapping[origin_key]
+                break
+    
+    # others
+    container['others'] = list(origin_mapping.keys())
     return container
 
 if __name__ == '__main__':

@@ -7,20 +7,7 @@ import hashlib
 from sys import argv
 from bisect import bisect_left
 
-if __name__ == '__main__':
-    map_in_name, script_name = argv[1], argv[2]
-
-    map_in_file = open(map_in_name)
-    origin_mapping = json.load(map_in_file)
-    map_in_file.close()
-
-    mmm = sorted(list(origin_mapping.items()),key=lambda x: x[0])
-
-    k,v = zip(*mmm)
-    mm = sorted(zip(v,[ i for i in range(len(k)) ]),key=lambda x: x[0])
-    v, idx = zip(*mm) 
-    idx = list(idx)
-    
+def consecu_int_run_length(idx):
     mark = []
     flag = False
     temp = [ 0, 0, 0 ]
@@ -38,7 +25,25 @@ if __name__ == '__main__':
         else:
             if flag == True:
                 mark += temp
-                flag = False    
+                flag = False
+    return mark
+
+if __name__ == '__main__':
+    map_in_name, script_name = argv[1], argv[2]
+
+    map_in_file = open(map_in_name)
+    origin_mapping = json.load(map_in_file)
+    map_in_file.close()
+
+    mmm = sorted(list(origin_mapping.items()),key=lambda x: x[0])
+
+    k,v = zip(*mmm)
+    mm = sorted(zip(v,[ i for i in range(len(k)) ]),key=lambda x: x[0])
+    v, idx = zip(*mm) 
+    idx = list(idx)
+    
+    mark = consecu_int_run_length(idx) 
+    
     document = """
 import json
 import hashlib

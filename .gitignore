@@ -2,5 +2,9 @@ cases
 input
 output
 script
-nb
+nb/.*
+nb/nmpgen.ipynb
+nb/test.py
+test
+mark
 .gitignore

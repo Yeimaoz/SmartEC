@@ -7,14 +7,20 @@ def veritify(origin_file, mapping_file):
     mf = open(mapping_file)
     of = json.load(of)
     mf = json.load(mf)
+    flag = False
     if len(of) != len(mf):
         print('Size not match!!!')
         return
     for k in of:
         if of[k] != mf[k]:
-            print('error')
+            flag = True
+            print(k,of[k],sep='\n')
+            print(k,mf[k],sep='\n')
             break
-    print('Match!!')
+    if flag == False:
+        print('Match!!')
+    else:
+        print('Error!!')
 
 if __name__ == '__main__':
     if len(argv) <= 2:

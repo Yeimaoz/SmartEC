@@ -2,6 +2,7 @@ cases
 input
 output
 script
+packed
 nb/.*
 nb/nmpgen.ipynb
 nb/test.py

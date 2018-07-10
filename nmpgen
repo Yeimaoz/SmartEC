@@ -20,11 +20,25 @@ if __name__ == '__main__':
     mm = sorted(zip(v,[ i for i in range(len(k)) ]),key=lambda x: x[0])
     v, idx = zip(*mm) 
     idx = list(idx)
+    
     mark = []
+    flag = False
+    temp = [ 0, 0, 0 ]
     for i in range(len(k)):
         if i != idx[i]:
-            mark.append(i) 
-            mark.append(idx[i])  
+            if flag == False:
+                temp = [ i, idx[i], 1 ]
+                flag = True
+            elif flag == True and idx[i]-(temp[1]+temp[2]) == 0:
+                temp[2] += 1
+            elif flag == True:
+                mark += temp
+                temp = [ i, idx[i], 1 ]
+                flag = True
+        else:
+            if flag == True:
+                mark += temp
+                flag = False    
     document = """
 import json
 import hashlib
@@ -39,8 +53,9 @@ keys, values = sorted(nf[0]), sorted(nf[1])
 nm = {{}}
 for i in range(len(keys)):
     nm[keys[i]] = values[i]
-for i in range(0,len(_m),2):
-    nm[keys[_m[i+1]]] = values[_m[i]]
+for i in range(0,len(_m),3):
+    for j in range(_m[i+2]):
+        nm[keys[_m[i+1]+j]] = values[_m[i]+j]
 of = open(of, 'w')
 of.write(json.dumps(nm))
 of.close()

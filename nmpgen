@@ -28,6 +28,25 @@ def consecu_int_run_length(idx):
                 flag = False
     return mark
 
+def sporadic_seg_run_length(mark):
+    _mark = []
+    flag = False
+    temp = [ 0, 0, 0 ]
+    for i in range(0,len(mark),3):
+        if mark[i+2] == -1:   
+            if flag == False:
+                temp = [ mark[i], [mark[i+1]],-1]
+                flag = True
+            else:
+                temp[1].append(mark[i+1])
+        else:
+            if flag == True:
+                _mark += temp
+                flag = False
+            if flag == False:
+                _mark += mark[i:i+3]
+    return _mark
+
 if __name__ == '__main__':
     map_in_name, script_name = argv[1], argv[2]
 

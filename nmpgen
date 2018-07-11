@@ -7,6 +7,14 @@ import hashlib
 from sys import argv
 from bisect import bisect_left
 
+def checker(nm,ori):
+    flag = False
+    for key in ori.keys():
+        if ori[key] != nm[key]:
+            flag = True
+            break
+    print('Match!!' if flag == False else 'Error!!')
+    
 def consecu_int_run_length(idx):
     mark = []
     flag = False
@@ -29,23 +37,33 @@ def consecu_int_run_length(idx):
     return mark
 
 def sporadic_seg_run_length(mark):
-    _mark = []
+    sporadic_seg = [ mark[i:i+3] for i in range(0,len(mark),3)]
     flag = False
-    temp = [ 0, 0, 0 ]
-    for i in range(0,len(mark),3):
-        if mark[i+2] == -1:   
+    temp = []
+    res = []
+    for i in range(len(sporadic_seg)):
+        if sporadic_seg[i][2] != 1:
+            if flag == True:
+                res += temp 
+                # initialize temp to an empty list, to avoid if temp have something but index is at the end
+                temp = []
+                flag = False
+            res += sporadic_seg[i]
+        else:
+            # first one
             if flag == False:
-                temp = [ mark[i], [mark[i+1]],-1]
+                # start index, index list, len
+                temp = [sporadic_seg[i][0],[sporadic_seg[i][1]],1]
                 flag = True
             else:
-                temp[1].append(mark[i+1])
-        else:
-            if flag == True:
-                _mark += temp
-                flag = False
-            if flag == False:
-                _mark += mark[i:i+3]
-    return _mark
+                if sporadic_seg[i][0] - sporadic_seg[i-1][0] == 1:
+                    temp[1].append(sporadic_seg[i][1]) 
+                else:
+                    res += temp  
+                    temp = [sporadic_seg[i][0],[sporadic_seg[i][1]],1]
+    if len(temp) != 0:
+        res += temp  
+    return res
 
 if __name__ == '__main__':
     map_in_name, script_name = argv[1], argv[2]
@@ -61,7 +79,8 @@ if __name__ == '__main__':
     v, idx = zip(*mm) 
     idx = list(idx)
     
-    mark = consecu_int_run_length(idx) 
+    mark = consecu_int_run_length(idx)
+    sporadic_seg = sporadic_seg_run_length(mark)
     
     document = """
 import json
@@ -78,12 +97,17 @@ nm = {{}}
 for i in range(len(keys)):
     nm[keys[i]] = values[i]
 for i in range(0,len(_m),3):
-    for j in range(_m[i+2]):
-        nm[keys[_m[i+1]+j]] = values[_m[i]+j]
+    if _m[i+2] != 1:
+        for j in range(_m[i+2]):
+            nm[keys[_m[i+1]+j]] = values[_m[i]+j]
+    else:
+        length = len(_m[i+1])
+        for j in range(length):
+            nm[keys[_m[i+1][j]]] = values[_m[i]+j]
 of = open(of, 'w')
 of.write(json.dumps(nm))
 of.close()
-    """.format(str(mark))
+    """.format(str(sporadic_seg))
     script = open(script_name, 'w')
     script.write(document)
     script.close()

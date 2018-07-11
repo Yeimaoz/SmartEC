@@ -2,10 +2,13 @@
 mkdir -p packed
 for file in $(ls script); do
     gzip -c9 script/$file > packed/$file.gz
+    
 done
 
-echo "unack:" `wc -c script/* | grep 'total'`
+echo "unpack:" 
+wc -c script/*
 
-echo "pack:" `wc -c packed/* | grep 'total'`
+echo "pack:" 
+wc -c packed/*
 
 rm packed/*

@@ -15,8 +15,8 @@ for file in $(ls cases/); do
     echo "Run mapping file for $file ......"
     time python3 ./script/${bname}_script.py input/${bname}_in.json output/${bname}_out.json
     
-    echo "Veritifying $file script correctness ......"
-    ./veritify cases/$file output/${bname}_out.json
+    echo "Verifying $file script correctness ......"
+    ./verify cases/$file output/${bname}_out.json
 
     echo ""
     echo ""

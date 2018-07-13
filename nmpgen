@@ -65,6 +65,23 @@ def sporadic_seg_run_length(mark):
         res += temp  
     return res
 
+def classify(origin_mapping):
+    same, prefix, infix, postfix, others = [], [], [], [], []
+    for k,v in origin_mapping.items():
+        index = v.find(k)
+        if k == v:
+            same += [k]
+        elif index != -1:
+            if index == 0:
+                postfix += [k]
+            elif v[index:] == k:
+                prefix += [k]
+            else:
+                infix += [k]
+        else:
+            others += [k]
+    return same, prefix, infix, postfix, others
+
 if __name__ == '__main__':
     map_in_name, script_name = argv[1], argv[2]
 

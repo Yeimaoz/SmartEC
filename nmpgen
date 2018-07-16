@@ -100,31 +100,25 @@ if __name__ == '__main__':
     sporadic_seg = sporadic_seg_run_length(mark)
     
     document = """
-import json
-import hashlib
+import json as a
 from sys import argv
-
-_m = {}
-nf, of = argv[1], argv[2]
-nf = open(nf, 'r')
-nf = json.load(nf)
-keys, values = sorted(nf[0]), sorted(nf[1])
-
-nm = {{}}
-for i in range(len(keys)):
-    nm[keys[i]] = values[i]
-for i in range(0,len(_m),3):
-    if _m[i+2] != 1:
-        for j in range(_m[i+2]):
-            nm[keys[_m[i+1]+j]] = values[_m[i]+j]
+w={}
+n,o=argv[1:3]
+n=open(n,'r')
+k,v=a.load(n)
+k,v=sorted(k),sorted(v)
+m=dict(zip(k,v))
+for i in range(0,len(w),3):
+    if w[i+2]!=1:
+        for j in range(w[i+2]):
+            m[k[w[i+1]+j]]=v[w[i]+j]
     else:
-        length = len(_m[i+1])
-        for j in range(length):
-            nm[keys[_m[i+1][j]]] = values[_m[i]+j]
-of = open(of, 'w')
-of.write(json.dumps(nm))
-of.close()
+        for j in range(len(w[i+1])):
+            m[k[w[i+1][j]]]=v[w[i]+j]
+o=open(o,'w')
+o.write(a.dumps(m))
+o.close()
     """.format(str(sporadic_seg))
-    script = open(script_name, 'w')
+    script=open(script_name,'w')
     script.write(document)
     script.close()

@@ -118,24 +118,25 @@ k,v=set(k),set(v)
 r=k&v
 c=list(r)
 m=dict(zip(c,c))
-k,v=s(list(k-r)),s(v-r)
+k,v=s(k-r),s(v-r)
 l=len
-for i in range(l(k)):
+g=range
+for i in g(l(k)):
     m[k[i]]=v[i]
-for i in range(0,l(w),3):
+for i in g(0,l(w),3):
     if w[i+2]!=1:
-        for j in range(w[i+2]):
+        for j in g(w[i+2]):
              m[k[w[i+1]+j]]=v[w[i]+j]
     else:
-        for j in range(l(w[i+1])):
+        for j in g(l(w[i+1])):
             m[k[w[i+1][j]]]=v[w[i]+j]
-a.dumps(m,open(o))""".format(str(sporadic_seg))
+a.dump(m,open(o,'w'))""".format(str(sporadic_seg))
 
     document2 = """import json as a,sys
 n,o=sys.argv[1:3]
 k,v=a.load(open(n))
 s=sorted
-a.dumps(dict(zip(s(k),s(v))),open(o))"""
+a.dump(dict(zip(s(k),s(v))),open(o,'w'))"""
 
     script=open(script_name,'w')
     script.write(document1 if len(sporadic_seg) != 0 else document2)

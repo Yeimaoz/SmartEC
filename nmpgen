@@ -18,9 +18,9 @@ def checker(nm,ori):
 def consecu_int_run_length(idx):
     mark = []
     flag = False
-    temp = [ 0, 0, 0 ]
+    temp = []
     for i in range(len(k)):
-        if i != idx[i]:
+        if i != idx[i]:      
             if flag == False:
                 temp = [ i, idx[i], 1 ]
                 flag = True
@@ -33,7 +33,10 @@ def consecu_int_run_length(idx):
         else:
             if flag == True:
                 mark += temp
+                temp = []
                 flag = False
+    if len(temp) != 0:
+        mark += temp
     return mark
 
 def sporadic_seg_run_length(mark):
@@ -89,13 +92,20 @@ if __name__ == '__main__':
     origin_mapping = json.load(map_in_file)
     map_in_file.close()
 
-    mmm = sorted(list(origin_mapping.items()),key=lambda x: x[0])
+    # rule based classifying
+    same, prefix, infix, postfix, others = classify(origin_mapping)
+   
+    # only remove same
+    same_set = set(same)
+    exclusive_same = dict([item for item in origin_mapping.items() if item[0] not in same_set])
+    mmm = sorted(list(exclusive_same.items()),key=lambda x: x[0])
 
     k,v = zip(*mmm)
+    k = list(k)
+    v = list(v)          
     mm = sorted(zip(v,[ i for i in range(len(k)) ]),key=lambda x: x[0])
     v, idx = zip(*mm) 
     idx = list(idx)
-    
     mark = consecu_int_run_length(idx)
     sporadic_seg = sporadic_seg_run_length(mark)
     
@@ -105,13 +115,17 @@ from sys import argv
 w={}
 n,o=argv[1:3]
 n=open(n,'r')
+print(len(w))
 k,v=a.load(n)
-k,v=sorted(k),sorted(v)
-m=dict(zip(k,v))
+r=list(set(k)&set(v))
+m=dict(zip(r,r))
+k,v=sorted(list(set(k)-set(r))),sorted(list(set(v)-set(r)))
+for i in range(len(k)):
+    m[k[i]]=v[i]
 for i in range(0,len(w),3):
     if w[i+2]!=1:
         for j in range(w[i+2]):
-            m[k[w[i+1]+j]]=v[w[i]+j]
+             m[k[w[i+1]+j]]=v[w[i]+j]
     else:
         for j in range(len(w[i+1])):
             m[k[w[i+1][j]]]=v[w[i]+j]

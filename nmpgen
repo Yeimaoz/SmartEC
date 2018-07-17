@@ -76,9 +76,9 @@ def classify(origin_mapping):
             same += [k]
         elif index != -1:
             if index == 0:
-                postfix += [k]
-            elif v[index:] == k:
                 prefix += [k]
+            elif v[index:] == k:
+                postfix += [k]
             else:
                 infix += [k]
         else:

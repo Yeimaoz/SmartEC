@@ -2,7 +2,7 @@
 import json
 from sys import argv
 
-def veritify(origin_file, mapping_file):
+def verify(origin_file, mapping_file):
     of = open(origin_file)
     mf = open(mapping_file)
     of = json.load(of)
@@ -29,4 +29,4 @@ if __name__ == '__main__':
     if len(argv) <= 2:
         exit(1)
 
-    veritify(argv[1], argv[2])
+    verify(argv[1], argv[2])

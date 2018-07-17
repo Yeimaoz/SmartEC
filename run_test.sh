@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 mkdir -p script input output
-rm script/*
+rm script/* input/* output/* 
 
 for file in $(ls cases/); do
     echo "Test $file ....."

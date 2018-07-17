@@ -3,9 +3,7 @@ input
 output
 script
 packed
-nb/.*
-nb/nmpgen.ipynb
-nb/test.py
+nb
 test
 mark
 .gitignore

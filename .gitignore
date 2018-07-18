@@ -1,6 +1,9 @@
 cases
-nb
 input
 output
 script
+packed
+nb/*
+test
+mark
 .gitignore

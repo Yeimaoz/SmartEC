@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 mkdir -p script input output
+rm script/* input/* output/* 
 
 for file in $(ls cases/); do
     echo "Test $file ....."
@@ -15,10 +16,22 @@ for file in $(ls cases/); do
     echo "Run mapping file for $file ......"
     time python3 ./script/${bname}_script.py input/${bname}_in.json output/${bname}_out.json
     
-    echo "Veritifying $file script correctness ......"
-    ./veritify cases/$file output/${bname}_out.json
+    echo "Verifying $file script correctness ......"
+    ./verify cases/$file output/${bname}_out.json
 
     echo ""
     echo ""
 done
 
+mkdir -p packed
+for file in $(ls script); do
+    gzip -c9 script/$file > packed/$file.gz
+done
+
+echo "unpack:" 
+wc -c script/*
+
+echo "pack:" 
+wc -c packed/*
+
+rm packed/*

@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+import json
+from sys import argv
+
+def verify(origin_file, mapping_file):
+    of = open(origin_file)
+    mf = open(mapping_file)
+    of = json.load(of)
+    mf = json.load(mf)
+    flag = False
+    error_count = 0
+    if len(of) != len(mf):
+        print('Size not match!!!')
+        return
+    for k in of:
+        if of[k] != mf[k]:
+            flag = True
+            error_count += 1
+            print(k,of[k],sep='\n')
+            print(k,mf[k],sep='\n')
+#            break
+    if flag == False:
+        print('Match!!')
+    else:
+        print('Error!!')
+        print('error count: {}'.format(error_count))
+
+if __name__ == '__main__':
+    if len(argv) <= 2:
+        exit(1)
+
+    verify(argv[1], argv[2])

@@ -1,69 +1,76 @@
 #!/usr/bin/env python3
 import json
-from functools import partial
-from inspect import getsource
-from math import log
-import hashlib
 from sys import argv
 
-
-def sha512(s, d):
-    return hashlib.sha512(s.encode()).hexdigest()[:d]
-
-hashfunc = sha512
-
-def hashfunc_non_conflict(name_list, digest):
-    hashs = [hashfunc(e, digest) for e in name_list]
-    return len(name_list) == len(set(hashs)), hashs
-
-def digest_lower_bound(name_list):
-    lower, upper = 0, int(log(len(name_list), 2) + 1) >> 2 # bit * 2 / 8 => bit / 4
-    distance = upper - lower
-    last, last_hashs = upper, []
-    while upper - lower > 0:
-        distance = upper - lower + 1
-        isOK, hashs = hashfunc_non_conflict(name_list, upper)
-        if isOK:
-            last, last_hashs = upper, hashs
-            upper -= distance // 2
+def consecu_int_run_length(idx):
+    mark = []
+    flag = False
+    temp = []
+    for i in range(len(k)):
+        if i != idx[i]:      
+            if flag == False:
+                temp = [ i, idx[i], 1 ]
+                flag = True
+            elif flag == True and idx[i]-(temp[1]+temp[2]) == 0:
+                temp[2] += 1
+            elif flag == True:
+                mark += temp
+                temp = [ i, idx[i], 1 ]
+                flag = True
         else:
-            lower, upper = upper + 1, 2 * upper
-    return last, last_hashs
+            if flag == True:
+                mark += temp
+                temp = []
+                flag = False
+    if len(temp) != 0:
+        mark += temp
+    return mark
 
-def classifier(origin_mapping):   
-    # python function call is passed reference
-    origin_mapping = origin_mapping.copy()
-    
-    # create a container to classfy all type of name mapping, and initialize the container 
-    container = {}
-    nm_type = ['exactly_same','postfix_append','others']
-    keywords = ['/lurg6/f_msg','/resizes0/f_msg']
-    for item in nm_type:
-        container[item] = []
-    container['postfix_append'] = {}
-    for item in keywords:
-        container['postfix_append'][item] = []
-        
-    # pick out the exactly same type of name mapping
-    origin_keys = list(origin_mapping.keys())
-    for origin_key in origin_keys:
-        if origin_key == origin_mapping[origin_key]:
-            container['exactly_same'].append(origin_key)
-            del origin_mapping[origin_key]
-    
-    # pick out the postfix appned type of name mapping
-    origin_keys = list(origin_mapping.keys())
-    for origin_key in origin_keys:
-        for i in range(len(keywords)):
-            idx = origin_mapping[origin_key].find(keywords[i])
-            if idx != -1 and origin_mapping[origin_key][idx:] == keywords[i]:
-                container['postfix_append'][keywords[i]].append(origin_key)
-                del origin_mapping[origin_key]
-                break
-    
-    # others
-    container['others'] = list(origin_mapping.keys())
-    return container
+def sporadic_seg_run_length(mark):
+    sporadic_seg = [ mark[i:i+3] for i in range(0,len(mark),3)]
+    flag = False
+    temp = []
+    res = []
+    for i in range(len(sporadic_seg)):
+        if sporadic_seg[i][2] != 1:
+            if flag == True:
+                res += temp 
+                # initialize temp to an empty list, to avoid if temp have something but index is at the end
+                temp = []
+                flag = False
+            res += sporadic_seg[i]
+        else:
+            # first one
+            if flag == False:
+                # start index, index list, len
+                temp = [sporadic_seg[i][0],[sporadic_seg[i][1]],1]
+                flag = True
+            else:
+                if sporadic_seg[i][0] - sporadic_seg[i-1][0] == 1:
+                    temp[1].append(sporadic_seg[i][1]) 
+                else:
+                    res += temp  
+                    temp = [sporadic_seg[i][0],[sporadic_seg[i][1]],1]
+    if len(temp) != 0:
+        res += temp  
+    return res
+
+def classify(origin_mapping):
+    same, prefix, infix, postfix, others = [], [], [], [], []
+    for k,v in origin_mapping.items():
+        index = v.find(k)
+        if k == v:
+            same += [k]
+        elif index != -1:
+            if index == 0:
+                prefix += [k]
+            elif v[index:] == k:
+                postfix += [k]
+            else:
+                infix += [k]
+        else:
+            others += [k]
+    return same, prefix, infix, postfix, others
 
 if __name__ == '__main__':
     map_in_name, script_name = argv[1], argv[2]
@@ -72,51 +79,52 @@ if __name__ == '__main__':
     origin_mapping = json.load(map_in_file)
     map_in_file.close()
 
-    origin_keys, origin_values = map(list, zip(*origin_mapping.items()))
+    # rule based classifying
+    same, prefix, infix, postfix, others = classify(origin_mapping)
+   
+    # only remove same
+    same_set = set(same)
+    exclusive_same = dict([item for item in origin_mapping.items() if item[0] not in same_set])
+    mmm = sorted(list(exclusive_same.items()),key=lambda x: x[0])
+
+    k,v = zip(*mmm)
+    k = list(k)
+    v = list(v)          
+    mm = sorted(zip(v,[ i for i in range(len(k)) ]),key=lambda x: x[0])
+    v, idx = zip(*mm) 
+    idx = list(idx)
+    mark = consecu_int_run_length(idx)
+    sporadic_seg = sporadic_seg_run_length(mark)
     
-    container = classifier(origin_mapping)
-    
-    keys_digest, hashed_keys = digest_lower_bound(origin_keys)
-    values_digest, hashed_values = digest_lower_bound(origin_values)
-    hashed_mapping = {}
-    for i in range(len(hashed_keys)):
-        if origin_keys[i] in container['exactly_same']:
-            continue;
-        hashed_mapping[hashed_keys[i]] = hashed_values[i]
-    
-    document = """
-import json
-import hashlib
-from sys import argv
-
-_m = {0}
-kd, vd = {1}, {2}
-nf, of = argv[1], argv[2]
-nf = open(nf, 'r')
-nf = json.load(nf)
-keys, values = nf[0], nf[1]
-
-{3}
-
-hash_keys = {{}}
-for e in keys:
-    hash_keys[{4}(e, kd)] = e
-
-hash_values = {{}}
-for e in values:
-    hash_values[{4}(e, vd)] = e
-
-nm = {{}}
-for k, v in hash_keys.items():
-    if k in _m:
-        nm[v] = hash_values[_m[k]]
+    document1 = """import json as a,sys 
+w={}
+n,o=sys.argv[1:3]
+k,v=a.load(open(n))
+s=sorted
+k,v=set(k),set(v)
+r=k&v
+c=list(r)
+m=dict(zip(c,c))
+k,v=s(k-r),s(v-r)
+l=len
+g=range
+for i in g(l(k)):
+    m[k[i]]=v[i]
+for i in g(0,l(w),3):
+    if w[i+2]!=1:
+        for j in g(w[i+2]):
+             m[k[w[i+1]+j]]=v[w[i]+j]
     else:
-        nm[v] = v
+        for j in g(l(w[i+1])):
+            m[k[w[i+1][j]]]=v[w[i]+j]
+a.dump(m,open(o,'w'))""".format(str(sporadic_seg))
 
-of = open(of, 'w')
-of.write(json.dumps(nm))
-of.close()
-    """.format(str(hashed_mapping), keys_digest, values_digest, getsource(hashfunc), hashfunc.__name__)
-    script = open(script_name, 'w')
-    script.write(document)
+    document2 = """import json as a,sys
+n,o=sys.argv[1:3]
+k,v=a.load(open(n))
+s=sorted
+a.dump(dict(zip(s(k),s(v))),open(o,'w'))"""
+
+    script=open(script_name,'w')
+    script.write(document1 if len(sporadic_seg) != 0 else document2)
     script.close()

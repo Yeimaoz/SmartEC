@@ -4,6 +4,7 @@ from functools import cmp_to_key
 from inspect import getsource
 from sys import argv
 import re
+import gzip
 
 def consecu_int_run_length(idx):
     mark = []
@@ -241,5 +242,17 @@ a.dump(dict([(c[i][2],b[i][2]) for i in range(g(c))]),open(o,'w'))"""
         doc=document1
     else:
         doc=document2
-    script.write(doc)
+    
+    gzip_doc=gzip.compress(bytes(doc,encoding='utf-8'))
+    
+    gzip_ver='''import gzip
+exec(gzip.open('_', 'rb').read())'''
+    if len(doc) < len(gzip_ver)+len(gzip_doc):
+        script.write(doc)
+    else:
+        gzip.open('_', 'wb').write(bytes(doc,encoding='utf-8'))
+        script.write(gzip_ver)
+    #print(len(doc),len(gzip_ver)+len(gzip_doc))
+    #script.write(doc if len(doc) < len(gzip_ver)+len(gzip_doc) else gzip_ver)
+    #script.write(gzip_ver)
     script.close()

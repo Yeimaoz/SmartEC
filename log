@@ -1,22 +1,22 @@
 unpack:
-   545 script/case0_script.py
- 46786 script/case1_script.py
- 55474 script/case2_script.py
-  5792 script/case3_script.py
-   595 script/case4_script.py
- 35517 script/case5_script.py
-  4678 script/case6_script.py
-  4645 script/case7_script.py
-  3347 script/case8_script.py
-157379 total
+   108 script/case0_script.py
+ 45433 script/case1_script.py
+ 54107 script/case2_script.py
+   971 script/case3_script.py
+   971 script/case4_script.py
+ 35094 script/case5_script.py
+  4152 script/case6_script.py
+  4100 script/case7_script.py
+  3053 script/case8_script.py
+147989 total
 pack:
-  297 packed/case0_script.py.gz
-16526 packed/case1_script.py.gz
-19405 packed/case2_script.py.gz
- 2045 packed/case3_script.py.gz
-  326 packed/case4_script.py.gz
-11717 packed/case5_script.py.gz
- 1610 packed/case6_script.py.gz
- 1587 packed/case7_script.py.gz
- 1209 packed/case8_script.py.gz
-54722 total
+  132 packed/case0_script.py.gz
+16050 packed/case1_script.py.gz
+18973 packed/case2_script.py.gz
+  468 packed/case3_script.py.gz
+  468 packed/case4_script.py.gz
+11789 packed/case5_script.py.gz
+ 1573 packed/case6_script.py.gz
+ 1548 packed/case7_script.py.gz
+ 1186 packed/case8_script.py.gz
+52187 total

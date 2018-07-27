@@ -1,4 +1,3 @@
-unpack:
    108 script/case0_script.py
  45433 script/case1_script.py
  54107 script/case2_script.py
@@ -9,14 +8,3 @@ unpack:
   4100 script/case7_script.py
   3053 script/case8_script.py
 147989 total
-pack:
-  132 packed/case0_script.py.gz
-16050 packed/case1_script.py.gz
-18973 packed/case2_script.py.gz
-  468 packed/case3_script.py.gz
-  468 packed/case4_script.py.gz
-11789 packed/case5_script.py.gz
- 1573 packed/case6_script.py.gz
- 1548 packed/case7_script.py.gz
- 1186 packed/case8_script.py.gz
-52187 total

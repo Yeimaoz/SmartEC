@@ -105,8 +105,39 @@ def extract_remove(lst):
         extract.append(integers)
     return extract, remove
 
+def bit_size(lst):
+    maximum = 0
+    for item in lst:
+        all_int = re.findall('\d+',item)
+        if not all_int:
+            continue
+        maximum = max(maximum, (len(all_int[0]) if len(all_int) == 1 else max([*map(len,all_int)])))        
+    return maximum
+
+def zfill_method(origin_mapping,maximum):
+    # mmm=[k:('','',...),v:('','',...)] 
+    ori=[*zip(*origin_mapping.items())]
+
+    # ori_zfill =[0:['','',...],1:['','',...]]
+    ori_zfill=[*map(lambda x:[*map(lambda y:re.sub(r'(\d+)',lambda z:z.group(1).zfill(maximum),y),x)],ori)]
+
+    # ori_and_zfill = [[(k1,kf1),(k2,kf2),...],[(v1,vf1),(v2,vf2),...]]
+    ori_and_zfill=[*map(lambda x,y:[*zip(x,y)],ori,ori_zfill)]
+
+    # sort_by_zfill = [[(k1,kf1),(k2,kf2),...],[(v1,vf1),(v2,vf2),...]]
+    sort_by_zfill=[*map(lambda x:sorted(x,key=lambda y:y[1]),ori_and_zfill)]
+
+    # transpose=[0:[(k1,k2,...),(kf1,kf2,...)],1:[(v1,v2,...),(vf1,vf2,...)]] 
+    transpose = [*map(lambda x: [*zip(*x)],sort_by_zfill)]
+    new_table=dict(zip(transpose[0][0],transpose[1][0]))
+    for k,v in origin_mapping.items():
+        if new_table[k] != v:
+            return False
+    return True
+
 def check_type(origin_mapping):
     flag = 0
+    maximum = max(bit_size(origin_mapping.keys()),bit_size(origin_mapping.values()))
     keys, values = zip(*origin_mapping.items())
     keys, values = sorted(keys), sorted(values)
     for i in range(len(keys)):
@@ -115,31 +146,11 @@ def check_type(origin_mapping):
             break
     if flag == 0:
         return 0
-    kv_lst = sorted(list(origin_mapping.items()),key=lambda x: x[0])
     
-    # divide kv_list to k and v
-    k,v = zip(*kv_lst)
-    k = list(k)
-    v = list(v)   
-    
-    # ke: extraction of int of key
-    # ve: extraction of int of value
-    # kr: string removed int part of key
-    # vr: string removed int part of value
-    ke, kr = extract_remove(k)
-    ve, vr = extract_remove(v)
-    table = list(zip(ke,kr,ve,vr,k,v))
-    table = sorted(table,key=cmp_to_key(p))      
-
-    t0,t1,t2,t3,t4,t5 = zip(*table)
-    check_table = list(zip(t2,t3,[i for i in range(len(k))]))
-    check_table = sorted(check_table,key=cmp_to_key(p))
-    ccc = 0
-    for i in range(len(k)):
-        if check_table[i][2] != i:
-            ccc += 1
-    if ccc == 0:
+    # zfill_method
+    if zfill_method(origin_mapping,maximum):
         return 1
+        
     return 2
     
 if __name__ == '__main__':
@@ -196,7 +207,7 @@ k,v=a.load(open(n))
 s=sorted
 a.dump(dict(zip(s(k),s(v))),open(o,'w'))"""
 
-    document1 = """import json as a,sys,re
+    document4 = """import json as a,sys,re
 from functools import cmp_to_key
 g=len
 s=sorted
@@ -234,6 +245,12 @@ c=s(zip(w,x,k),key=cmp_to_key(p))
 b=s(zip(y,z,v),key=cmp_to_key(p))
 a.dump(dict([(c[i][2],b[i][2]) for i in range(g(c))]),open(o,'w'))"""
 
+    document1 = """import json as a,sys,re
+n,o=sys.argv[1:3]
+A=a.load(open(n))
+B=[*map(lambda x:[*zip(*x)],[*map(lambda x:sorted(x,key=lambda y:y[1]),[*map(lambda m,n:[*zip(m,n)],A,[*map(lambda x:[*map(lambda y:re.sub(r'(\d+)',lambda z:z.group(1).zfill({}),y),x)],A)])])])]
+a.dump(dict(zip(B[0][0],B[1][0])),open(o,'w'))""".format(max(bit_size(origin_mapping.keys()),bit_size(origin_mapping.values())))
+
     script=open(script_name,'w')
     doc=''
     if output_script_type == 0:
@@ -243,15 +260,7 @@ a.dump(dict([(c[i][2],b[i][2]) for i in range(g(c))]),open(o,'w'))"""
     else:
         doc=document2
     
-    gzip_doc=gzip.compress(bytes(doc,encoding='utf-8'))
-    
-    gzip_ver='''import gzip
-exec(gzip.open('_', 'rb').read())'''
-    if len(doc) < len(gzip_ver)+len(gzip_doc):
-        script.write(doc)
-    else:
-        gzip.open('_', 'wb').write(bytes(doc,encoding='utf-8'))
-        script.write(gzip_ver)
+    script.write(doc)
     #print(len(doc),len(gzip_ver)+len(gzip_doc))
     #script.write(doc if len(doc) < len(gzip_ver)+len(gzip_doc) else gzip_ver)
     #script.write(gzip_ver)

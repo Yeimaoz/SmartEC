@@ -6,11 +6,11 @@ from sys import argv
 import re
 import gzip
 
-def consecu_int_run_length(idx):
+def consecu_int_run_length(size,idx):
     mark = []
     flag = False
     temp = []
-    for i in range(len(k)):
+    for i in range(size):
         if i != idx[i]:      
             if flag == False:
                 temp = [ i, idx[i], 1 ]
@@ -105,6 +105,14 @@ def extract_remove(lst):
         extract.append(integers)
     return extract, remove
 
+def shift_count(ori,new):
+    count = 0
+    for k,v in ori.items():
+        if new[k] != v:
+            count += 1
+    print('shift count:',count)
+    return count
+
 def bit_size(lst):
     maximum = 0
     for item in lst:
@@ -130,10 +138,19 @@ def zfill_method(origin_mapping,maximum):
     # transpose=[0:[(k1,k2,...),(kf1,kf2,...)],1:[(v1,v2,...),(vf1,vf2,...)]] 
     transpose = [*map(lambda x: [*zip(*x)],sort_by_zfill)]
     new_table=dict(zip(transpose[0][0],transpose[1][0]))
-    for k,v in origin_mapping.items():
-        if new_table[k] != v:
-            return False
-    return True
+    return shift_count(origin_mapping,new_table), generate_idx_list([*zip(*ori_zfill)])
+
+def generate_idx_list(pack):
+    pack.sort(key=lambda x: x[0]) 
+    k,v = zip(*pack)        
+    mm = sorted(zip(v,[i for i in range(len(k))]),key=lambda x: x[0])
+    v, idx = zip(*mm) 
+    idx = list(idx)
+    mark = consecu_int_run_length(len(pack),idx)
+    print('consecu idx list char count: {}'.format(len(str(mark))))
+    sporadic_seg = sporadic_seg_run_length(mark)
+    print('sporadic_seg idx list char count: {}'.format(len(str(sporadic_seg))))
+    return mark,sporadic_seg
 
 def check_type(origin_mapping):
     flag = 0
@@ -148,7 +165,8 @@ def check_type(origin_mapping):
         return 0
     
     # zfill_method
-    if zfill_method(origin_mapping,maximum):
+    if not zfill_method(origin_mapping,maximum)[0]:
+        print('zfill type')
         return 1
         
     return 2
@@ -160,38 +178,17 @@ if __name__ == '__main__':
     origin_mapping = json.load(map_in_file)
     map_in_file.close()
     output_script_type = check_type(origin_mapping)
-    
-    # rule based classifying
-    same, prefix, infix, postfix, others = classify(origin_mapping)
-   
-    # only remove same
-    same_set = set(same)
-    exclusive_same = dict([item for item in origin_mapping.items() if item[0] not in same_set])
-    mmm = sorted(list(exclusive_same.items()),key=lambda x: x[0])
-
-    k,v = zip(*mmm)
-    k = list(k)
-    v = list(v)          
-    mm = sorted(zip(v,[ i for i in range(len(k)) ]),key=lambda x: x[0])
-    v, idx = zip(*mm) 
-    idx = list(idx)
-    mark = consecu_int_run_length(idx)
-    sporadic_seg = sporadic_seg_run_length(mark)
-    
+    print('type:',output_script_type)
+    mark,sporadic_seg=generate_idx_list(list(origin_mapping.items()))
     document2 = """import json as a,sys 
 w={}
 n,o=sys.argv[1:3]
 k,v=a.load(open(n))
 s=sorted
-k,v=set(k),set(v)
-r=k&v
-c=list(r)
-m=dict(zip(c,c))
-k,v=s(k-r),s(v-r)
+k,v=s(k),s(v)
 l=len
 g=range
-for i in g(l(k)):
-    m[k[i]]=v[i]
+m=dict(zip(k,v))
 for i in g(0,l(w),3):
     if w[i+2]!=1:
         for j in g(w[i+2]):

@@ -164,12 +164,18 @@ def check_type(origin_mapping):
     if flag == 0:
         return 0
     
-    # zfill_method
-    if not zfill_method(origin_mapping,maximum)[0]:
-        print('zfill type')
+    if not natural_key_method(origin_mapping):
         return 1
         
     return 2
+    
+def natural_key(x):
+    return [int(c)if c.isdigit()else c for c in re.split('\d+',x)]
+
+def natural_key_method(origin_mapping):
+    ori = [list(origin_mapping.keys()),list(origin_mapping.values())]
+    new = dict(zip(*map(lambda x:sorted(x,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('\d+',y)]),ori)))
+    return shift_count(origin_mapping,new)
     
 if __name__ == '__main__':
     map_in_name, script_name = argv[1], argv[2]
@@ -248,17 +254,19 @@ A=a.load(open(n))
 B=[*map(lambda x:[*zip(*x)],[*map(lambda x:sorted(x,key=lambda y:y[1]),[*map(lambda m,n:[*zip(m,n)],A,[*map(lambda x:[*map(lambda y:re.sub(r'(\d+)',lambda z:z.group(1).zfill({}),y),x)],A)])])])]
 a.dump(dict(zip(B[0][0],B[1][0])),open(o,'w'))""".format(max(bit_size(origin_mapping.keys()),bit_size(origin_mapping.values())))
 
+    natural_key_method_document='''import json as a,sys,re
+n,o=sys.argv[1:3]
+a.dump(dict(zip(*[sorted(i,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for i in a.load(open(n))])),open(o,'w'))'''
+
+
     script=open(script_name,'w')
     doc=''
     if output_script_type == 0:
         doc=document0
     elif output_script_type == 1:
-        doc=document1
+        doc=natural_key_method_document
     else:
         doc=document2
     
     script.write(doc)
-    #print(len(doc),len(gzip_ver)+len(gzip_doc))
-    #script.write(doc if len(doc) < len(gzip_ver)+len(gzip_doc) else gzip_ver)
-    #script.write(gzip_ver)
     script.close()

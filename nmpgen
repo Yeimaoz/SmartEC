@@ -176,6 +176,81 @@ def natural_key_method(origin_mapping):
     ori = [list(origin_mapping.keys()),list(origin_mapping.values())]
     new = dict(zip(*map(lambda x:sorted(x,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('\d+',y)]),ori)))
     return shift_count(origin_mapping,new)
+
+def A(rhs,lhs):
+    return 1 if int(rhs)>int(lhs) else -1
+
+#B:dimensions(string,i)
+#C:order(string)
+#D:dictionary_order(rhs,lhs)
+#E:iter_bit(dim,rhs,lhs)
+#F:dimension_based(rhs,lhs)
+#S:string
+#R:rhs
+#L:lhs
+def dimensions(string,i):
+    it=list(re.finditer('{}'.format('\[([0-9]+)\]'*i),string))
+    return (0,0) if not i else (i,it) if len(it) else dimensions(string,i-1)
+def order(string):
+    it=re.findall('\$O([0-9]+)',string)
+    return int(it[0]) if len(it) else 0
+def dictionary_order(R,L):
+    return 1 if R>L else 0 if R==L else -1
+def iter_bit(dim,R,L):
+    for i in range(dim):
+        if R[i]!=L[i]:
+            return A(R[i],L[i])
+    return 0
+def dimension_based(R,L):
+    rd=dimensions(R[0],2)
+    ld=dimensions(L[0],2)
+    if rd[0]==ld[0] and rd[0]!=0:
+        X,Y=order(R[0]),order(L[0])
+        if R[0][:rd[1][0].start()]==L[0][:ld[1][0].start()]:
+            if X-1>=len(rd[1]) and Y-1>=len(ld[1]):
+                return 1 if X>Y else -1
+            if X-1>=len(rd[1]) or Y-1>=len(ld[1]):
+                return 1 if X-1>=len(rd[1]) else -1
+            res=iter_bit(rd[0],rd[1][X-1].groups(),ld[1][Y-1].groups())
+            return res if res else 1 if X > Y else -1 
+    return dictionary_order(R[0],L[0])
+       
+def generate_shift_table(ori,new):
+    count = 0
+    idx=[]
+    for i in range(len(ori)):
+        if ori[new[0][i]] != new[1][i]:
+            count += 1
+            idx.append(new[1].index(ori[new[0][i]])-i)
+        else:
+            idx.append(0)
+    return idx
+
+def generate_run_length_table(idx):
+    # [initialization]
+    # add end flag
+    idx += ['*']  
+    # current run
+    current = idx[0] 
+    # current length
+    run_length = 0
+    # final output info
+    res = []
+    # readble output info
+    readble = []
+    
+    # [run_length]
+    for i in range(len(idx)):
+        if idx[i] == current:
+            run_length += 1
+        else:
+            res += [current,run_length]
+            readble.append([current,run_length])
+            current = idx[i]
+            run_length = 1
+    print('run-length table size:',len(res))
+    print('run-length table char count:',len(str(res)))
+    print('the most large consecutive segment length:',max([*zip(*readble)][1]))
     
 if __name__ == '__main__':
     map_in_name, script_name = argv[1], argv[2]
@@ -186,6 +261,17 @@ if __name__ == '__main__':
     output_script_type = check_type(origin_mapping)
     print('type:',output_script_type)
     mark,sporadic_seg=generate_idx_list(list(origin_mapping.items()))
+    print()
+    print('dimension_based')
+    mmm = list(origin_mapping.items())
+    mmm=sorted(mmm,key=cmp_to_key(dimension_based))
+    a0,a1 =zip(*mmm)
+    aaa = list(zip(a1,[i for i in range(len(mmm))]))
+    aaa=sorted(aaa,key=cmp_to_key(dimension_based))
+    aaaa = [*zip(*aaa)]
+    idx=generate_shift_table(origin_mapping,[list(a0),aaaa[0]])
+    generate_run_length_table(idx)
+    print()
     document2 = """import json as a,sys 
 w={}
 n,o=sys.argv[1:3]

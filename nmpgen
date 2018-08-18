@@ -21,7 +21,11 @@ def order_key(ori):
     if order:
         d,ds = dimensions(ori,2)
         o=int(order[0])
-        K = ori[:ds[0].start()]+ds[-1 if len(ds) < o else o-1].group(0)+order[0]if d else ori
+        if d:
+            K = ori[:ds[0].start()]+ds[-1 if len(ds) < o else o-1].group(0)+order[0]
+        else:
+            x_dim = list(re.finditer('[a-zA-Z]\d+\_\d+',ori))
+            K= ori[:x_dim[0].start()]+x_dim[-1 if len(x_dim) < o else o-1].group(0)+order[0] if x_dim else ori
     else:
         K = ori
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',K)]
@@ -74,7 +78,11 @@ def order_key(ori):
     if order:
         d,ds = dimensions(ori,2)
         o=int(order[0])
-        K = ori[:ds[0].start()]+ds[-1 if len(ds) < o else o-1].group(0)+order[0]if d else ori
+        if d:
+            K = ori[:ds[0].start()]+ds[-1 if len(ds) < o else o-1].group(0)+order[0]
+        else:
+            x_dim = list(re.finditer('[a-zA-Z]\d+\_\d+',ori))
+            K= ori[:x_dim[0].start()]+x_dim[-1 if len(x_dim) < o else o-1].group(0)+order[0] if x_dim else ori
     else:
         K = ori
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',K)]
@@ -197,7 +205,11 @@ def order_key(ori):
     if order:
         d,ds = dimensions(ori,2)
         o=int(order[0])
-        K = ori[:ds[0].start()]+ds[-1 if len(ds) < o else o-1].group(0)+order[0]if d else ori
+        if d:
+            K = ori[:ds[0].start()]+ds[-1 if len(ds) < o else o-1].group(0)+order[0]
+        else:
+            x_dim = list(re.finditer('[a-zA-Z]\d+\_\d+',ori))
+            K= ori[:x_dim[0].start()]+x_dim[-1 if len(x_dim) < o else o-1].group(0)+order[0] if x_dim else ori
     else:
         K = ori
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',K)]
@@ -235,6 +247,7 @@ def check_type(origin_mapping):
         output_script = incomplete_match[t_index].format("".join(str(two_level).split(' ')))
     print('Script size: %d.' % len(output_script))
     return output_script
+
 if __name__ == '__main__':
     map_in_name, script_name = argv[1], argv[2]
     print(map_in_name)

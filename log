@@ -1,10 +1,178 @@
-108 script/case0_script.py
-45433 script/case1_script.py
-54107 script/case2_script.py
-300 script/case3_script.py
-300 script/case4_script.py
-35094 script/case5_script.py
-4152 script/case6_script.py
-4100 script/case7_script.py
-3053 script/case8_script.py
-146647 total
+cases/case0.json
+Default key can sovle this case.
+Script size: 105.
+
+cases/case1.json
+Default key can't sovle this case.
+Shift count in this method: 10442.
+Shift table string length: 45962.
+One level run-length table string length: 20453.
+The most large consecutive segment length: 429.
+Two level run-length table string length: 20935.
+Natural key can't sovle this case.
+Shift count in this method: 3274.
+Shift table string length: 42299.
+One level run-length table string length: 7518.
+The most large consecutive segment length: 429.
+Two level run-length table string length: 7362.
+Order key can't sovle this case.
+Shift count in this method: 2919.
+Shift table string length: 41964.
+One level run-length table string length: 4517.
+The most large consecutive segment length: 8259.
+Two level run-length table string length: 4281.
+No method can solve this case.
+Script candidate: {'Default': (20935, 342, 21277), 'Order': (4281, 987, 5268), 'Natural': (7362, 416, 7778)}.
+Using Order key table to record the original relationship.
+Script size: 5266.
+
+cases/case2.json
+Default key can't sovle this case.
+Shift count in this method: 10841.
+Shift table string length: 74093.
+One level run-length table string length: 30280.
+The most large consecutive segment length: 49.
+Two level run-length table string length: 30656.
+Natural key can't sovle this case.
+Shift count in this method: 10841.
+Shift table string length: 74093.
+One level run-length table string length: 8722.
+The most large consecutive segment length: 353.
+Two level run-length table string length: 8498.
+Order key can't sovle this case.
+Shift count in this method: 10841.
+Shift table string length: 74093.
+One level run-length table string length: 5098.
+The most large consecutive segment length: 8269.
+Two level run-length table string length: 4816.
+No method can solve this case.
+Script candidate: {'Order': (4816, 987, 5803), 'Natural': (8498, 416, 8914), 'Default': (30656, 342, 30998)}.
+Using Order key table to record the original relationship.
+Script size: 5801.
+
+cases/case3.json
+Default key can't sovle this case.
+Shift count in this method: 1034.
+Shift table string length: 189225.
+One level run-length table string length: 1884.
+The most large consecutive segment length: 59738.
+Two level run-length table string length: 1914.
+Natural key can sovle this case.
+Script size: 179.
+
+cases/case4.json
+Default key can't sovle this case.
+Shift count in this method: 15.
+Shift table string length: 101209.
+One level run-length table string length: 34.
+The most large consecutive segment length: 33394.
+Two level run-length table string length: 34.
+Natural key can sovle this case.
+Script size: 179.
+
+cases/case5.json
+Default key can't sovle this case.
+Shift count in this method: 9435.
+Shift table string length: 172835.
+One level run-length table string length: 15254.
+The most large consecutive segment length: 3442.
+Two level run-length table string length: 17038.
+Natural key can't sovle this case.
+Shift count in this method: 84.
+Shift table string length: 166598.
+One level run-length table string length: 384.
+The most large consecutive segment length: 24028.
+Two level run-length table string length: 396.
+Order key can't sovle this case.
+Shift count in this method: 84.
+Shift table string length: 166598.
+One level run-length table string length: 384.
+The most large consecutive segment length: 24028.
+Two level run-length table string length: 396.
+No method can solve this case.
+Script candidate: {'Natural': (396, 416, 812), 'Order': (396, 987, 1383), 'Default': (17038, 342, 17380)}.
+Using Natural key table to record the original relationship.
+Script size: 810.
+
+cases/case6.json
+Default key can't sovle this case.
+Shift count in this method: 1225.
+Shift table string length: 72975.
+One level run-length table string length: 1827.
+The most large consecutive segment length: 8423.
+Two level run-length table string length: 2057.
+Natural key can't sovle this case.
+Shift count in this method: 122.
+Shift table string length: 71913.
+One level run-length table string length: 290.
+The most large consecutive segment length: 10176.
+Two level run-length table string length: 314.
+Order key can't sovle this case.
+Shift count in this method: 122.
+Shift table string length: 71913.
+One level run-length table string length: 290.
+The most large consecutive segment length: 10176.
+Two level run-length table string length: 314.
+No method can solve this case.
+Script candidate: {'Natural': (314, 416, 730), 'Order': (314, 987, 1301), 'Default': (2057, 342, 2399)}.
+Using Natural key table to record the original relationship.
+Script size: 728.
+
+cases/case7.json
+Default key can't sovle this case.
+Shift count in this method: 1166.
+Shift table string length: 67219.
+One level run-length table string length: 1812.
+The most large consecutive segment length: 8469.
+Two level run-length table string length: 2040.
+Natural key can't sovle this case.
+Shift count in this method: 74.
+Shift table string length: 66168.
+One level run-length table string length: 288.
+The most large consecutive segment length: 9327.
+Two level run-length table string length: 312.
+Order key can't sovle this case.
+Shift count in this method: 74.
+Shift table string length: 66168.
+One level run-length table string length: 288.
+The most large consecutive segment length: 9327.
+Two level run-length table string length: 312.
+No method can solve this case.
+Script candidate: {'Order': (312, 987, 1299), 'Default': (2040, 342, 2382), 'Natural': (312, 416, 728)}.
+Using Natural key table to record the original relationship.
+Script size: 726.
+
+cases/case8.json
+Default key can't sovle this case.
+Shift count in this method: 877.
+Shift table string length: 168976.
+One level run-length table string length: 1997.
+The most large consecutive segment length: 18703.
+Two level run-length table string length: 1431.
+Natural key can't sovle this case.
+Shift count in this method: 830.
+Shift table string length: 168956.
+One level run-length table string length: 1935.
+The most large consecutive segment length: 24283.
+Two level run-length table string length: 1361.
+Order key can't sovle this case.
+Shift count in this method: 830.
+Shift table string length: 168956.
+One level run-length table string length: 1935.
+The most large consecutive segment length: 24283.
+Two level run-length table string length: 1361.
+No method can solve this case.
+Script candidate: {'Natural': (1361, 416, 1777), 'Order': (1361, 987, 2348), 'Default': (1431, 342, 1773)}.
+Using Default key table to record the original relationship.
+Script size: 1771.
+
+  105 script/case0_script.py
+ 5266 script/case1_script.py
+ 5801 script/case2_script.py
+  179 script/case3_script.py
+  179 script/case4_script.py
+  810 script/case5_script.py
+  728 script/case6_script.py
+  726 script/case7_script.py
+ 1771 script/case8_script.py
+15565 total

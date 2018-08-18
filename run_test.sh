@@ -4,19 +4,19 @@ mkdir -p script input output
 rm script/* input/* output/* 
 
 for file in $(ls cases/); do
-    echo "Test $file ....."
     bname=$(basename -s .json $file)
+    echo "Test $bname ......"
     
-    echo "Generate $file mapping script ......"
+    echo "Generate script for $bname ......"
     time ./nmpgen cases/$file script/${bname}_script.py
     
-    echo "Generate $file input file ......"
+    echo "Generate input file for $bname ......"
     ./conv_map_to_in cases/$file input/${bname}_in.json
     
-    echo "Run mapping file for $file ......"
+    echo "Test script for $bname ......"
     time python3 ./script/${bname}_script.py input/${bname}_in.json output/${bname}_out.json
     
-    echo "Verifying $file script correctness ......"
+    echo "Verify the functionality of the reconstruction ......"
     ./verify cases/$file output/${bname}_out.json
 
     echo ""

@@ -4,223 +4,111 @@ from functools import cmp_to_key
 from inspect import getsource
 from sys import argv
 import re
-import gzip
 
-def consecu_int_run_length(size,idx):
-    mark = []
-    flag = False
-    temp = []
-    for i in range(size):
-        if i != idx[i]:      
-            if flag == False:
-                temp = [ i, idx[i], 1 ]
-                flag = True
-            elif flag == True and idx[i]-(temp[1]+temp[2]) == 0:
-                temp[2] += 1
-            elif flag == True:
-                mark += temp
-                temp = [ i, idx[i], 1 ]
-                flag = True
-        else:
-            if flag == True:
-                mark += temp
-                temp = []
-                flag = False
-    if len(temp) != 0:
-        mark += temp
-    return mark
-
-def sporadic_seg_run_length(mark):
-    sporadic_seg = [ mark[i:i+3] for i in range(0,len(mark),3)]
-    flag = False
-    temp = []
-    res = []
-    for i in range(len(sporadic_seg)):
-        if sporadic_seg[i][2] != 1:
-            if flag == True:
-                res += temp 
-                # initialize temp to an empty list, to avoid if temp have something but index is at the end
-                temp = []
-                flag = False
-            res += sporadic_seg[i]
-        else:
-            # first one
-            if flag == False:
-                # start index, index list, len
-                temp = [sporadic_seg[i][0],[sporadic_seg[i][1]],1]
-                flag = True
-            else:
-                if sporadic_seg[i][0] - sporadic_seg[i-1][0] == 1:
-                    temp[1].append(sporadic_seg[i][1]) 
-                else:
-                    res += temp  
-                    temp = [sporadic_seg[i][0],[sporadic_seg[i][1]],1]
-    if len(temp) != 0:
-        res += temp  
-    return res
-
-def classify(origin_mapping):
-    same, prefix, infix, postfix, others = [], [], [], [], []
-    for k,v in origin_mapping.items():
-        index = v.find(k)
-        if k == v:
-            same += [k]
-        elif index != -1:
-            if index == 0:
-                prefix += [k]
-            elif v[index:] == k:
-                postfix += [k]
-            else:
-                infix += [k]
-        else:
-            others += [k]
-    return same, prefix, infix, postfix, others
+complete_match = ["""import json as a,sys
+b=sys.argv
+a.dump(dict(zip(*[sorted(x)for x in a.load(open(b[1]))])),open(b[2],'w'))""",
+                      """import json as a,sys,re
+b=sys.argv
+a.dump(dict(zip(*[sorted(i,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for i in a.load(open(b[1]))])),open(b[2],'w'))""",
+                      """import json as a,sys,re
+def dimensions(string,i):
+    it=list(re.finditer('\[([0-9]+)\]'*i,string))
+    return (0,0) if not i else (i,it) if len(it) else dimensions(string,i-1)
+def order_key(ori):
+    K=ori[:]
+    order=re.findall('\$[a-zA-Z](\d+)',ori)
+    if order:
+        d,ds = dimensions(ori,2)
+        o=int(order[0])
+        K = ori[:ds[0].start()]+ds[-1 if len(ds) < o else o-1].group(0)+order[0]if d else ori
+    else:
+        K = ori
+    return [int(c)if c.isdigit()else c for c in re.split('(\d+)',K)]
+A=[ sorted(i) for i in a.load(open(b[1]))]
+X=[[order_key(j)for j in i] for i in A]
+Y=[[*zip(A[i],X[i])] for i in[0,1]]
+Y=[sorted(x,key=lambda y:y[1]) for x in Y]
+A=[[z[0]for z in y]for y in Y]
+a.dump(dict(zip(*A)),open(b[2],'w'))"""]
     
-g=len
-def p(x,y):
-    d,b=g(x[0]),g(y[0])
-    if x[1]==y[1]:
-        if d-b:
-            return 1 if d>b else -1
-        else:
-            for i in range(d):
-                if x[0][i]==y[0][i]:
-                    continue
-                return 1 if int(x[0][i])>int(y[0][i]) else -1       
-            return 0
-    return 1 if x[1]>y[1] else -1
-    
-def extract_remove(lst):
-    remove, extract = [], []
-    for i in range(len(lst)):
-        integers = re.findall('([0-9]+)',lst[i])
-        if len(integers) != 0:
-            integer_lst = list(re.finditer('([0-9]+)',lst[i]))
-            cpy = lst[i][:]
-            for j in range(len(integer_lst)):
-                cpy = cpy.replace(integer_lst[j].group(0),'',1)
-            remove.append(cpy)
-        else:
-            remove.append(lst[i])
-        extract.append(integers)
-    return extract, remove
+incomplete_match = ["""import json as a,sys
+b=sys.argv
+A=[sorted(x)for x in a.load(open(b[1]))]
+t={}
+B=A[1][:]
+D=[]
+C=0
+for i in range(0,len(t),2):
+    if type(t[i])!=list:
+        D+=[B[t[i]+C+j]for j in range(t[i+1])]
+        C+=t[i+1]
+    else:
+        D+=[B[t[i][j]+C+j]for j in range(len(t[i]))]
+        C+=len(t[i])
+A[1]=D
+a.dump(dict(zip(*A)),open(b[2],'w'))""",
+                        '''import json as a,sys,re
+t={}
+b=sys.argv
+A=[sorted(i,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for i in a.load(open(b[1]))]
+B=A[1][:]
+D=[]
+C=0
+for i in range(0,len(t),2):
+    if type(t[i])!=list:
+        D+=[B[t[i]+C+j]for j in range(t[i+1])]
+        C+=t[i+1]
+    else:
+        D+=[B[t[i][j]+C+j]for j in range(len(t[i]))]
+        C+=len(t[i])
+A[1]=D
+a.dump(dict(zip(*A)),open(b[2],'w'))''',
+                         """import json as a,sys,re
+def dimensions(string,i):
+    it=list(re.finditer('\[([0-9]+)\]'*i,string))
+    return (0,0) if not i else (i,it) if len(it) else dimensions(string,i-1)
+def order_key(ori):
+    K=ori[:]
+    order=re.findall('\$[a-zA-Z](\d+)',ori)
+    if order:
+        d,ds = dimensions(ori,2)
+        o=int(order[0])
+        K = ori[:ds[0].start()]+ds[-1 if len(ds) < o else o-1].group(0)+order[0]if d else ori
+    else:
+        K = ori
+    return [int(c)if c.isdigit()else c for c in re.split('(\d+)',K)]
+t={}
+b=sys.argv
+A=[ sorted(i) for i in a.load(open(b[1]))]
+X=[[order_key(j)for j in i] for i in A]
+Y=[[*zip(A[i],X[i])] for i in[0,1]]
+Y=[sorted(x,key=lambda y:y[1]) for x in Y]
+A=[[z[0]for z in y]for y in Y]
+B=A[1][:]
+D=[]
+C=0
+for i in range(0,len(t),2):
+    if type(t[i])!=list:
+        D+=[B[t[i]+C+j]for j in range(t[i+1])]
+        C+=t[i+1]
+    else:
+        D+=[B[t[i][j]+C+j]for j in range(len(t[i]))]
+        C+=len(t[i])
+A[1]=D
+a.dump(dict(zip(*A)),open(b[2],'w'))"""]
 
 def shift_count(ori,new):
     count = 0
-    for k,v in ori.items():
-        if new[k] != v:
-            count += 1
-    print('shift count:',count)
-    return count
-
-def bit_size(lst):
-    maximum = 0
-    for item in lst:
-        all_int = re.findall('\d+',item)
-        if not all_int:
-            continue
-        maximum = max(maximum, (len(all_int[0]) if len(all_int) == 1 else max([*map(len,all_int)])))        
-    return maximum
-
-def zfill_method(origin_mapping,maximum):
-    # mmm=[k:('','',...),v:('','',...)] 
-    ori=[*zip(*origin_mapping.items())]
-
-    # ori_zfill =[0:['','',...],1:['','',...]]
-    ori_zfill=[*map(lambda x:[*map(lambda y:re.sub(r'(\d+)',lambda z:z.group(1).zfill(maximum),y),x)],ori)]
-
-    # ori_and_zfill = [[(k1,kf1),(k2,kf2),...],[(v1,vf1),(v2,vf2),...]]
-    ori_and_zfill=[*map(lambda x,y:[*zip(x,y)],ori,ori_zfill)]
-
-    # sort_by_zfill = [[(k1,kf1),(k2,kf2),...],[(v1,vf1),(v2,vf2),...]]
-    sort_by_zfill=[*map(lambda x:sorted(x,key=lambda y:y[1]),ori_and_zfill)]
-
-    # transpose=[0:[(k1,k2,...),(kf1,kf2,...)],1:[(v1,v2,...),(vf1,vf2,...)]] 
-    transpose = [*map(lambda x: [*zip(*x)],sort_by_zfill)]
-    new_table=dict(zip(transpose[0][0],transpose[1][0]))
-    return shift_count(origin_mapping,new_table), generate_idx_list([*zip(*ori_zfill)])
-
-def generate_idx_list(pack):
-    pack.sort(key=lambda x: x[0]) 
-    k,v = zip(*pack)        
-    mm = sorted(zip(v,[i for i in range(len(k))]),key=lambda x: x[0])
-    v, idx = zip(*mm) 
-    idx = list(idx)
-    mark = consecu_int_run_length(len(pack),idx)
-    print('consecu idx list char count: {}'.format(len(str(mark))))
-    sporadic_seg = sporadic_seg_run_length(mark)
-    print('sporadic_seg idx list char count: {}'.format(len(str(sporadic_seg))))
-    return mark,sporadic_seg
-
-def check_type(origin_mapping):
-    flag = 0
-    maximum = max(bit_size(origin_mapping.keys()),bit_size(origin_mapping.values()))
-    keys, values = zip(*origin_mapping.items())
-    keys, values = sorted(keys), sorted(values)
-    for i in range(len(keys)):
-        if values[i] != origin_mapping[keys[i]]:
-            flag = 1
-            break
-    if flag == 0:
-        return 0
-    
-    if not natural_key_method(origin_mapping):
-        return 1
-        
-    return 2
-    
-def natural_key(x):
-    return [int(c)if c.isdigit()else c for c in re.split('\d+',x)]
-
-def natural_key_method(origin_mapping):
-    ori = [list(origin_mapping.keys()),list(origin_mapping.values())]
-    new = dict(zip(*map(lambda x:sorted(x,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('\d+',y)]),ori)))
-    return shift_count(origin_mapping,new)
-
-def A(rhs,lhs):
-    return 1 if int(rhs)>int(lhs) else -1
-
-#B:dimensions(string,i)
-#C:order(string)
-#D:dictionary_order(rhs,lhs)
-#E:iter_bit(dim,rhs,lhs)
-#F:dimension_based(rhs,lhs)
-#S:string
-#R:rhs
-#L:lhs
-def dimensions(string,i):
-    it=list(re.finditer('{}'.format('\[([0-9]+)\]'*i),string))
-    return (0,0) if not i else (i,it) if len(it) else dimensions(string,i-1)
-def order(string):
-    it=re.findall('\$O([0-9]+)',string)
-    return int(it[0]) if len(it) else 0
-def dictionary_order(R,L):
-    return 1 if R>L else 0 if R==L else -1
-def iter_bit(dim,R,L):
-    for i in range(dim):
-        if R[i]!=L[i]:
-            return A(R[i],L[i])
-    return 0
-def dimension_based(R,L):
-    rd=dimensions(R[0],2)
-    ld=dimensions(L[0],2)
-    if rd[0]==ld[0] and rd[0]!=0:
-        X,Y=order(R[0]),order(L[0])
-        if R[0][:rd[1][0].start()]==L[0][:ld[1][0].start()]:
-            if X-1>=len(rd[1]) and Y-1>=len(ld[1]):
-                return 1 if X>Y else -1
-            if X-1>=len(rd[1]) or Y-1>=len(ld[1]):
-                return 1 if X-1>=len(rd[1]) else -1
-            res=iter_bit(rd[0],rd[1][X-1].groups(),ld[1][Y-1].groups())
-            return res if res else 1 if X > Y else -1 
-    return dictionary_order(R[0],L[0])
-       
-def generate_shift_table(ori,new):
-    count = 0
-    idx=[]
     for i in range(len(ori)):
         if ori[new[0][i]] != new[1][i]:
             count += 1
+    return count
+
+def generate_shift_table(ori,new):
+    idx=[]
+    for i in range(len(ori)):
+        if ori[new[0][i]] != new[1][i]:
             idx.append(new[1].index(ori[new[0][i]])-i)
         else:
             idx.append(0)
@@ -237,7 +125,7 @@ def generate_run_length_table(idx):
     # final output info
     res = []
     # readble output info
-    readble = []
+    readable = []
     
     # [run_length]
     for i in range(len(idx)):
@@ -245,114 +133,118 @@ def generate_run_length_table(idx):
             run_length += 1
         else:
             res += [current,run_length]
-            readble.append([current,run_length])
+            readable.append([current,run_length])
             current = idx[i]
             run_length = 1
-    print('run-length table size:',len(res))
-    print('run-length table char count:',len(str(res)))
-    print('the most large consecutive segment length:',max([*zip(*readble)][1]))
-    
+    return res, readable
+
+def two_level_run_length(table):
+    flag = False
+    temp = []
+    tltable = []
+    for i in range(0,len(table),2):
+        if not flag and table[i+1] == 1:
+            temp = [[table[i]],1]
+            flag = True
+        elif flag and table[i+1] == 1:
+            temp[0] += [table[i]]
+        else:
+            flag = False
+            tltable += temp
+            tltable += table[i:i+2]
+            temp = []
+    tltable += temp
+    return tltable
+
+def generate_tables(origin_table, input_table, method):
+    methods = ['Default', 'Natural', 'Order']
+    choise, idx, res, readable, tltable = -1, [], [], [], []
+    ns = shift_count(origin_table, input_table)
+    if ns == 0:
+        print('%s key can sovle this case.' % method)
+        choise = methods.index(method)
+    else:
+        print('%s key can\'t sovle this case.' % method)
+        print('Shift count in this method: %d.' % ns)
+        idx = generate_shift_table(origin_table,input_table)
+        res, readable = generate_run_length_table(idx)
+        tltable = two_level_run_length(res)
+        print('Shift table string length: %d.' % len(str(idx)))
+        print('One level run-length table string length: %d.' % len("".join(str(res).split(' '))))
+        print('The most large consecutive segment length: %d.' % max([*zip(*readable)][1]))
+        print('Two level run-length table string length: %d.' % len("".join(str(tltable).split(' '))))
+    return choise, idx, res, readable, tltable
+
+def default_key_method(origin_mapping):
+    keys, values = zip(*origin_mapping.items())
+    keys, values = sorted(keys), sorted(values)
+    return [keys,values]
+
+def natural_key(x):
+    return [int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
+
+def natural_key_method(origin_mapping):
+    ori = [list(origin_mapping.keys()),list(origin_mapping.values())]
+    return [sorted(x,key=natural_key) for x in ori]
+
+def dimensions(string,i):
+    it=list(re.finditer('\[([0-9]+)\]'*i,string))
+    return (0,0) if not i else (i,it) if len(it) else dimensions(string,i-1)
+
+def order_key(ori):
+    K=ori[:]
+    order=re.findall('\$[a-zA-Z](\d+)',ori)
+    if order:
+        d,ds = dimensions(ori,2)
+        o=int(order[0])
+        K = ori[:ds[0].start()]+ds[-1 if len(ds) < o else o-1].group(0)+order[0]if d else ori
+    else:
+        K = ori
+    return [int(c)if c.isdigit()else c for c in re.split('(\d+)',K)]
+
+def order_key_method(origin_mapping):
+    ori=[sorted(list(origin_mapping.keys())),sorted(list(origin_mapping.values()))]
+    _ori=[[order_key(j)for j in i] for i in ori]
+    KV=[[*zip(ori[i],_ori[i])] for i in[0,1]]
+    KV=[sorted(x,key=lambda x:x[1]) for x in KV]
+    return [[z[0]for z in y]for y in KV]
+
+def check_type(origin_mapping):
+    output_script = ""
+    choise = -1
+    methods = ['Default', 'Natural', 'Order']
+    functions = [default_key_method, natural_key_method, order_key_method]
+    data = [ [ [] for j in range(4) ] for i in range(len(methods)) ] # index, one level run-length, readable, two level run-length
+    for i in range(len(methods)):
+        if choise == -1:
+            input_table = functions[i](origin_mapping)   
+            flag, data[i][0], data[i][1], data[i][2], data[i][3] = generate_tables(origin_mapping, input_table, methods[i])
+            choise = i if flag == i else -1   
+    if choise != -1:
+        output_script = complete_match[choise]
+    else:
+        print('No method can solve this case.')
+        two_level = [len("".join(str(data[i][3]).split(' ')))+len(incomplete_match[i]) for i in range(len(methods)) ]
+        t_index = two_level.index(min(two_level))
+        script_candidate = [ (len("".join(str(data[i][3]).split(' '))),len(incomplete_match[i]),len("".join(str(data[i][3]).split(' ')))+len(incomplete_match[i]) )for i in range(len(methods)) ]
+        print('Script candidate: %s.' % str(dict(zip(methods,script_candidate))) )
+        print('Using %s key table to record the original relationship.' % methods[t_index])
+        index, one_level, readable, two_level = data[t_index][0], data[t_index][1], data[t_index][2], data[t_index][3] 
+        #print(two_level)
+        #print(incomplete_match[t_index])
+        output_script = incomplete_match[t_index].format("".join(str(two_level).split(' ')))
+    print('Script size: %d.' % len(output_script))
+    return output_script
 if __name__ == '__main__':
     map_in_name, script_name = argv[1], argv[2]
-
+    print(map_in_name)
     map_in_file = open(map_in_name)
     origin_mapping = json.load(map_in_file)
     map_in_file.close()
-    output_script_type = check_type(origin_mapping)
-    print('type:',output_script_type)
-    mark,sporadic_seg=generate_idx_list(list(origin_mapping.items()))
-    print()
-    print('dimension_based')
-    mmm = list(origin_mapping.items())
-    mmm=sorted(mmm,key=cmp_to_key(dimension_based))
-    a0,a1 =zip(*mmm)
-    aaa = list(zip(a1,[i for i in range(len(mmm))]))
-    aaa=sorted(aaa,key=cmp_to_key(dimension_based))
-    aaaa = [*zip(*aaa)]
-    idx=generate_shift_table(origin_mapping,[list(a0),aaaa[0]])
-    generate_run_length_table(idx)
-    print()
-    document2 = """import json as a,sys 
-w={}
-n,o=sys.argv[1:3]
-k,v=a.load(open(n))
-s=sorted
-k,v=s(k),s(v)
-l=len
-g=range
-m=dict(zip(k,v))
-for i in g(0,l(w),3):
-    if w[i+2]!=1:
-        for j in g(w[i+2]):
-            m[k[w[i+1]+j]]=v[w[i]+j]
-    else:
-        for j in g(l(w[i+1])):
-            m[k[w[i+1][j]]]=v[w[i]+j]
-a.dump(m,open(o,'w'))""".format(str(sporadic_seg))
+    output_script = check_type(origin_mapping)
+ 
 
-    document0 = """import json as a,sys
-n,o=sys.argv[1:3]
-k,v=a.load(open(n))
-s=sorted
-a.dump(dict(zip(s(k),s(v))),open(o,'w'))"""
-
-    document4 = """import json as a,sys,re
-from functools import cmp_to_key
-g=len
-s=sorted
-def p(x,y):
-    d,b=g(x[0]),g(y[0])
-    if x[1]==y[1]:
-        if d-b:
-            return 1 if d>b else -1
-        else:
-            for i in range(d):
-                if x[0][i]==y[0][i]:
-                    continue
-                return 1 if int(x[0][i])>int(y[0][i]) else -1       
-            return 0
-    return 1 if x[1]>y[1] else -1
-def t(l):
-    r,e=[],[]
-    for i in range(g(l)):
-        y=re.findall('([0-9]+)',l[i])
-        if g(y) != 0:
-            d = list(re.finditer('([0-9]+)',l[i]))
-            c=l[i][:]
-            for j in range(len(d)):
-                c=c.replace(d[j].group(0),'',1)
-            r.append(c)
-        else:
-            r.append(l[i])
-        e.append(y)
-    return e,r
-n,o=sys.argv[1:3]
-k,v=a.load(open(n))
-w,x=t(k)
-y,z=t(v)
-c=s(zip(w,x,k),key=cmp_to_key(p))
-b=s(zip(y,z,v),key=cmp_to_key(p))
-a.dump(dict([(c[i][2],b[i][2]) for i in range(g(c))]),open(o,'w'))"""
-
-    document1 = """import json as a,sys,re
-n,o=sys.argv[1:3]
-A=a.load(open(n))
-B=[*map(lambda x:[*zip(*x)],[*map(lambda x:sorted(x,key=lambda y:y[1]),[*map(lambda m,n:[*zip(m,n)],A,[*map(lambda x:[*map(lambda y:re.sub(r'(\d+)',lambda z:z.group(1).zfill({}),y),x)],A)])])])]
-a.dump(dict(zip(B[0][0],B[1][0])),open(o,'w'))""".format(max(bit_size(origin_mapping.keys()),bit_size(origin_mapping.values())))
-
-    natural_key_method_document='''import json as a,sys,re
-n,o=sys.argv[1:3]
-a.dump(dict(zip(*[sorted(i,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for i in a.load(open(n))])),open(o,'w'))'''
-
-
-    script=open(script_name,'w')
-    doc=''
-    if output_script_type == 0:
-        doc=document0
-    elif output_script_type == 1:
-        doc=natural_key_method_document
-    else:
-        doc=document2
-    
-    script.write(doc)
+  
+    script=open(script_name,'w')   
+    script.write(output_script)
     script.close()

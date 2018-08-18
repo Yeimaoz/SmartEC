@@ -82,7 +82,7 @@ t={}
 b=sys.argv
 A=[ sorted(i) for i in a.load(open(b[1]))]
 X=[[order_key(j)for j in i] for i in A]
-Y=[[*zip(A[i],X[i])] for i in[0,1]]
+Y=[list(zip(A[i],X[i])) for i in[0,1]]
 Y=[sorted(x,key=lambda y:y[1]) for x in Y]
 A=[[z[0]for z in y]for y in Y]
 B=A[1][:]
@@ -171,7 +171,7 @@ def generate_tables(origin_table, input_table, method):
         tltable = two_level_run_length(res)
         print('Shift table string length: %d.' % len(str(idx)))
         print('One level run-length table string length: %d.' % len("".join(str(res).split(' '))))
-        print('The most large consecutive segment length: %d.' % max([*zip(*readable)][1]))
+        print('The most large consecutive segment length: %d.' % max(list(zip(*readable))[1]))
         print('Two level run-length table string length: %d.' % len("".join(str(tltable).split(' '))))
     return choise, idx, res, readable, tltable
 
@@ -205,7 +205,7 @@ def order_key(ori):
 def order_key_method(origin_mapping):
     ori=[sorted(list(origin_mapping.keys())),sorted(list(origin_mapping.values()))]
     _ori=[[order_key(j)for j in i] for i in ori]
-    KV=[[*zip(ori[i],_ori[i])] for i in[0,1]]
+    KV=[list(zip(ori[i],_ori[i])) for i in[0,1]]
     KV=[sorted(x,key=lambda x:x[1]) for x in KV]
     return [[z[0]for z in y]for y in KV]
 

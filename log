@@ -1,178 +1,277 @@
+Test case0 ......
+Generate script for case0 ......
 cases/case0.json
 Default key can sovle this case.
+Script size using Default key: 105.
 Script size: 105.
+Generate input file for case0 ......
+Test script for case0 ......
+Verify the functionality of the reconstruction ......
+Match!!
 
+
+Test case1 ......
+Generate script for case1 ......
 cases/case1.json
 Default key can't sovle this case.
 Shift count in this method: 10442.
-Shift table string length: 45962.
-One level run-length table string length: 20453.
 The most large consecutive segment length: 429.
-Two level run-length table string length: 20935.
+Shift table plain text size: 34646.
+Shift table cipher text size: 5280.
+One level run-length table plain text size: 20453.
+One level run-length table cipher text size: 5230.
+Two level run-length table plain text size: 20935.
+Two level run-length table cipher text size: 5646.
+Script size using Default key: 5998.
 Natural key can't sovle this case.
 Shift count in this method: 3274.
-Shift table string length: 42299.
-One level run-length table string length: 7518.
 The most large consecutive segment length: 429.
-Two level run-length table string length: 7362.
-Order key can't sovle this case.
-Shift count in this method: 2919.
-Shift table string length: 41964.
-One level run-length table string length: 4517.
-The most large consecutive segment length: 8259.
-Two level run-length table string length: 4281.
-No method can solve this case.
-Script candidate: {'Default': (20935, 342, 21277), 'Order': (4281, 987, 5268), 'Natural': (7362, 416, 7778)}.
-Using Order key table to record the original relationship.
-Script size: 5266.
+Shift table plain text size: 30983.
+Shift table cipher text size: 4240.
+One level run-length table plain text size: 7518.
+One level run-length table cipher text size: 3966.
+Two level run-length table plain text size: 7362.
+Two level run-length table cipher text size: 4326.
+Script size using Natural key: 4752.
+Separator: _DR_. Prefix pattern: TIU_FIGS_.
+Order key can sovle this case.
+Script size using Order key: 520.
+Script size: 520.
+Generate input file for case1 ......
+Test script for case1 ......
+Verify the functionality of the reconstruction ......
+Match!!
 
+
+Test case2 ......
+Generate script for case2 ......
 cases/case2.json
 Default key can't sovle this case.
 Shift count in this method: 10841.
-Shift table string length: 74093.
-One level run-length table string length: 30280.
 The most large consecutive segment length: 49.
-Two level run-length table string length: 30656.
+Shift table plain text size: 63222.
+Shift table cipher text size: 5896.
+One level run-length table plain text size: 30280.
+One level run-length table cipher text size: 5530.
+Two level run-length table plain text size: 30656.
+Two level run-length table cipher text size: 6062.
+Script size using Default key: 6414.
 Natural key can't sovle this case.
 Shift count in this method: 10841.
-Shift table string length: 74093.
-One level run-length table string length: 8722.
 The most large consecutive segment length: 353.
-Two level run-length table string length: 8498.
-Order key can't sovle this case.
-Shift count in this method: 10841.
-Shift table string length: 74093.
-One level run-length table string length: 5098.
-The most large consecutive segment length: 8269.
-Two level run-length table string length: 4816.
-No method can solve this case.
-Script candidate: {'Order': (4816, 987, 5803), 'Natural': (8498, 416, 8914), 'Default': (30656, 342, 30998)}.
-Using Order key table to record the original relationship.
-Script size: 5801.
+Shift table plain text size: 63222.
+Shift table cipher text size: 4556.
+One level run-length table plain text size: 8722.
+One level run-length table cipher text size: 4160.
+Two level run-length table plain text size: 8498.
+Two level run-length table cipher text size: 4592.
+Script size using Natural key: 5018.
+Separator: _ZN_. Prefix pattern: DOH_HUCK_.
+Order key can sovle this case.
+Script size using Order key: 520.
+Script size: 520.
+Generate input file for case2 ......
+Test script for case2 ......
+Verify the functionality of the reconstruction ......
+Match!!
 
+
+Test case3 ......
+Generate script for case3 ......
 cases/case3.json
 Default key can't sovle this case.
 Shift count in this method: 1034.
-Shift table string length: 189225.
-One level run-length table string length: 1884.
 The most large consecutive segment length: 59738.
-Two level run-length table string length: 1914.
+Shift table plain text size: 126499.
+Shift table cipher text size: 778.
+One level run-length table plain text size: 1884.
+One level run-length table cipher text size: 480.
+Two level run-length table plain text size: 1914.
+Two level run-length table cipher text size: 568.
+Script size using Default key: 920.
 Natural key can sovle this case.
+Script size using Natural key: 179.
 Script size: 179.
+Generate input file for case3 ......
+Test script for case3 ......
+Verify the functionality of the reconstruction ......
+Match!!
 
+
+Test case4 ......
+Generate script for case4 ......
 cases/case4.json
 Default key can't sovle this case.
 Shift count in this method: 15.
-Shift table string length: 101209.
-One level run-length table string length: 34.
 The most large consecutive segment length: 33394.
-Two level run-length table string length: 34.
+Shift table plain text size: 67478.
+Shift table cipher text size: 232.
+One level run-length table plain text size: 34.
+One level run-length table cipher text size: 78.
+Two level run-length table plain text size: 34.
+Two level run-length table cipher text size: 136.
+Script size using Default key: 374.
 Natural key can sovle this case.
+Script size using Natural key: 179.
 Script size: 179.
+Generate input file for case4 ......
+Test script for case4 ......
+Verify the functionality of the reconstruction ......
+Match!!
 
+
+Test case5 ......
+Generate script for case5 ......
 cases/case5.json
 Default key can't sovle this case.
 Shift count in this method: 9435.
-Shift table string length: 172835.
-One level run-length table string length: 15254.
 The most large consecutive segment length: 3442.
-Two level run-length table string length: 17038.
+Shift table plain text size: 117313.
+Shift table cipher text size: 3158.
+One level run-length table plain text size: 15254.
+One level run-length table cipher text size: 2428.
+Two level run-length table plain text size: 17038.
+Two level run-length table cipher text size: 2634.
+Script size using Default key: 2986.
 Natural key can't sovle this case.
 Shift count in this method: 84.
-Shift table string length: 166598.
-One level run-length table string length: 384.
 The most large consecutive segment length: 24028.
-Two level run-length table string length: 396.
-Order key can't sovle this case.
-Shift count in this method: 84.
-Shift table string length: 166598.
-One level run-length table string length: 384.
-The most large consecutive segment length: 24028.
-Two level run-length table string length: 396.
+Shift table plain text size: 111076.
+Shift table cipher text size: 494.
+One level run-length table plain text size: 384.
+One level run-length table cipher text size: 248.
+Two level run-length table plain text size: 396.
+Two level run-length table cipher text size: 312.
+Script size using Natural key: 738.
+Separator: None. Prefix pattern: None.
+Order key can't apply to this case.
 No method can solve this case.
-Script candidate: {'Natural': (396, 416, 812), 'Order': (396, 987, 1383), 'Default': (17038, 342, 17380)}.
+Script candidate: {'Natural': (396, 312, 738), 'Order': (2, 78, 0), 'Default': (17038, 2634, 2986)}.
 Using Natural key table to record the original relationship.
-Script size: 810.
+Script size: 738.
+Generate input file for case5 ......
+Test script for case5 ......
+Verify the functionality of the reconstruction ......
+Match!!
 
+
+Test case6 ......
+Generate script for case6 ......
 cases/case6.json
 Default key can't sovle this case.
 Shift count in this method: 1225.
-Shift table string length: 72975.
-One level run-length table string length: 1827.
 The most large consecutive segment length: 8423.
-Two level run-length table string length: 2057.
+Shift table plain text size: 49042.
+Shift table cipher text size: 502.
+One level run-length table plain text size: 1827.
+One level run-length table cipher text size: 284.
+Two level run-length table plain text size: 2057.
+Two level run-length table cipher text size: 366.
+Script size using Default key: 718.
 Natural key can't sovle this case.
 Shift count in this method: 122.
-Shift table string length: 71913.
-One level run-length table string length: 290.
 The most large consecutive segment length: 10176.
-Two level run-length table string length: 314.
-Order key can't sovle this case.
-Shift count in this method: 122.
-Shift table string length: 71913.
-One level run-length table string length: 290.
-The most large consecutive segment length: 10176.
-Two level run-length table string length: 314.
-No method can solve this case.
-Script candidate: {'Natural': (314, 416, 730), 'Order': (314, 987, 1301), 'Default': (2057, 342, 2399)}.
-Using Natural key table to record the original relationship.
-Script size: 728.
+Shift table plain text size: 47980.
+Shift table cipher text size: 292.
+One level run-length table plain text size: 290.
+One level run-length table cipher text size: 170.
+Two level run-length table plain text size: 314.
+Two level run-length table cipher text size: 236.
+Script size using Natural key: 662.
+Separator: _LB_. Prefix pattern: None.
+Order key can sovle this case.
+Script size using Order key: 451.
+Script size: 451.
+Generate input file for case6 ......
+Test script for case6 ......
+Verify the functionality of the reconstruction ......
+Match!!
 
+
+Test case7 ......
+Generate script for case7 ......
 cases/case7.json
 Default key can't sovle this case.
 Shift count in this method: 1166.
-Shift table string length: 67219.
-One level run-length table string length: 1812.
 The most large consecutive segment length: 8469.
-Two level run-length table string length: 2040.
+Shift table plain text size: 45185.
+Shift table cipher text size: 492.
+One level run-length table plain text size: 1812.
+One level run-length table cipher text size: 278.
+Two level run-length table plain text size: 2040.
+Two level run-length table cipher text size: 358.
+Script size using Default key: 710.
 Natural key can't sovle this case.
 Shift count in this method: 74.
-Shift table string length: 66168.
-One level run-length table string length: 288.
 The most large consecutive segment length: 9327.
-Two level run-length table string length: 312.
-Order key can't sovle this case.
-Shift count in this method: 74.
-Shift table string length: 66168.
-One level run-length table string length: 288.
-The most large consecutive segment length: 9327.
-Two level run-length table string length: 312.
-No method can solve this case.
-Script candidate: {'Order': (312, 987, 1299), 'Default': (2040, 342, 2382), 'Natural': (312, 416, 728)}.
-Using Natural key table to record the original relationship.
-Script size: 726.
+Shift table plain text size: 44134.
+Shift table cipher text size: 298.
+One level run-length table plain text size: 288.
+One level run-length table cipher text size: 168.
+Two level run-length table plain text size: 312.
+Two level run-length table cipher text size: 238.
+Script size using Natural key: 664.
+Separator: _DI_. Prefix pattern: None.
+Order key can sovle this case.
+Script size using Order key: 451.
+Script size: 451.
+Generate input file for case7 ......
+Test script for case7 ......
+Verify the functionality of the reconstruction ......
+Match!!
 
+
+Test case8 ......
+Generate script for case8 ......
 cases/case8.json
 Default key can't sovle this case.
 Shift count in this method: 877.
-Shift table string length: 168976.
-One level run-length table string length: 1997.
 The most large consecutive segment length: 18703.
-Two level run-length table string length: 1431.
+Shift table plain text size: 112996.
+Shift table cipher text size: 1000.
+One level run-length table plain text size: 1997.
+One level run-length table cipher text size: 656.
+Two level run-length table plain text size: 1431.
+Two level run-length table cipher text size: 698.
+Script size using Default key: 1050.
 Natural key can't sovle this case.
 Shift count in this method: 830.
-Shift table string length: 168956.
-One level run-length table string length: 1935.
 The most large consecutive segment length: 24283.
-Two level run-length table string length: 1361.
+Shift table plain text size: 112976.
+Shift table cipher text size: 908.
+One level run-length table plain text size: 1935.
+One level run-length table cipher text size: 562.
+Two level run-length table plain text size: 1361.
+Two level run-length table cipher text size: 600.
+Script size using Natural key: 1026.
+Separator: _KM_. Prefix pattern: None.
 Order key can't sovle this case.
 Shift count in this method: 830.
-Shift table string length: 168956.
-One level run-length table string length: 1935.
 The most large consecutive segment length: 24283.
-Two level run-length table string length: 1361.
+Shift table plain text size: 112976.
+Shift table cipher text size: 908.
+One level run-length table plain text size: 1935.
+One level run-length table cipher text size: 562.
+Two level run-length table plain text size: 1361.
+Two level run-length table cipher text size: 600.
+Script size using Order key: 1298.
 No method can solve this case.
-Script candidate: {'Natural': (1361, 416, 1777), 'Order': (1361, 987, 2348), 'Default': (1431, 342, 1773)}.
-Using Default key table to record the original relationship.
-Script size: 1771.
+Script candidate: {'Natural': (1361, 600, 1026), 'Default': (1431, 698, 1050), 'Order': (1361, 600, 1298)}.
+Using Natural key table to record the original relationship.
+Script size: 1026.
+Generate input file for case8 ......
+Test script for case8 ......
+Verify the functionality of the reconstruction ......
+Match!!
 
-  105 script/case0_script.py
- 5266 script/case1_script.py
- 5801 script/case2_script.py
-  179 script/case3_script.py
-  179 script/case4_script.py
-  810 script/case5_script.py
-  728 script/case6_script.py
-  726 script/case7_script.py
- 1771 script/case8_script.py
-15565 total
+
+ 105 script/case0_script.py
+ 520 script/case1_script.py
+ 520 script/case2_script.py
+ 179 script/case3_script.py
+ 179 script/case4_script.py
+ 738 script/case5_script.py
+ 451 script/case6_script.py
+ 451 script/case7_script.py
+1026 script/case8_script.py
+4169 total

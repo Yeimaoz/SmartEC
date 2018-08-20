@@ -106,6 +106,40 @@ for i in range(0,len(t),2):
 A[1]=D
 a.dump(dict(zip(*A)),open(b[2],'w'))"""]
 
+order_key_scripts = ['''import json as a,sys,re
+b=sys.argv
+N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
+def _(A):
+    B=''
+    D=re.findall('\$[a-zA-Z]\d+',A)
+    if not D:
+        return N(A)
+    F=re.split('/',A) 
+    O=[(i.find(D[0])!=-1)for i in F].index(True)
+    T= '/'.join(F[:O-1])
+    m=re.split('{0}',F[O-1])
+    return N((T+'/'if T else'')+m[int(D[0][2:])-1])
+a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(b[1]))])),open(b[2],'w'))''',
+'''import json as a,sys,re
+b=sys.argv
+N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
+def _(A):
+    B=''
+    D=re.findall('\$[a-zA-Z]\d+',A)
+    if not D:
+        return N(A)
+    F=re.split('/',A) 
+    O=[(i.find(D[0])!=-1)for i in F].index(True)
+    T= '/'.join(F[:O-1])
+    m=re.split('{0}',F[O-1])
+    C=re.split('{1}',m[0])
+    m[0]=m[0]if len(C)==1 else C[1]
+    return N((T+'/'if T else'')+m[int(D[0][2:])-1])
+a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(b[1]))])),open(b[2],'w'))''']
+
+separator = ''
+prefix = ''
+
 def shift_count(ori,new):
     count = 0
     for i in range(len(ori)):
@@ -214,9 +248,71 @@ def order_key(ori):
         K = ori
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',K)]
 
+def find_separator_prefix(origin_mapping):
+    voting = dict()
+    have_order = [(k,v) for k, v in origin_mapping.items() if re.findall('\$[a-zA-Z]\d+',k) or re.findall('\$[a-zA-Z]\d+',v)]
+    ko = [(k,v) for k, v in origin_mapping.items() if re.findall('\$[a-zA-Z]\d+',k)] 
+    vo = [(k,v) for k, v in origin_mapping.items() if re.findall('\$[a-zA-Z]\d+',v)]
+    if not (ko or vo):
+        return '', ''
+    flag = True if ko else False 
+    for k, v in have_order:
+        Order=re.search('\$[a-zA-Z](\d+)', k if flag else v)
+        ks = re.split('/',k)
+        vs = re.split('/',v)
+        opos =[(i.find(Order.group(0))!=-1)for i in (ks if flag else vs)].index(True)
+        folders = ks[opos-1] if flag else vs[opos-1] 
+        folders = re.sub('\d+','',folders)
+        folder = re.sub('\d+','',vs[opos-1] if flag else ks[opos-1])
+        patterns = re.split(re.escape(folder),folders)
+        for pattern in [i for i in patterns if i]:
+            if pattern in voting:
+                voting[pattern] += 1
+            else:
+                voting.setdefault(pattern,1)      
+    if not voting:
+        return '', ''
+    voting = sorted(list(voting.items()),key=lambda x:x[1],reverse=True)
+    return voting[0][0], (voting[1][0] if len(voting) > 1 and voting[0][0] not in voting[1][0] else '')
+
+def _order_key(ori,sep,pre):
+    new  =  ori[:]
+    match = re.findall('\$[a-zA-Z]\d+',ori)
+    if match:
+        m1=re.split('/',  ori) 
+        opos =[(i.find(match[0])!=-1)for i in m1].index(True)
+        temp = '/'.join(m1[:opos-1])
+        m=re.split(sep,m1[opos-1])
+        new=(temp+'/' if temp else '')+m[int(match[0][2:])-1]
+    else:       
+        new=ori
+    return [int(c)if c.isdigit()else c for c in re.split('(\d+)',new)]
+
+def order_key_(ori,sep,pre):
+    new  =  ori[:]
+    match = re.findall('\$[a-zA-Z]\d+',ori)
+    if match:
+        m1=re.split('/',  ori) 
+        opos =[(i.find(match[0])!=-1)for i in m1].index(True)
+        temp = '/'.join(m1[:opos-1])
+        m=re.split(sep,m1[opos-1])
+        cut=re.split(pre,m[0])
+        m[0] = m[0]if len(cut) == 1 else cut[1]
+        new=(temp+'/' if temp else '')+m[int(match[0][2:])-1]
+    else:       
+        new=ori
+    return [int(c)if c.isdigit()else c for c in re.split('(\d+)',new)]
+
 def order_key_method(origin_mapping):
+    global separator
+    global prefix
+    separator, prefix = find_separator_prefix(origin_mapping)
+    print('Separator: %s. Prefix pattern: %s.' % ( (separator if separator else 'None'),(prefix if prefix else 'None') ) ) 
+    if not(separator or prefix):
+        return []
     ori=[sorted(list(origin_mapping.keys())),sorted(list(origin_mapping.values()))]
-    _ori=[[order_key(j)for j in i] for i in ori]
+    func=order_key_ if prefix else _order_key
+    _ori=[[func(j,separator,prefix)for j in i] for i in ori]
     KV=[list(zip(ori[i],_ori[i])) for i in[0,1]]
     KV=[sorted(x,key=lambda x:x[1]) for x in KV]
     return [[z[0]for z in y]for y in KV]
@@ -230,24 +326,34 @@ def check_type(origin_mapping):
     for i in range(len(methods)):
         if choise == -1:
             input_table = functions[i](origin_mapping)   
+            if not input_table:
+                print('%s key can\'t apply to this case.' % methods[i])
+                continue
             flag, data[i][0], data[i][1], data[i][2], data[i][3] = generate_tables(origin_mapping, input_table, methods[i])
             choise = i if flag == i else -1   
     if choise != -1:
-        output_script = complete_match[choise]
+        if choise != 2:
+            output_script = complete_match[choise]
+        else:
+            global prefix
+            global separator
+            if prefix:
+                output_script = order_key_scripts[1].format(separator,prefix)
+            else:
+                output_script = order_key_scripts[0].format(separator)
     else:
         print('No method can solve this case.')
-        two_level = [len("".join(str(data[i][3]).split(' ')))+len(incomplete_match[i]) for i in range(len(methods)) ]
-        t_index = two_level.index(min(two_level))
-        script_candidate = [ (len("".join(str(data[i][3]).split(' '))),len(incomplete_match[i]),len("".join(str(data[i][3]).split(' ')))+len(incomplete_match[i]) )for i in range(len(methods)) ]
+        total= lambda x,y: len("".join(str(x).split(' ')))+len(y)
+        two_level = [(methods[i],total(data[i][3],incomplete_match[i]))if data[i][0] else (methods[i],-1) for i in range(len(methods))] 
+        two_level = list(filter(lambda x: x[1] > -1,sorted(two_level,key=lambda x:x[1])))
+        t_index = methods.index(two_level[0][0])
+        script_candidate = [ (len("".join(str(data[i][3]).split(' '))),len(incomplete_match[i]),total(data[i][3],incomplete_match[i]))for i in range(len(methods)) ]
         print('Script candidate: %s.' % str(dict(zip(methods,script_candidate))) )
         print('Using %s key table to record the original relationship.' % methods[t_index])
         index, one_level, readable, two_level = data[t_index][0], data[t_index][1], data[t_index][2], data[t_index][3] 
-        #print(two_level)
-        #print(incomplete_match[t_index])
         output_script = incomplete_match[t_index].format("".join(str(two_level).split(' ')))
     print('Script size: %d.' % len(output_script))
     return output_script
-
 if __name__ == '__main__':
     map_in_name, script_name = argv[1], argv[2]
     print(map_in_name)

@@ -20,32 +20,16 @@ b=sys.argv
 A=[sorted(x)for x in a.load(open(b[1]))]
 t={}
 B=A[1][:]
-D=[]
-C=0
-for i in range(0,len(t),2):
-    if type(t[i])!=list:
-        D+=[B[t[i]+C+j]for j in range(t[i+1])]
-        C+=t[i+1]
-    else:
-        D+=[B[t[i][j]+C+j]for j in range(len(t[i]))]
-        C+=len(t[i])
-A[1]=D
+D =[t[i] for i in range(0,len(t),2) for j in range(t[i+1])]
+A[1]=[B[k+D[k]] for k in range(len(D))] 
 a.dump(dict(zip(*A)),open(b[2],'w'))""",
                         '''import json as a,sys,re
 t={}
 b=sys.argv
-A=[sorted(i,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for i in a.load(open(b[1]))]
+A=[sorted(x,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for x in a.load(open(b[1]))]
 B=A[1][:]
-D=[]
-C=0
-for i in range(0,len(t),2):
-    if type(t[i])!=list:
-        D+=[B[t[i]+C+j]for j in range(t[i+1])]
-        C+=t[i+1]
-    else:
-        D+=[B[t[i][j]+C+j]for j in range(len(t[i]))]
-        C+=len(t[i])
-A[1]=D
+D=[t[i] for i in range(0,len(t),2) for j in range(t[i+1])] 
+A[1]=[B[k+D[k]] for k in range(len(D))]  
 a.dump(dict(zip(*A)),open(b[2],'w'))''','']
 
 order_key_scripts = ['''import json as a,sys,re
@@ -95,16 +79,8 @@ def _(A):
 t={1}
 A=[sorted(i,key=_)for i in a.load(open(b[1]))]
 B=A[1][:]
-D=[]
-C=0
-for i in range(0,len(t),2):
-    if type(t[i])!=list:
-        D+=[B[t[i]+C+j]for j in range(t[i+1])]
-        C+=t[i+1]
-    else:
-        D+=[B[t[i][j]+C+j]for j in range(len(t[i]))]
-        C+=len(t[i])
-A[1]=D
+D=[t[i] for i in range(0,len(t),2) for j in range(t[i+1])] 
+A[1]=[B[k+D[k]] for k in range(len(D))]  
 a.dump(dict(zip(*A)),open(b[2],'w'))''',
 '''import json as a,sys,re
 b=sys.argv
@@ -124,16 +100,8 @@ def _(A):
 t={2}
 A=[sorted(i,key=_)for i in a.load(open(b[1]))]
 B=A[1][:]
-D=[]
-C=0
-for i in range(0,len(t),2):
-    if type(t[i])!=list:
-        D+=[B[t[i]+C+j]for j in range(t[i+1])]
-        C+=t[i+1]
-    else:
-        D+=[B[t[i][j]+C+j]for j in range(len(t[i]))]
-        C+=len(t[i])
-A[1]=D
+D=[t[i] for i in range(0,len(t),2) for j in range(t[i+1])] 
+A[1]=[B[k+D[k]] for k in range(len(D))]  
 a.dump(dict(zip(*A)),open(b[2],'w'))''']
 
 separator = ''
@@ -200,14 +168,13 @@ def two_level_run_length(table):
     tltable += temp
     return tltable
 
-def swap_unsign_sign(tltable):
-    test = tltable[:]
+def swap_unsign_sign(oltable):
+    test = oltable[:]
     for i in range(0,len(test),2):
-        if type(test[i]) == int:
-            test[i] *= -1
-        else:
-            for j in range(len(test[i])):
-                test[i][j] *= -1
+        test[i] *= -1
+    
+    cres = codecs.encode(zlib.compress(remove_white_space(test).encode()),'hex').decode()
+    print(len(cres))
     return test
 
 def generate_tables(origin_table, input_table, method):
@@ -233,6 +200,7 @@ def generate_tables(origin_table, input_table, method):
         tltable = two_level_run_length(res)
         cidx = codecs.encode(zlib.compress(remove_white_space(idx).encode()),'hex').decode()
         cres = codecs.encode(zlib.compress(remove_white_space(res).encode()),'hex').decode()
+        cres = '''a.loads(zlib.decompress(codecs.decode('%s','hex')).decode())''' % cres
         ctltable = codecs.encode(zlib.compress(remove_white_space(tltable).encode()),'hex').decode()
         ctltable = '''a.loads(zlib.decompress(codecs.decode('%s','hex')).decode())''' % ctltable
         print('The most large consecutive segment length: %d.' % max(list(zip(*readable))[1]))
@@ -242,8 +210,7 @@ def generate_tables(origin_table, input_table, method):
         print('One level run-length table cipher text size: %d.' % len(cres))
         print('Two level run-length table plain text size: %d.' % len(remove_white_space(tltable)))
         print('Two level run-length table cipher text size: %d.' % len(ctltable))
-        #swap_unsign_sign(tltable)
-        output_table = ctltable if len(ctltable)+13 < len(remove_white_space(tltable)) else remove_white_space(tltable)
+        output_table = cres if len(cres)+13 < len(remove_white_space(res)) else remove_white_space(res)
         if method == methods[2]:
             if prefix:
                 incomplete_match[2] = incomplete_order_key[1].format(separator,prefix,output_table)
@@ -251,7 +218,7 @@ def generate_tables(origin_table, input_table, method):
                 incomplete_match[2] = incomplete_order_key[0].format(separator,output_table)
         else:
             incomplete_match[methods.index(method)]=incomplete_match[methods.index(method)].format(output_table)
-        if len(ctltable)+12 < len(remove_white_space(tltable)):
+        if len(cres)+13 < len(remove_white_space(res)):
             incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('\n',',codecs,zlib\n',1)
         print('Script size using %s key: %d.' % (method,len(incomplete_match[methods.index(method)])))
     return choise, idx, res, readable, tltable
@@ -385,7 +352,7 @@ def check_type(origin_mapping):
         two_level = [(methods[i],len(incomplete_match[i]))if data[i][0] else (methods[i],-1) for i in range(len(methods))] 
         two_level = list(filter(lambda x: x[1] > -1,sorted(two_level,key=lambda x:x[1])))
         t_index = methods.index(two_level[0][0])
-        script_candidate = [ (len("".join(str(data[i][3]).split(' '))),len('''a.loads(zlib.decompress(codecs.decode('%s','hex')).decode())''' % codecs.encode(zlib.compress(remove_white_space(data[i][3]).encode()),'hex').decode()),len(incomplete_match[i]))for i in range(len(methods)) ]
+        script_candidate = [ (len("".join(str(data[i][1]).split(' '))),len('''a.loads(zlib.decompress(codecs.decode('%s','hex')).decode())''' % codecs.encode(zlib.compress(remove_white_space(data[i][1]).encode()),'hex').decode()),len(incomplete_match[i]))for i in range(len(methods)) ]
         print('Script candidate: %s.' % str(dict(zip(methods,script_candidate))) )
         print('Using %s key table to record the original relationship.' % methods[t_index])
         index, one_level, readable, two_level = data[t_index][0], data[t_index][1], data[t_index][2], data[t_index][3] 

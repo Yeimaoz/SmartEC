@@ -199,6 +199,17 @@ def two_level_run_length(table):
             temp = []
     tltable += temp
     return tltable
+
+def swap_unsign_sign(tltable):
+    test = tltable[:]
+    for i in range(0,len(test),2):
+        if type(test[i]) == int:
+            test[i] *= -1
+        else:
+            for j in range(len(test[i])):
+                test[i][j] *= -1
+    return test
+
 def generate_tables(origin_table, input_table, method):
     global prefix
     global separator
@@ -231,6 +242,7 @@ def generate_tables(origin_table, input_table, method):
         print('One level run-length table cipher text size: %d.' % len(cres))
         print('Two level run-length table plain text size: %d.' % len(remove_white_space(tltable)))
         print('Two level run-length table cipher text size: %d.' % len(ctltable))
+        #swap_unsign_sign(tltable)
         output_table = ctltable if len(ctltable)+13 < len(remove_white_space(tltable)) else remove_white_space(tltable)
         if method == methods[2]:
             if prefix:
@@ -250,7 +262,9 @@ def default_key_method(origin_mapping):
     return [keys,values]
 
 def natural_key(x):
-    #re.sub("\/h0\/i1\/i1\/l0",'',re.sub('\[','',x))
+    #[int(c)if c.isdigit()else c for c in re.split('(\d+)',pattern)]
+    #x = re.split('\/',x)
+    #x = [[int(c)if c.isdigit()else c.replace('[','') for c in re.split('(\d+)',pattern) ]for pattern in x]
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 
 def natural_key_method(origin_mapping):

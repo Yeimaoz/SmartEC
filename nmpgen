@@ -33,13 +33,13 @@ b=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     B=''
-    D=re.findall('\$[a-zA-Z]\d+',A)
+    D=re.findall('{0}',A)
     if not D:
         return N(A)
     F=re.split('/',A) 
     O=[(i.find(D[0])!=-1)for i in F].index(True)
     T= '/'.join(F[:O-1])
-    m=re.split('{0}',F[O-1])
+    m=re.split('{1}',F[O-1])
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
 a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(b[1]))])),open(b[2],'w'))''',
 '''import json as a,sys,re
@@ -47,14 +47,14 @@ b=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     B=''
-    D=re.findall('\$[a-zA-Z]\d+',A)
+    D=re.findall('{0}',A)
     if not D:
         return N(A)
     F=re.split('/',A) 
     O=[(i.find(D[0])!=-1)for i in F].index(True)
     T= '/'.join(F[:O-1])
-    m=re.split('{0}',F[O-1])
-    C=re.split('{1}',m[0])
+    m=re.split('{1}',F[O-1])
+    C=re.split('{2}',m[0])
     m[0]=m[0]if len(C)==1 else C[1]
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
 a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(b[1]))])),open(b[2],'w'))''']
@@ -64,15 +64,15 @@ b=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     B=''
-    D=re.findall('\$[a-zA-Z]\d+',A)
+    D=re.findall('{0}',A)
     if not D:
         return N(A)
     F=re.split('/',A) 
     O=[(i.find(D[0])!=-1)for i in F].index(True)
     T= '/'.join(F[:O-1])
-    m=re.split('{0}',F[O-1])
+    m=re.split('{1}',F[O-1])
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
-t={1}
+t={2}
 A=[sorted(i,key=_)for i in a.load(open(b[1]))]
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(b[2],'w'))''',
@@ -81,21 +81,22 @@ b=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     B=''
-    D=re.findall('\$[a-zA-Z]\d+',A)
+    D=re.findall('{0}',A)
     if not D:
         return N(A)
     F=re.split('/',A) 
     O=[(i.find(D[0])!=-1)for i in F].index(True)
     T= '/'.join(F[:O-1])
-    m=re.split('{0}',F[O-1])
-    C=re.split('{1}',m[0])
+    m=re.split('{1}',F[O-1])
+    C=re.split('{2}',m[0])
     m[0]=m[0]if len(C)==1 else C[1]
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
-t={2}
+t={3}
 A=[sorted(i,key=_)for i in a.load(open(b[1]))]
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(b[2],'w'))''']
-
+order_signs = ['\$[a-zA-Z]\d+','[a-zA-Z]\$\d+']
+order_sign = ''
 separator = ''
 prefix = ''
 need_swap = False
@@ -112,6 +113,8 @@ def shift_count(ori,new):
 
 def generate_shift_table(ori,new):
     idx=[]
+    if not new:
+        return []
     for i in range(len(ori)):
         if ori[new[0][i]] != new[1][i]:
             idx.append(new[1].index(ori[new[0][i]])-i)
@@ -165,6 +168,7 @@ def swap_unsign_sign(oltable):
     return [oltable[i]*-1 if i % 2 == 0 else oltable[i] for i in range(len(oltable))]
 
 def generate_tables(origin_table, input_table, method):
+    global order_sign
     global prefix
     global separator
     global need_swap
@@ -176,9 +180,9 @@ def generate_tables(origin_table, input_table, method):
         choise = methods.index(method)
         if method == methods[2]:
             if prefix:
-                complete_match[2] = order_key_scripts[1].format(separator,prefix)
+                complete_match[2] = order_key_scripts[1].format(order_sign,separator,prefix)
             else:
-                complete_match[2] = order_key_scripts[0].format(separator)
+                complete_match[2] = order_key_scripts[0].format(order_sign,separator)
         print('Script size using %s key: %d.' % (method,len(complete_match[methods.index(method)])))
     else:
         print('%s key can\'t sovle this case.' % method)
@@ -207,9 +211,9 @@ def generate_tables(origin_table, input_table, method):
         output_table = crres if need_swap else res
         if method == methods[2]:
             if prefix:
-                incomplete_match[2] = incomplete_order_key[1].format(separator,prefix,output_table)
+                incomplete_match[2] = incomplete_order_key[1].format(order_sign,separator,prefix,output_table)
             else:
-                incomplete_match[2] = incomplete_order_key[0].format(separator,output_table)
+                incomplete_match[2] = incomplete_order_key[0].format(order_sign,separator,output_table)
         else:
             incomplete_match[methods.index(method)]=incomplete_match[methods.index(method)].format(output_table)
         incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('\n',',codecs,zlib\n',1)
@@ -253,15 +257,16 @@ def order_key(ori):
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',K)]
 
 def find_separator_prefix(origin_mapping):
+    global order_sign
     voting = dict()
-    have_order = [(k,v) for k, v in origin_mapping.items() if re.findall('\$[a-zA-Z]\d+',k) or re.findall('\$[a-zA-Z]\d+',v)]
-    ko = [(k,v) for k, v in origin_mapping.items() if re.findall('\$[a-zA-Z]\d+',k)] 
-    vo = [(k,v) for k, v in origin_mapping.items() if re.findall('\$[a-zA-Z]\d+',v)]
+    have_order = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,k) or re.findall(order_sign,v)]
+    ko = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,k)] 
+    vo = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,v)]
     if not (ko or vo):
         return '', ''
     flag = True if ko else False 
     for k, v in have_order:
-        Order=re.search('\$[a-zA-Z](\d+)', k if flag else v)
+        Order=re.search(order_sign.replace('\\d+','(\\d+)'), k if flag else v)
         ks = re.split('/',k)
         vs = re.split('/',v)
         opos =[(i.find(Order.group(0))!=-1)for i in (ks if flag else vs)].index(True)
@@ -280,8 +285,10 @@ def find_separator_prefix(origin_mapping):
     return voting[0][0], (voting[1][0] if len(voting) > 1 and voting[0][0] not in voting[1][0] else '')
 
 def _order_key(ori,sep,pre):
+    
+    global order_sign
     new  =  ori[:]
-    match = re.findall('\$[a-zA-Z]\d+',ori)
+    match = re.findall(order_sign,ori)
     if not match:
         new=ori
     else:
@@ -294,8 +301,10 @@ def _order_key(ori,sep,pre):
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',new)]
 
 def order_key_(ori,sep,pre):
+    
+    global order_sign
     new  =  ori[:]
-    match = re.findall('\$[a-zA-Z]\d+',ori)
+    match = re.findall(order_sign,ori)
     if not match:
         new=ori
     else:       
@@ -311,6 +320,8 @@ def order_key_(ori,sep,pre):
 def order_key_method(origin_mapping):
     global separator
     global prefix
+    global order_sign
+    order_sign = order_signs[0]
     separator, prefix = find_separator_prefix(origin_mapping)
     print('Separator: %s. Prefix pattern: %s.' % ( (separator if separator else 'None'),(prefix if prefix else 'None') ) ) 
     if not(separator or prefix):

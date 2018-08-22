@@ -19,17 +19,13 @@ incomplete_match = ["""import json as a,sys
 b=sys.argv
 A=[sorted(x)for x in a.load(open(b[1]))]
 t={}
-B=A[1][:]
-D =[t[i] for i in range(0,len(t),2) for j in range(t[i+1])]
-A[1]=[B[k+D[k]] for k in range(len(D))] 
+A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(b[2],'w'))""",
                         '''import json as a,sys,re
-t={}
 b=sys.argv
 A=[sorted(x,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for x in a.load(open(b[1]))]
-B=A[1][:]
-D=[t[i] for i in range(0,len(t),2) for j in range(t[i+1])] 
-A[1]=[B[k+D[k]] for k in range(len(D))]  
+t={}
+A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(b[2],'w'))''','']
 
 order_key_scripts = ['''import json as a,sys,re
@@ -78,9 +74,7 @@ def _(A):
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
 t={1}
 A=[sorted(i,key=_)for i in a.load(open(b[1]))]
-B=A[1][:]
-D=[t[i] for i in range(0,len(t),2) for j in range(t[i+1])] 
-A[1]=[B[k+D[k]] for k in range(len(D))]  
+A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(b[2],'w'))''',
 '''import json as a,sys,re
 b=sys.argv
@@ -99,9 +93,7 @@ def _(A):
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
 t={2}
 A=[sorted(i,key=_)for i in a.load(open(b[1]))]
-B=A[1][:]
-D=[t[i] for i in range(0,len(t),2) for j in range(t[i+1])] 
-A[1]=[B[k+D[k]] for k in range(len(D))]  
+A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(b[2],'w'))''']
 
 separator = ''

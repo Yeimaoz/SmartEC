@@ -255,7 +255,6 @@ def order_key(ori):
     else:
         K = ori
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',K)]
-    
 def vote(have_order, flag):
     global order_sign
     voting_result = dict()
@@ -266,8 +265,11 @@ def vote(have_order, flag):
         opos =[(i.find(Order.group(0))!=-1)for i in (ks if flag else vs)].index(True)
         folders = ks[opos-1] if flag else vs[opos-1] 
         folders = re.sub('\d+','',folders)
-        folder = re.sub('\d+','',vs[opos-1] if flag else ks[opos-1])
+        folder = vs if flag else ks
+        folder = re.sub('\d+','',folder[opos-1 if opos-1 < len(folder) else -1])
         patterns = re.split(re.escape(folder),folders)
+        if patterns[0] == folders:
+            continue
         for pattern in [i for i in patterns if i]:
             if pattern in voting_result:
                 voting_result[pattern] += 1
@@ -275,21 +277,41 @@ def vote(have_order, flag):
                 voting_result.setdefault(pattern,1)  
     return voting_result
 
+def verify_separator(have_order,flag,separator):
+    for k, v in have_order:
+        if (k if flag else v).find(separator) < 0:
+            return False
+    return True
+
 def find_separator_prefix(origin_mapping):
     global order_sign
-    have_order = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,k) or re.findall(order_sign,v)]
     ko = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,k)] 
     vo = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,v)]
     if not (ko or vo):
         return '', ''
-    flag = True if ko else False 
-    have_order = ko if flag else vo
-    voting_result = vote(have_order, flag)
+    flag = True
+    print('Try to find order relation with A.')
+    v1 = vote(ko, True)
+    if v1:
+        voting_result = v1
+    else:
+        print('Bad try.')
+        print('Try to find order relation with B.')
+        voting_result = vote(vo, False)
+        flag = False
     if not voting_result:
         return '', ''
+    print('Good try.')
     voting_result = sorted(list(voting_result.items()),key=lambda x:x[1],reverse=True)
-    return voting_result[0][0], (voting_result[1][0] if len(voting_result) > 1 and voting_result[0][0] not in voting_result[1][0] else '')
-
+    separator = voting_result[0][0]
+    vvv = verify_separator((ko if flag else vo),flag,separator)
+    if vvv:
+        print("Have separator: %s." % separator)
+    else:
+        print("Found a bad separator: %s." % separator)
+        return '',''
+    prefix = voting_result[1][0] if len(voting_result) > 1 and voting_result[0][0] not in voting_result[1][0] else ''
+    return separator, prefix
 
 def _order_key(ori,sep,pre):
     
@@ -329,8 +351,16 @@ def order_key_method(origin_mapping):
     global prefix
     global order_sign
     order_sign = order_signs[0]
+    print('Using order sign: %s.' % order_sign)
     separator, prefix = find_separator_prefix(origin_mapping)
     print('Separator: %s. Prefix pattern: %s.' % ( (separator if separator else 'None'),(prefix if prefix else 'None') ) ) 
+    if not(separator or prefix):
+        print('Order sign \'%s\' has no use.' % order_sign)
+        order_sign = order_signs[1]
+        print('Using order sign: %s.' % order_sign)
+        separator, prefix = '', ''
+        separator, prefix = find_separator_prefix(origin_mapping)
+        print('Separator: %s. Prefix pattern: %s.' % ( (separator if separator else 'None'),(prefix if prefix else 'None') ) ) 
     if not(separator or prefix):
         return []
     ori=[sorted(list(origin_mapping.keys())),sorted(list(origin_mapping.values()))]
@@ -339,7 +369,6 @@ def order_key_method(origin_mapping):
     KV=[list(zip(ori[i],_ori[i])) for i in[0,1]]
     KV=[sorted(x,key=lambda x:x[1]) for x in KV]
     return [[z[0]for z in y]for y in KV]
-
 def check_type(origin_mapping):
     global complete_match
     global incomplete_match

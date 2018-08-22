@@ -98,6 +98,7 @@ a.dump(dict(zip(*A)),open(b[2],'w'))''']
 
 separator = ''
 prefix = ''
+need_swap = False
 
 def remove_white_space(ori):
     return "".join(str(ori).split(' '))
@@ -161,19 +162,14 @@ def two_level_run_length(table):
     return tltable
 
 def swap_unsign_sign(oltable):
-    test = oltable[:]
-    for i in range(0,len(test),2):
-        test[i] *= -1
-    
-    cres = codecs.encode(zlib.compress(remove_white_space(test).encode()),'hex').decode()
-    print(len(cres))
-    return test
+    return [oltable[i]*-1 if i % 2 == 0 else oltable[i] for i in range(len(oltable))]
 
 def generate_tables(origin_table, input_table, method):
     global prefix
     global separator
+    global need_swap
     methods = ['Default', 'Natural', 'Order']
-    choise, idx, res, readable, tltable = -1, [], [], [], []
+    choise, idx, res, readable, tltable, output_table = -1, [], [], [], [],''
     ns = shift_count(origin_table, input_table)
     if ns == 0:
         print('%s key can sovle this case.' % method)
@@ -190,19 +186,25 @@ def generate_tables(origin_table, input_table, method):
         idx = generate_shift_table(origin_table,input_table)
         res, readable = generate_run_length_table(idx)
         tltable = two_level_run_length(res)
-        cidx = codecs.encode(zlib.compress(remove_white_space(idx).encode()),'hex').decode()
-        cres = codecs.encode(zlib.compress(remove_white_space(res).encode()),'hex').decode()
-        cres = '''a.loads(zlib.decompress(codecs.decode('%s','hex')).decode())''' % cres
-        ctltable = codecs.encode(zlib.compress(remove_white_space(tltable).encode()),'hex').decode()
-        ctltable = '''a.loads(zlib.decompress(codecs.decode('%s','hex')).decode())''' % ctltable
+        cidx = codecs.encode(zlib.compress(remove_white_space(idx).encode()),'base64').decode()
+        cres = codecs.encode(zlib.compress(remove_white_space(res).encode()),'base64').decode()
+        cres = '''a.loads(zlib.decompress(codecs.decode('%s'.encode(),'base64')).decode())''' % cres.replace('\n','')
+        rres = swap_unsign_sign(res)
+        crres = codecs.encode(zlib.compress(remove_white_space(rres).encode()),'base64').decode()
+        crres = '''a.loads(zlib.decompress(codecs.decode('%s'.encode(),'base64')).decode())''' % crres.replace('\n','')
+        need_swap = True if len(crres) < len(cres) else False
+        ctltable = codecs.encode(zlib.compress(remove_white_space(tltable).encode()),'base64').decode()
+        ctltable = '''a.loads(zlib.decompress(codecs.decode('%s'.encode(),'base64')).decode())''' % ctltable.replace('\n','')
         print('The most large consecutive segment length: %d.' % max(list(zip(*readable))[1]))
         print('Shift table plain text size: %d.' % len(remove_white_space(idx)))
         print('Shift table cipher text size: %d.' % len(cidx))
         print('One level run-length table plain text size: %d.' % len(remove_white_space(res)))
         print('One level run-length table cipher text size: %d.' % len(cres))
+        print('After swapping, one level run-length table plain text size: %d.' % len(remove_white_space(rres)))
+        print('After swapping, one level run-length table cipher text size: %d.' % len(crres))
         print('Two level run-length table plain text size: %d.' % len(remove_white_space(tltable)))
         print('Two level run-length table cipher text size: %d.' % len(ctltable))
-        output_table = cres if len(cres)+13 < len(remove_white_space(res)) else remove_white_space(res)
+        output_table = crres if need_swap else res
         if method == methods[2]:
             if prefix:
                 incomplete_match[2] = incomplete_order_key[1].format(separator,prefix,output_table)
@@ -210,10 +212,11 @@ def generate_tables(origin_table, input_table, method):
                 incomplete_match[2] = incomplete_order_key[0].format(separator,output_table)
         else:
             incomplete_match[methods.index(method)]=incomplete_match[methods.index(method)].format(output_table)
-        if len(cres)+13 < len(remove_white_space(res)):
-            incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('\n',',codecs,zlib\n',1)
+        incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('\n',',codecs,zlib\n',1)
+        if need_swap:
+            incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('x+y','x-y',1)
         print('Script size using %s key: %d.' % (method,len(incomplete_match[methods.index(method)])))
-    return choise, idx, res, readable, tltable
+    return choise, idx, res, readable, tltable, output_table
 
 def default_key_method(origin_mapping):
     keys, values = zip(*origin_mapping.items())
@@ -327,14 +330,14 @@ def check_type(origin_mapping):
     choise = -1
     methods = ['Default', 'Natural', 'Order']
     functions = [default_key_method, natural_key_method, order_key_method]
-    data = [ [ [] for j in range(4) ] for i in range(len(methods)) ] # index, one level run-length, readable, two level run-length
+    data = [ [ [] for j in range(5) ] for i in range(len(methods)) ] # index, one level run-length, readable, two level run-length
     for i in range(len(methods)):
         if choise == -1:
             input_table = functions[i](origin_mapping)   
             if not input_table:
                 print('%s key can\'t apply to this case.' % methods[i])
                 continue
-            flag, data[i][0], data[i][1], data[i][2], data[i][3] = generate_tables(origin_mapping, input_table, methods[i])
+            flag, data[i][0], data[i][1], data[i][2], data[i][3], data[i][4]  = generate_tables(origin_mapping, input_table, methods[i])
             choise = i if flag == i else -1   
     if choise != -1:
         output_script = complete_match[choise]
@@ -344,10 +347,10 @@ def check_type(origin_mapping):
         two_level = [(methods[i],len(incomplete_match[i]))if data[i][0] else (methods[i],-1) for i in range(len(methods))] 
         two_level = list(filter(lambda x: x[1] > -1,sorted(two_level,key=lambda x:x[1])))
         t_index = methods.index(two_level[0][0])
-        script_candidate = [ (len("".join(str(data[i][1]).split(' '))),len('''a.loads(zlib.decompress(codecs.decode('%s','hex')).decode())''' % codecs.encode(zlib.compress(remove_white_space(data[i][1]).encode()),'hex').decode()),len(incomplete_match[i]))for i in range(len(methods)) ]
+        script_candidate = [ (len("".join(str(data[i][1]).split(' '))),len(data[i][4]),len(incomplete_match[i]))for i in range(len(methods)) ]
         print('Script candidate: %s.' % str(dict(zip(methods,script_candidate))) )
         print('Using %s key table to record the original relationship.' % methods[t_index])
-        index, one_level, readable, two_level = data[t_index][0], data[t_index][1], data[t_index][2], data[t_index][3] 
+        index, one_level, readable, two_level, output_table = data[t_index][0], data[t_index][1], data[t_index][2], data[t_index][3], data[t_index][4] 
         output_script = incomplete_match[t_index]
     print('Script size: %d.' % len(output_script))
     return output_script

@@ -19,20 +19,20 @@ The most large consecutive segment length: 429.
 Shift table plain text size: 34646.
 Shift table cipher text size: 5280.
 One level run-length table plain text size: 20453.
-One level run-length table cipher text size: 5230.
+One level run-length table cipher text size: 5288.
 Two level run-length table plain text size: 20935.
 Two level run-length table cipher text size: 5646.
-Script size using Default key: 5998.
+Script size using Default key: 5506.
 Natural key can't sovle this case.
 Shift count in this method: 3274.
 The most large consecutive segment length: 429.
 Shift table plain text size: 30983.
 Shift table cipher text size: 4240.
 One level run-length table plain text size: 7518.
-One level run-length table cipher text size: 3966.
+One level run-length table cipher text size: 4024.
 Two level run-length table plain text size: 7362.
 Two level run-length table cipher text size: 4326.
-Script size using Natural key: 4752.
+Script size using Natural key: 4316.
 Separator: _DR_. Prefix pattern: TIU_FIGS_.
 Order key can sovle this case.
 Script size using Order key: 520.
@@ -52,20 +52,20 @@ The most large consecutive segment length: 49.
 Shift table plain text size: 63222.
 Shift table cipher text size: 5896.
 One level run-length table plain text size: 30280.
-One level run-length table cipher text size: 5530.
+One level run-length table cipher text size: 5588.
 Two level run-length table plain text size: 30656.
 Two level run-length table cipher text size: 6062.
-Script size using Default key: 6414.
+Script size using Default key: 5806.
 Natural key can't sovle this case.
 Shift count in this method: 10841.
 The most large consecutive segment length: 353.
 Shift table plain text size: 63222.
 Shift table cipher text size: 4556.
 One level run-length table plain text size: 8722.
-One level run-length table cipher text size: 4160.
+One level run-length table cipher text size: 4218.
 Two level run-length table plain text size: 8498.
 Two level run-length table cipher text size: 4592.
-Script size using Natural key: 5018.
+Script size using Natural key: 4510.
 Separator: _ZN_. Prefix pattern: DOH_HUCK_.
 Order key can sovle this case.
 Script size using Order key: 520.
@@ -85,10 +85,10 @@ The most large consecutive segment length: 59738.
 Shift table plain text size: 126499.
 Shift table cipher text size: 778.
 One level run-length table plain text size: 1884.
-One level run-length table cipher text size: 480.
+One level run-length table cipher text size: 538.
 Two level run-length table plain text size: 1914.
 Two level run-length table cipher text size: 568.
-Script size using Default key: 920.
+Script size using Default key: 756.
 Natural key can sovle this case.
 Script size using Natural key: 179.
 Script size: 179.
@@ -107,10 +107,10 @@ The most large consecutive segment length: 33394.
 Shift table plain text size: 67478.
 Shift table cipher text size: 232.
 One level run-length table plain text size: 34.
-One level run-length table cipher text size: 78.
+One level run-length table cipher text size: 136.
 Two level run-length table plain text size: 34.
 Two level run-length table cipher text size: 136.
-Script size using Default key: 374.
+Script size using Default key: 240.
 Natural key can sovle this case.
 Script size using Natural key: 179.
 Script size: 179.
@@ -129,26 +129,26 @@ The most large consecutive segment length: 3442.
 Shift table plain text size: 117313.
 Shift table cipher text size: 3158.
 One level run-length table plain text size: 15254.
-One level run-length table cipher text size: 2428.
+One level run-length table cipher text size: 2486.
 Two level run-length table plain text size: 17038.
 Two level run-length table cipher text size: 2634.
-Script size using Default key: 2986.
+Script size using Default key: 2704.
 Natural key can't sovle this case.
 Shift count in this method: 84.
 The most large consecutive segment length: 24028.
 Shift table plain text size: 111076.
 Shift table cipher text size: 494.
 One level run-length table plain text size: 384.
-One level run-length table cipher text size: 248.
+One level run-length table cipher text size: 306.
 Two level run-length table plain text size: 396.
 Two level run-length table cipher text size: 312.
-Script size using Natural key: 738.
+Script size using Natural key: 598.
 Separator: None. Prefix pattern: None.
 Order key can't apply to this case.
 No method can solve this case.
-Script candidate: {'Natural': (396, 312, 738), 'Order': (2, 78, 0), 'Default': (17038, 2634, 2986)}.
+Script candidate: {'Natural': (384, 306, 598), 'Order': (2, 78, 0), 'Default': (15254, 2486, 2704)}.
 Using Natural key table to record the original relationship.
-Script size: 738.
+Script size: 598.
 Generate input file for case5 ......
 Test script for case5 ......
 Verify the functionality of the reconstruction ......
@@ -164,20 +164,20 @@ The most large consecutive segment length: 8423.
 Shift table plain text size: 49042.
 Shift table cipher text size: 502.
 One level run-length table plain text size: 1827.
-One level run-length table cipher text size: 284.
+One level run-length table cipher text size: 342.
 Two level run-length table plain text size: 2057.
 Two level run-length table cipher text size: 366.
-Script size using Default key: 718.
+Script size using Default key: 560.
 Natural key can't sovle this case.
 Shift count in this method: 122.
 The most large consecutive segment length: 10176.
 Shift table plain text size: 47980.
 Shift table cipher text size: 292.
 One level run-length table plain text size: 290.
-One level run-length table cipher text size: 170.
+One level run-length table cipher text size: 228.
 Two level run-length table plain text size: 314.
 Two level run-length table cipher text size: 236.
-Script size using Natural key: 662.
+Script size using Natural key: 520.
 Separator: _LB_. Prefix pattern: None.
 Order key can sovle this case.
 Script size using Order key: 451.
@@ -197,20 +197,20 @@ The most large consecutive segment length: 8469.
 Shift table plain text size: 45185.
 Shift table cipher text size: 492.
 One level run-length table plain text size: 1812.
-One level run-length table cipher text size: 278.
+One level run-length table cipher text size: 336.
 Two level run-length table plain text size: 2040.
 Two level run-length table cipher text size: 358.
-Script size using Default key: 710.
+Script size using Default key: 554.
 Natural key can't sovle this case.
 Shift count in this method: 74.
 The most large consecutive segment length: 9327.
 Shift table plain text size: 44134.
 Shift table cipher text size: 298.
 One level run-length table plain text size: 288.
-One level run-length table cipher text size: 168.
+One level run-length table cipher text size: 226.
 Two level run-length table plain text size: 312.
 Two level run-length table cipher text size: 238.
-Script size using Natural key: 664.
+Script size using Natural key: 518.
 Separator: _DI_. Prefix pattern: None.
 Order key can sovle this case.
 Script size using Order key: 451.
@@ -230,20 +230,20 @@ The most large consecutive segment length: 18703.
 Shift table plain text size: 112996.
 Shift table cipher text size: 1000.
 One level run-length table plain text size: 1997.
-One level run-length table cipher text size: 656.
+One level run-length table cipher text size: 714.
 Two level run-length table plain text size: 1431.
 Two level run-length table cipher text size: 698.
-Script size using Default key: 1050.
+Script size using Default key: 932.
 Natural key can't sovle this case.
 Shift count in this method: 830.
 The most large consecutive segment length: 24283.
 Shift table plain text size: 112976.
 Shift table cipher text size: 908.
 One level run-length table plain text size: 1935.
-One level run-length table cipher text size: 562.
+One level run-length table cipher text size: 620.
 Two level run-length table plain text size: 1361.
 Two level run-length table cipher text size: 600.
-Script size using Natural key: 1026.
+Script size using Natural key: 912.
 Separator: _KM_. Prefix pattern: None.
 Order key can't sovle this case.
 Shift count in this method: 830.
@@ -251,14 +251,14 @@ The most large consecutive segment length: 24283.
 Shift table plain text size: 112976.
 Shift table cipher text size: 908.
 One level run-length table plain text size: 1935.
-One level run-length table cipher text size: 562.
+One level run-length table cipher text size: 620.
 Two level run-length table plain text size: 1361.
 Two level run-length table cipher text size: 600.
-Script size using Order key: 1298.
+Script size using Order key: 1184.
 No method can solve this case.
-Script candidate: {'Natural': (1361, 600, 1026), 'Default': (1431, 698, 1050), 'Order': (1361, 600, 1298)}.
+Script candidate: {'Default': (1997, 714, 932), 'Order': (1935, 620, 1184), 'Natural': (1935, 620, 912)}.
 Using Natural key table to record the original relationship.
-Script size: 1026.
+Script size: 912.
 Generate input file for case8 ......
 Test script for case8 ......
 Verify the functionality of the reconstruction ......
@@ -270,8 +270,8 @@ Match!!
  520 script/case2_script.py
  179 script/case3_script.py
  179 script/case4_script.py
- 738 script/case5_script.py
+ 598 script/case5_script.py
  451 script/case6_script.py
  451 script/case7_script.py
-1026 script/case8_script.py
-4169 total
+ 912 script/case8_script.py
+3915 total

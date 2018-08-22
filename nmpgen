@@ -255,16 +255,10 @@ def order_key(ori):
     else:
         K = ori
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',K)]
-
-def find_separator_prefix(origin_mapping):
+    
+def vote(have_order, flag):
     global order_sign
-    voting = dict()
-    have_order = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,k) or re.findall(order_sign,v)]
-    ko = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,k)] 
-    vo = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,v)]
-    if not (ko or vo):
-        return '', ''
-    flag = True if ko else False 
+    voting_result = dict()
     for k, v in have_order:
         Order=re.search(order_sign.replace('\\d+','(\\d+)'), k if flag else v)
         ks = re.split('/',k)
@@ -275,14 +269,27 @@ def find_separator_prefix(origin_mapping):
         folder = re.sub('\d+','',vs[opos-1] if flag else ks[opos-1])
         patterns = re.split(re.escape(folder),folders)
         for pattern in [i for i in patterns if i]:
-            if pattern in voting:
-                voting[pattern] += 1
+            if pattern in voting_result:
+                voting_result[pattern] += 1
             else:
-                voting.setdefault(pattern,1)      
-    if not voting:
+                voting_result.setdefault(pattern,1)  
+    return voting_result
+
+def find_separator_prefix(origin_mapping):
+    global order_sign
+    have_order = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,k) or re.findall(order_sign,v)]
+    ko = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,k)] 
+    vo = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,v)]
+    if not (ko or vo):
         return '', ''
-    voting = sorted(list(voting.items()),key=lambda x:x[1],reverse=True)
-    return voting[0][0], (voting[1][0] if len(voting) > 1 and voting[0][0] not in voting[1][0] else '')
+    flag = True if ko else False 
+    have_order = ko if flag else vo
+    voting_result = vote(have_order, flag)
+    if not voting_result:
+        return '', ''
+    voting_result = sorted(list(voting_result.items()),key=lambda x:x[1],reverse=True)
+    return voting_result[0][0], (voting_result[1][0] if len(voting_result) > 1 and voting_result[0][0] not in voting_result[1][0] else '')
+
 
 def _order_key(ori,sep,pre):
     

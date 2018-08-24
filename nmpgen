@@ -32,7 +32,6 @@ order_key_scripts = ['''import json as a,sys,re
 b=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
-    B=''
     D=re.findall('{0}',A)
     if not D:
         return N(A)
@@ -46,7 +45,6 @@ a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(b[1]))])),open(b[2],'w'))'
 b=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
-    B=''
     D=re.findall('{0}',A)
     if not D:
         return N(A)
@@ -63,7 +61,6 @@ incomplete_order_key = ['''import json as a,sys,re
 b=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
-    B=''
     D=re.findall('{0}',A)
     if not D:
         return N(A)
@@ -80,7 +77,6 @@ a.dump(dict(zip(*A)),open(b[2],'w'))''',
 b=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
-    B=''
     D=re.findall('{0}',A)
     if not D:
         return N(A)
@@ -102,7 +98,7 @@ N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     M=re.findall('{0}',A)
     if not M:
-        N(A)
+        return N(A)
     D=re.split('/',A) 
     O=[(i.find(M[0])!=-1)for i in D].index(True)
     temp='/'.join(D[:O-1])
@@ -115,7 +111,7 @@ N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     M = re.findall('{0}',A)
     if not M:
-        N(A)
+        return N(A)
     D=re.split('/',A) 
     O=[(i.find(M[0])!=-1)for i in D].index(True)
     temp='/'.join(D[:O-1])
@@ -131,7 +127,7 @@ N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     M=re.findall('{0}',A)
     if not M:
-        N(A)
+        return N(A)
     D=re.split('/',A) 
     O=[(i.find(M[0])!=-1)for i in D].index(True)
     temp='/'.join(D[:O-1])
@@ -147,7 +143,7 @@ N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     M = re.findall('{0}',A)
     if not M:
-        N(A)
+        return N(A)
     D=re.split('/',A) 
     O=[(i.find(M[0])!=-1)for i in D].index(True)
     temp='/'.join(D[:O-1])

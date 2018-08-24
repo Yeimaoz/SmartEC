@@ -265,7 +265,6 @@ def generate_tables(origin_table, input_table, method):
         rres = swap_unsign_sign(res)
         crres = codecs.encode(zlib.compress(remove_white_space(rres).encode()),'base64').decode()
         crres = '''a.loads(zlib.decompress(codecs.decode('%s'.encode(),'base64')).decode())''' % crres.replace('\n','')
-        need_swap = True if len(crres) < len(cres) else False
         ctltable = codecs.encode(zlib.compress(remove_white_space(tltable).encode()),'base64').decode()
         ctltable = '''a.loads(zlib.decompress(codecs.decode('%s'.encode(),'base64')).decode())''' % ctltable.replace('\n','')
         print('The most large consecutive segment length: %d.' % max(list(zip(*readable))[1]))
@@ -277,7 +276,13 @@ def generate_tables(origin_table, input_table, method):
         print('After swapping, one level run-length table cipher text size: %d.' % len(crres))
         print('Two level run-length table plain text size: %d.' % len(remove_white_space(tltable)))
         print('Two level run-length table cipher text size: %d.' % len(ctltable))
-        output_table = crres if need_swap else res
+        targets = [remove_white_space(res),remove_white_space(rres),cres,crres]
+        targets_ = [len(targets[i])if i < 2 else len(targets[i])+13 for i in range(len(targets))]
+        t_index = targets_.index(min(targets_))
+        targets_name = ['normal','swap-normal', 'compression','swap-compression']
+        print('Choose %s.' % targets_name[t_index])
+        output_table = targets[t_index]
+        need_swap = True if t_index % 2 else False
         if method == methods[2]:
             if not fake_separator:
                 if prefix:
@@ -291,7 +296,8 @@ def generate_tables(origin_table, input_table, method):
                     incomplete_match[2] = incomplete_fake[0].format(order_sign,separator,fake_separator,output_table)
         else:
             incomplete_match[methods.index(method)]=incomplete_match[methods.index(method)].format(output_table)
-        incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('\n',',codecs,zlib\n',1)
+        if t_index > 1:
+            incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('\n',',codecs,zlib\n',1)
         if need_swap:
             incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('x+y','x-y',1)
         print('Script size using %s key: %d.' % (method,len(incomplete_match[methods.index(method)])))

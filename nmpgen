@@ -95,10 +95,76 @@ t={3}
 A=[sorted(i,key=_)for i in a.load(open(b[1]))]
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(b[2],'w'))''']
+
+fake_scripts = ['''import json as a,sys,re
+b=sys.argv
+N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
+def _(A):
+    M=re.findall('{0}',A)
+    if not M:
+        N(A)
+    D=re.split('/',A) 
+    O=[(i.find(M[0])!=-1)for i in D].index(True)
+    temp='/'.join(D[:O-1])
+    m=re.split('{1}',D[O-1])
+    return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{2}')==-1 and D[O-1].find('{1}')> -1 else A)
+a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(b[1]))])),open(b[2],'w'))''',
+'''import json as a,sys,re
+b=sys.argv
+N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
+def _(A):
+    M = re.findall('{0}',A)
+    if not M:
+        N(A)
+    D=re.split('/',A) 
+    O=[(i.find(M[0])!=-1)for i in D].index(True)
+    temp='/'.join(D[:O-1])
+    m=re.split('{1}',D[O-1])
+    C=re.split('{2}',m[0])
+    m[0]=m[0]if len(C)==1 else C[1]
+    return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{3}')==-1 and D[O-1].find('{1}')> -1 else A)
+a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(b[1]))])),open(b[2],'w'))''']
+
+incomplete_fake = ['''import json as a,sys,re
+b=sys.argv
+N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
+def _(A):
+    M=re.findall('{0}',A)
+    if not M:
+        N(A)
+    D=re.split('/',A) 
+    O=[(i.find(M[0])!=-1)for i in D].index(True)
+    temp='/'.join(D[:O-1])
+    m=re.split('{1}',D[O-1])
+    return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{2}')==-1 and D[O-1].find('{1}')> -1 else A)
+t={3}
+A=[sorted(i,key=_)for i in a.load(open(b[1]))]
+A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
+a.dump(dict(zip(*A)),open(b[2],'w'))''',
+'''import json as a,sys,re
+b=sys.argv
+N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
+def _(A):
+    M = re.findall('{0}',A)
+    if not M:
+        N(A)
+    D=re.split('/',A) 
+    O=[(i.find(M[0])!=-1)for i in D].index(True)
+    temp='/'.join(D[:O-1])
+    m=re.split('{1}',D[O-1])
+    C=re.split('{2}',m[0])
+    m[0]=m[0]if len(C)==1 else C[1]
+    return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{3}')==-1 and D[O-1].find('{1}')> -1 else A)
+t={4}
+A=[sorted(i,key=_)for i in a.load(open(b[1]))]
+A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
+a.dump(dict(zip(*A)),open(b[2],'w'))''']
+
 order_signs = ['\$[a-zA-Z]\d+','[a-zA-Z]\$\d+']
 order_sign = ''
 separator = ''
 prefix = ''
+fake_separator = ''
 need_swap = False
 
 def remove_white_space(ori):
@@ -171,6 +237,7 @@ def generate_tables(origin_table, input_table, method):
     global order_sign
     global prefix
     global separator
+    global fake_separator
     global need_swap
     methods = ['Default', 'Natural', 'Order']
     choise, idx, res, readable, tltable, output_table = -1, [], [], [], [],''
@@ -179,10 +246,16 @@ def generate_tables(origin_table, input_table, method):
         print('%s key can sovle this case.' % method)
         choise = methods.index(method)
         if method == methods[2]:
-            if prefix:
-                complete_match[2] = order_key_scripts[1].format(order_sign,separator,prefix)
+            if not fake_separator:
+                if prefix:
+                    complete_match[2] = order_key_scripts[1].format(order_sign,separator,prefix)
+                else:
+                    complete_match[2] = order_key_scripts[0].format(order_sign,separator)
             else:
-                complete_match[2] = order_key_scripts[0].format(order_sign,separator)
+                if prefix:
+                    complete_match[2] = fake_scripts[1].format(order_sign,separator,prefix,fake_separator)
+                else:
+                    complete_match[2] = fake_scripts[0].format(order_sign,separator,fake_separator)
         print('Script size using %s key: %d.' % (method,len(complete_match[methods.index(method)])))
     else:
         print('%s key can\'t sovle this case.' % method)
@@ -210,10 +283,16 @@ def generate_tables(origin_table, input_table, method):
         print('Two level run-length table cipher text size: %d.' % len(ctltable))
         output_table = crres if need_swap else res
         if method == methods[2]:
-            if prefix:
-                incomplete_match[2] = incomplete_order_key[1].format(order_sign,separator,prefix,output_table)
+            if not fake_separator:
+                if prefix:
+                    incomplete_match[2] = incomplete_order_key[1].format(order_sign,separator,prefix,output_table)
+                else:
+                    incomplete_match[2] = incomplete_order_key[0].format(order_sign,separator,output_table)
             else:
-                incomplete_match[2] = incomplete_order_key[0].format(order_sign,separator,output_table)
+                if prefix:
+                    incomplete_match[2] = incomplete_fake[1].format(order_sign,separator,prefix,fake_separator,output_table)
+                else:
+                    incomplete_match[2] = incomplete_fake[0].format(order_sign,separator,fake_separator,output_table)
         else:
             incomplete_match[methods.index(method)]=incomplete_match[methods.index(method)].format(output_table)
         incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('\n',',codecs,zlib\n',1)
@@ -255,6 +334,7 @@ def order_key(ori):
     else:
         K = ori
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',K)]
+
 def vote(have_order, flag):
     global order_sign
     voting_result = dict()
@@ -277,18 +357,51 @@ def vote(have_order, flag):
                 voting_result.setdefault(pattern,1)  
     return voting_result
 
-def verify_separator(have_order,flag,separator):
+def verify_prefix(have_order,flag,prefix):  
+    print('Verify prefix: %s.' % prefix)
+    global order_sign
     for k, v in have_order:
-        if (k if flag else v).find(separator) < 0:
-            return False
-    return True
+        Order=re.search(order_sign.replace('\\d+','(\\d+)'), k if flag else v)
+        ks = re.split('/',k)
+        vs = re.split('/',v)
+        opos =[(i.find(Order.group(0))!=-1)for i in (ks if flag else vs)].index(True)
+        folders = ks[opos-1] if flag else vs[opos-1] 
+        folders = re.sub('\d+','',folders)
+        folder = vs if flag else ks
+        folder = re.sub('\d+','',folder[opos-1 if opos-1 < len(folder) else -1])
+        patterns = re.split(re.escape(folder),folders)
+        if patterns[0].find(prefix) == 0:
+            return True
+    return False
+
+def verify_separator(have_order,flag,separator): 
+    print('Verify separator: %s.' % separator)
+    global order_sign
+    fake_separators = {}
+    for k, v in have_order:
+        Order=re.search(order_sign.replace('\\d+','(\\d+)'), k if flag else v)
+        ks = re.split('/',k)
+        vs = re.split('/',v)
+        opos =[(i.find(Order.group(0))!=-1)for i in (ks if flag else vs)].index(True)
+        folders = ks[opos-1] if flag else vs[opos-1] 
+        folders = re.sub('\d+','',folders)
+        folder = vs if flag else ks
+        folder = re.sub('\d+','',folder[opos-1 if opos-1 < len(folder) else -1])
+        if folder == folders and folder.find(separator) > -1:
+            patterns = re.split(separator,folder)
+            fs = patterns[0]+separator
+            if fs in fake_separators:
+                fake_separators[fs] += 1
+            else:
+                fake_separators.setdefault(fs,1)
+    return fake_separators
 
 def find_separator_prefix(origin_mapping):
     global order_sign
     ko = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,k)] 
     vo = [(k,v) for k, v in origin_mapping.items() if re.findall(order_sign,v)]
     if not (ko or vo):
-        return '', ''
+        return '', '', ''
     flag = True
     print('Try to find order relation with A.')
     v1 = vote(ko, True)
@@ -300,18 +413,26 @@ def find_separator_prefix(origin_mapping):
         voting_result = vote(vo, False)
         flag = False
     if not voting_result:
-        return '', ''
+        return '', '', ''
     print('Good try.')
     voting_result = sorted(list(voting_result.items()),key=lambda x:x[1],reverse=True)
     separator = voting_result[0][0]
-    vvv = verify_separator((ko if flag else vo),flag,separator)
+    fake_separator = verify_separator((ko if flag else vo),flag,separator)
+    fake_separator = sorted(list(fake_separator.items()),key=lambda x:x[1],reverse=True)
+    fake_separator = fake_separator[0][0] if fake_separator else ''
+    
+    prefix = ''  
+    if len(voting_result) > 1 and voting_result[0][0] not in voting_result[1][0]:
+        prefix = voting_result[1][0]
+    
+    vvv = verify_prefix((ko if flag else vo),flag,prefix)
     if vvv:
-        print("Have separator: %s." % separator)
+        print("Have prefix: %s." % prefix)
     else:
-        print("Found a bad separator: %s." % separator)
-        return '',''
-    prefix = voting_result[1][0] if len(voting_result) > 1 and voting_result[0][0] not in voting_result[1][0] else ''
-    return separator, prefix
+        print("Found a bad prefix: %s." % prefix)
+        prefix = ''
+        
+    return separator, prefix, fake_separator
 
 def _order_key(ori,sep,pre):
     
@@ -326,11 +447,9 @@ def _order_key(ori,sep,pre):
         temp = '/'.join(m1[:opos-1])
         m=re.split(sep,m1[opos-1])
         new=(temp+'/' if temp else '')+m[int(match[0][2:])-1]
-    #new = re.sub("\/h0\/i1\/i1\/l0",'',re.sub('\[','',new))
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',new)]
 
-def order_key_(ori,sep,pre):
-    
+def order_key_(ori,sep,pre): 
     global order_sign
     new  =  ori[:]
     match = re.findall(order_sign,ori)
@@ -346,29 +465,67 @@ def order_key_(ori,sep,pre):
         new=(temp+'/' if temp else '')+m[int(match[0][2:])-1]
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',new)]
 
+def _fake(ori,sep,pre,fake_separator):
+    new  =  ori[:]
+    match = re.findall('[a-zA-Z]\$\d+',ori)
+    if not match:
+        return [int(c)if c.isdigit()else c for c in re.split('(\d+)',ori)]
+    m1=re.split('/',  ori) 
+    opos =[(i.find(match[0])!=-1)for i in m1].index(True)
+    temp = '/'.join(m1[:opos-1])
+    m=re.split(sep,m1[opos-1])
+    if ori.find(fake_separator) == -1 and m1[opos-1].find(sep) > -1:
+        new=(temp+'/' if temp else '')+m[int(match[0][2:])-1]
+    else:
+        new = ori
+    return [int(c)if c.isdigit()else c for c in re.split('(\d+)',new)]
+
+def fake_(ori,sep,pre,fake_separator):
+    new  =  ori[:]
+    match = re.findall('[a-zA-Z]\$\d+',ori)
+    if not match:
+        return [int(c)if c.isdigit()else c for c in re.split('(\d+)',ori)]
+    m1=re.split('/',  ori) 
+    opos =[(i.find(match[0])!=-1)for i in m1].index(True)
+    temp = '/'.join(m1[:opos-1])
+    m=re.split(sep,m1[opos-1])
+    m[0] = m[0][len(pre):] if m[0].find(pre) > -1 else m[0]
+    if ori.find(fake_separator) == -1 and m1[opos-1].find(sep) > -1:
+        new=(temp+'/' if temp else '')+m[int(match[0][2:])-1]
+    else:
+        new = ori
+    return [int(c)if c.isdigit()else c for c in re.split('(\d+)',new)]
+
 def order_key_method(origin_mapping):
+    global order_sign
     global separator
     global prefix
-    global order_sign
+    global fake_separator
     order_sign = order_signs[0]
     print('Using order sign: %s.' % order_sign)
-    separator, prefix = find_separator_prefix(origin_mapping)
+    separator, prefix, fake_separator = find_separator_prefix(origin_mapping)
     print('Separator: %s. Prefix pattern: %s.' % ( (separator if separator else 'None'),(prefix if prefix else 'None') ) ) 
     if not(separator or prefix):
         print('Order sign \'%s\' has no use.' % order_sign)
         order_sign = order_signs[1]
         print('Using order sign: %s.' % order_sign)
-        separator, prefix = '', ''
-        separator, prefix = find_separator_prefix(origin_mapping)
+        separator, prefix, fake_separator = '', '', ''
+        separator, prefix, fake_separator = find_separator_prefix(origin_mapping)
         print('Separator: %s. Prefix pattern: %s.' % ( (separator if separator else 'None'),(prefix if prefix else 'None') ) ) 
     if not(separator or prefix):
         return []
     ori=[sorted(list(origin_mapping.keys())),sorted(list(origin_mapping.values()))]
     func=order_key_ if prefix else _order_key
-    _ori=[[func(j,separator,prefix)for j in i] for i in ori]
+    if fake_separator:
+        func=fake_ if prefix else _fake
+        print('There is a fake separate pattern: %s.' % fake_separator)
+    else:
+        print('Have no fake separate pattern.')
+    _ori=[[ func(j,separator,prefix,fake_separator)if fake_separator else func(j,separator,prefix)for j in i] for i in ori]
     KV=[list(zip(ori[i],_ori[i])) for i in[0,1]]
     KV=[sorted(x,key=lambda x:x[1]) for x in KV]
     return [[z[0]for z in y]for y in KV]
+
 def check_type(origin_mapping):
     global complete_match
     global incomplete_match

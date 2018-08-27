@@ -13,7 +13,10 @@ a.dump(dict(zip(*[sorted(x)for x in a.load(open(b[1]))])),open(b[2],'w'))""",
                       """import json as a,sys,re
 b=sys.argv
 a.dump(dict(zip(*[sorted(i,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for i in a.load(open(b[1]))])),open(b[2],'w'))""",
-                      '']
+                      """import json as a,sys,re
+b=sys.argv
+a.dump(dict(zip(*[sorted(i,key=lambda x:[[int(c)if c.isdigit()else c.replace('[','')for c in re.split('(\d+)',y)]for y in re.split('\/',x)])for i in a.load(open(b[1]))])),open(b[2],'w'))""",
+                  '']
     
 incomplete_match = ["""import json as a,sys
 b=sys.argv
@@ -24,6 +27,12 @@ a.dump(dict(zip(*A)),open(b[2],'w'))""",
                         '''import json as a,sys,re
 b=sys.argv
 A=[sorted(x,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for x in a.load(open(b[1]))]
+t={}
+A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
+a.dump(dict(zip(*A)),open(b[2],'w'))''',
+                    '''import json as a,sys,re
+b=sys.argv
+A=[sorted(i,key=lambda x:[[int(c)if c.isdigit()else c.replace('[','')for c in re.split('(\d+)',y)]for y in re.split('\/',x)])for i in a.load(open(b[1]))]
 t={}
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(b[2],'w'))''','']
@@ -235,23 +244,23 @@ def generate_tables(origin_table, input_table, method):
     global separator
     global fake_separator
     global need_swap
-    methods = ['Default', 'Natural', 'Order']
+    methods = ['Default', 'Natural', 'NatDir','Order']
     choise, idx, res, readable, tltable, output_table = -1, [], [], [], [],''
     ns = shift_count(origin_table, input_table)
     if ns == 0:
         print('%s key can sovle this case.' % method)
         choise = methods.index(method)
-        if method == methods[2]:
+        if method == methods[3]:
             if not fake_separator:
                 if prefix:
-                    complete_match[2] = order_key_scripts[1].format(order_sign,separator,prefix)
+                    complete_match[3] = order_key_scripts[1].format(order_sign,separator,prefix)
                 else:
-                    complete_match[2] = order_key_scripts[0].format(order_sign,separator)
+                    complete_match[3] = order_key_scripts[0].format(order_sign,separator)
             else:
                 if prefix:
-                    complete_match[2] = fake_scripts[1].format(order_sign,separator,prefix,fake_separator)
+                    complete_match[3] = fake_scripts[1].format(order_sign,separator,prefix,fake_separator)
                 else:
-                    complete_match[2] = fake_scripts[0].format(order_sign,separator,fake_separator)
+                    complete_match[3] = fake_scripts[0].format(order_sign,separator,fake_separator)
         print('Script size using %s key: %d.' % (method,len(complete_match[methods.index(method)])))
     else:
         print('%s key can\'t sovle this case.' % method)
@@ -283,17 +292,17 @@ def generate_tables(origin_table, input_table, method):
         print('Choose %s.' % targets_name[t_index])
         output_table = targets[t_index]
         need_swap = True if t_index % 2 else False
-        if method == methods[2]:
+        if method == methods[3]:
             if not fake_separator:
                 if prefix:
-                    incomplete_match[2] = incomplete_order_key[1].format(order_sign,separator,prefix,output_table)
+                    incomplete_match[3] = incomplete_order_key[1].format(order_sign,separator,prefix,output_table)
                 else:
-                    incomplete_match[2] = incomplete_order_key[0].format(order_sign,separator,output_table)
+                    incomplete_match[3] = incomplete_order_key[0].format(order_sign,separator,output_table)
             else:
                 if prefix:
-                    incomplete_match[2] = incomplete_fake[1].format(order_sign,separator,prefix,fake_separator,output_table)
+                    incomplete_match[3] = incomplete_fake[1].format(order_sign,separator,prefix,fake_separator,output_table)
                 else:
-                    incomplete_match[2] = incomplete_fake[0].format(order_sign,separator,fake_separator,output_table)
+                    incomplete_match[3] = incomplete_fake[0].format(order_sign,separator,fake_separator,output_table)
         else:
             incomplete_match[methods.index(method)]=incomplete_match[methods.index(method)].format(output_table)
         if t_index > 1:
@@ -313,6 +322,13 @@ def natural_key(x):
     #x = re.split('\/',x)
     #x = [[int(c)if c.isdigit()else c.replace('[','') for c in re.split('(\d+)',pattern) ]for pattern in x]
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
+
+def natdir_key(x):
+    return [[int(c)if c.isdigit()else c.replace('[','')for c in re.split('(\d+)',y) ]for y in re.split('\/',x)]
+
+def natdir_key_method(origin_mapping):
+    ori = [list(origin_mapping.keys()),list(origin_mapping.values())]
+    return [sorted(x,key=natdir_key) for x in ori]
 
 def natural_key_method(origin_mapping):
     ori = [list(origin_mapping.keys()),list(origin_mapping.values())]
@@ -534,8 +550,8 @@ def check_type(origin_mapping):
     global order_key_scripts
     output_script = ""
     choise = -1
-    methods = ['Default', 'Natural', 'Order']
-    functions = [default_key_method, natural_key_method, order_key_method]
+    methods = ['Default', 'Natural', 'NatDir', 'Order']
+    functions = [default_key_method, natural_key_method, natdir_key_method, order_key_method]
     data = [ [ [] for j in range(5) ] for i in range(len(methods)) ] # index, one level run-length, readable, two level run-length
     for i in range(len(methods)):
         if choise == -1:
@@ -560,6 +576,7 @@ def check_type(origin_mapping):
         output_script = incomplete_match[t_index]
     print('Script size: %d.' % len(output_script))
     return output_script
+    
 if __name__ == '__main__':
     map_in_name, script_name = argv[1], argv[2]
     print(map_in_name)

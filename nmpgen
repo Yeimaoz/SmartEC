@@ -8,37 +8,37 @@ import re
 import zlib
 
 complete_match = ["""import json as a,sys
-b=sys.argv
-a.dump(dict(zip(*[sorted(x)for x in a.load(open(b[1]))])),open(b[2],'w'))""",
+A,B,C=sys.argv
+a.dump(dict(zip(*[sorted(x)for x in a.load(open(B))])),open(C,'w'))""",
                       """import json as a,sys,re
-b=sys.argv
-a.dump(dict(zip(*[sorted(i,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for i in a.load(open(b[1]))])),open(b[2],'w'))""",
+A,B,C=sys.argv
+a.dump(dict(zip(*[sorted(i,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for i in a.load(open(B))])),open(C,'w'))""",
                       """import json as a,sys,re
-b=sys.argv
-a.dump(dict(zip(*[sorted(i,key=lambda x:[[int(c)if c.isdigit()else c.replace('[','')for c in re.split('(\d+)',y)]for y in re.split('\/',x)])for i in a.load(open(b[1]))])),open(b[2],'w'))""",
+A,B,C=sys.argv
+a.dump(dict(zip(*[sorted(i,key=lambda x:[[int(c)if c.isdigit()else c.replace('[','')for c in re.split('(\d+)',y)]for y in re.split('\/',x)])for i in a.load(open(B))])),open(C,'w'))""",
                   '']
     
 incomplete_match = ["""import json as a,sys
-b=sys.argv
-A=[sorted(x)for x in a.load(open(b[1]))]
+X,Y,Z=sys.argv
+A=[sorted(x)for x in a.load(open(Y))]
 t={}
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
-a.dump(dict(zip(*A)),open(b[2],'w'))""",
+a.dump(dict(zip(*A)),open(Z,'w'))""",
                         '''import json as a,sys,re
-b=sys.argv
-A=[sorted(x,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for x in a.load(open(b[1]))]
+X,Y,Z=sys.argv
+A=[sorted(x,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for x in a.load(open(Y))]
 t={}
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
-a.dump(dict(zip(*A)),open(b[2],'w'))''',
+a.dump(dict(zip(*A)),open(Z,'w'))''',
                     '''import json as a,sys,re
-b=sys.argv
-A=[sorted(i,key=lambda x:[[int(c)if c.isdigit()else c.replace('[','')for c in re.split('(\d+)',y)]for y in re.split('\/',x)])for i in a.load(open(b[1]))]
+X,Y,Z=sys.argv
+A=[sorted(i,key=lambda x:[[int(c)if c.isdigit()else c.replace('[','')for c in re.split('(\d+)',y)]for y in re.split('\/',x)])for i in a.load(open(Y))]
 t={}
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
-a.dump(dict(zip(*A)),open(b[2],'w'))''','']
+a.dump(dict(zip(*A)),open(Z,'w'))''','']
 
 order_key_scripts = ['''import json as a,sys,re
-b=sys.argv
+X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     D=re.findall('{0}',A)
@@ -49,9 +49,9 @@ def _(A):
     T= '/'.join(F[:O-1])
     m=re.split('{1}',F[O-1])
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
-a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(b[1]))])),open(b[2],'w'))''',
+a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(Y))])),open(Z,'w'))''',
 '''import json as a,sys,re
-b=sys.argv
+X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     D=re.findall('{0}',A)
@@ -64,10 +64,10 @@ def _(A):
     C=re.split('{2}',m[0])
     m[0]=m[0]if len(C)==1 else C[1]
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
-a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(b[1]))])),open(b[2],'w'))''']
+a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(Y))])),open(Z,'w'))''']
 
 incomplete_order_key = ['''import json as a,sys,re
-b=sys.argv
+X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     D=re.findall('{0}',A)
@@ -79,11 +79,11 @@ def _(A):
     m=re.split('{1}',F[O-1])
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
 t={2}
-A=[sorted(i,key=_)for i in a.load(open(b[1]))]
+A=[sorted(i,key=_)for i in a.load(open(Y))]
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
-a.dump(dict(zip(*A)),open(b[2],'w'))''',
+a.dump(dict(zip(*A)),open(Z,'w'))''',
 '''import json as a,sys,re
-b=sys.argv
+X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     D=re.findall('{0}',A)
@@ -97,12 +97,12 @@ def _(A):
     m[0]=m[0]if len(C)==1 else C[1]
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
 t={3}
-A=[sorted(i,key=_)for i in a.load(open(b[1]))]
+A=[sorted(i,key=_)for i in a.load(open(Y))]
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
-a.dump(dict(zip(*A)),open(b[2],'w'))''']
+a.dump(dict(zip(*A)),open(Z,'w'))''']
 
 fake_scripts = ['''import json as a,sys,re
-b=sys.argv
+X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     M=re.findall('{0}',A)
@@ -113,9 +113,9 @@ def _(A):
     temp='/'.join(D[:O-1])
     m=re.split('{1}',D[O-1])
     return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{2}')==-1 and D[O-1].find('{1}')> -1 else A)
-a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(b[1]))])),open(b[2],'w'))''',
+a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(Y))])),open(Z,'w'))''',
 '''import json as a,sys,re
-b=sys.argv
+X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     M = re.findall('{0}',A)
@@ -128,10 +128,10 @@ def _(A):
     C=re.split('{2}',m[0])
     m[0]=m[0]if len(C)==1 else C[1]
     return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{3}')==-1 and D[O-1].find('{1}')> -1 else A)
-a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(b[1]))])),open(b[2],'w'))''']
+a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(Y))])),open(Z,'w'))''']
 
 incomplete_fake = ['''import json as a,sys,re
-b=sys.argv
+X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     M=re.findall('{0}',A)
@@ -143,11 +143,11 @@ def _(A):
     m=re.split('{1}',D[O-1])
     return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{2}')==-1 and D[O-1].find('{1}')> -1 else A)
 t={3}
-A=[sorted(i,key=_)for i in a.load(open(b[1]))]
+A=[sorted(i,key=_)for i in a.load(open(Y))]
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
-a.dump(dict(zip(*A)),open(b[2],'w'))''',
+a.dump(dict(zip(*A)),open(Z,'w'))''',
 '''import json as a,sys,re
-b=sys.argv
+X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
     M = re.findall('{0}',A)
@@ -161,9 +161,9 @@ def _(A):
     m[0]=m[0]if len(C)==1 else C[1]
     return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{3}')==-1 and D[O-1].find('{1}')> -1 else A)
 t={4}
-A=[sorted(i,key=_)for i in a.load(open(b[1]))]
+A=[sorted(i,key=_)for i in a.load(open(Y))]
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
-a.dump(dict(zip(*A)),open(b[2],'w'))''']
+a.dump(dict(zip(*A)),open(Z,'w'))''']
 
 order_signs = ['\$[a-zA-Z]\d+','[a-zA-Z]\$\d+']
 order_sign = ''
@@ -318,9 +318,6 @@ def default_key_method(origin_mapping):
     return [keys,values]
 
 def natural_key(x):
-    #[int(c)if c.isdigit()else c for c in re.split('(\d+)',pattern)]
-    #x = re.split('\/',x)
-    #x = [[int(c)if c.isdigit()else c.replace('[','') for c in re.split('(\d+)',pattern) ]for pattern in x]
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 
 def natdir_key(x):

@@ -240,6 +240,32 @@ def two_level_run_length(table):
 def swap_unsign_sign(oltable):
     return [oltable[i]*-1 if i % 2 == 0 else oltable[i] for i in range(len(oltable))]
 
+#make choice between swapsign and compression, 
+def make_choice(origin_table,input_table):
+    idx = generate_shift_table(origin_table,input_table)
+    res, readable = generate_run_length_table(idx)
+        
+    cidx = base64.b85encode(zlib.compress(remove_white_space(idx).encode())).decode()
+    cres = base64.b85encode(zlib.compress(remove_white_space(res).encode())).decode()
+    cres = '''a.loads(zlib.decompress(base64.b85decode('%s')).decode())''' % cres.replace('\n','')
+    rres = swap_unsign_sign(res)
+    crres = base64.b85encode(zlib.compress(remove_white_space(rres).encode())).decode()
+    crres = '''a.loads(zlib.decompress(base64.b85decode('%s')).decode())''' % crres.replace('\n','')
+    print('The most large consecutive segment length: %d.' % max(list(zip(*readable))[1]))
+    print('Shift table plain text size: %d.' % len(remove_white_space(idx)))
+    print('Shift table cipher text size: %d.' % len(cidx))
+    print('One level run-length table plain text size: %d.' % len(remove_white_space(res)))
+    print('One level run-length table cipher text size: %d.' % len(cres))
+    print('After swapping, one level run-length table plain text size: %d.' % len(remove_white_space(rres)))
+    print('After swapping, one level run-length table cipher text size: %d.' % len(crres))
+    targets = [remove_white_space(res),remove_white_space(rres),cres,crres]
+    targets_ = [len(targets[i])if i < 2 else len(targets[i])+13 for i in range(len(targets))]
+    t_index = targets_.index(min(targets_))
+    targets_name = ['normal','swap-normal', 'compression','swap-compression']
+    print('Choose %s.' % targets_name[t_index])
+    # st, 1-rl, readable 1-rl, ot, tidx
+    return idx, res, readable, targets[t_index], t_index
+    
 def generate_tables(origin_table, input_table, method):
     global order_sign
     global prefix
@@ -267,33 +293,7 @@ def generate_tables(origin_table, input_table, method):
     else:
         print('%s key can\'t sovle this case.' % method)
         print('Shift count in this method: %d.' % ns)
-        idx = generate_shift_table(origin_table,input_table)
-        res, readable = generate_run_length_table(idx)
-        tltable = two_level_run_length(res)
-        
-        cidx = base64.b85encode(zlib.compress(remove_white_space(idx).encode())).decode()
-        cres = base64.b85encode(zlib.compress(remove_white_space(res).encode())).decode()
-        cres = '''a.loads(zlib.decompress(base64.b85decode('%s')).decode())''' % cres.replace('\n','')
-        rres = swap_unsign_sign(res)
-        crres = base64.b85encode(zlib.compress(remove_white_space(rres).encode())).decode()
-        crres = '''a.loads(zlib.decompress(base64.b85decode('%s')).decode())''' % crres.replace('\n','')
-        #ctltable = codecs.encode(zlib.compress(remove_white_space(tltable).encode()),'base64').decode()
-        #ctltable = '''a.loads(zlib.decompress(codecs.decode('%s'.encode(),'base64')).decode())''' % ctltable.replace('\n','')
-        print('The most large consecutive segment length: %d.' % max(list(zip(*readable))[1]))
-        print('Shift table plain text size: %d.' % len(remove_white_space(idx)))
-        print('Shift table cipher text size: %d.' % len(cidx))
-        print('One level run-length table plain text size: %d.' % len(remove_white_space(res)))
-        print('One level run-length table cipher text size: %d.' % len(cres))
-        print('After swapping, one level run-length table plain text size: %d.' % len(remove_white_space(rres)))
-        print('After swapping, one level run-length table cipher text size: %d.' % len(crres))
-        #print('Two level run-length table plain text size: %d.' % len(remove_white_space(tltable)))
-        #print('Two level run-length table cipher text size: %d.' % len(ctltable))
-        targets = [remove_white_space(res),remove_white_space(rres),cres,crres]
-        targets_ = [len(targets[i])if i < 2 else len(targets[i])+13 for i in range(len(targets))]
-        t_index = targets_.index(min(targets_))
-        targets_name = ['normal','swap-normal', 'compression','swap-compression']
-        print('Choose %s.' % targets_name[t_index])
-        output_table = targets[t_index]
+        idx, res, readable, output_table, t_index = make_choice(origin_table, input_table)
         need_swap = True if t_index % 2 else False
         if method == methods[3]:
             if not fake_separator:

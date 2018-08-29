@@ -173,6 +173,7 @@ separator = ''
 prefix = ''
 fake_separator = ''
 need_swap = False
+natural_key_flag = -1
 
 def remove_white_space(ori):
     return "".join(str(ori).split(' '))
@@ -240,17 +241,26 @@ def two_level_run_length(table):
 def swap_unsign_sign(oltable):
     return [oltable[i]*-1 if i % 2 == 0 else oltable[i] for i in range(len(oltable))]
 
-#make choice between swapsign and compression, 
-def make_choice(origin_table,input_table):
+def generate_swapsign_compression(origin_table,input_table):
     idx = generate_shift_table(origin_table,input_table)
     res, readable = generate_run_length_table(idx)
-        
     cidx = base64.b85encode(zlib.compress(remove_white_space(idx).encode())).decode()
     cres = base64.b85encode(zlib.compress(remove_white_space(res).encode())).decode()
     cres = '''a.loads(zlib.decompress(base64.b85decode('%s')).decode())''' % cres.replace('\n','')
     rres = swap_unsign_sign(res)
     crres = base64.b85encode(zlib.compress(remove_white_space(rres).encode())).decode()
     crres = '''a.loads(zlib.decompress(base64.b85decode('%s')).decode())''' % crres.replace('\n','')
+    return idx, res, readable, cidx, cres, rres, crres
+
+def get_t_index(res, cres, rres, crres):
+    targets = [remove_white_space(res),remove_white_space(rres),cres,crres]
+    targets_ = [len(targets[i])if i < 2 else len(targets[i])+13 for i in range(len(targets))]
+    t_index = targets_.index(min(targets_))
+    return targets[t_index], t_index
+
+#make choice between swapsign and compression, 
+def make_choice(origin_table,input_table):
+    idx, res, readable, cidx, cres, rres, crres = generate_swapsign_compression(origin_table,input_table)
     print('The most large consecutive segment length: %d.' % max(list(zip(*readable))[1]))
     print('Shift table plain text size: %d.' % len(remove_white_space(idx)))
     print('Shift table cipher text size: %d.' % len(cidx))
@@ -258,13 +268,12 @@ def make_choice(origin_table,input_table):
     print('One level run-length table cipher text size: %d.' % len(cres))
     print('After swapping, one level run-length table plain text size: %d.' % len(remove_white_space(rres)))
     print('After swapping, one level run-length table cipher text size: %d.' % len(crres))
-    targets = [remove_white_space(res),remove_white_space(rres),cres,crres]
-    targets_ = [len(targets[i])if i < 2 else len(targets[i])+13 for i in range(len(targets))]
-    t_index = targets_.index(min(targets_))
+    
+    output_table, t_index = get_t_index(res, cres, rres, crres)
     targets_name = ['normal','swap-normal', 'compression','swap-compression']
     print('Choose %s.' % targets_name[t_index])
     # st, 1-rl, readable 1-rl, ot, tidx
-    return idx, res, readable, targets[t_index], t_index
+    return idx, res, readable, output_table, t_index
     
 def generate_tables(origin_table, input_table, method):
     global order_sign
@@ -272,12 +281,16 @@ def generate_tables(origin_table, input_table, method):
     global separator
     global fake_separator
     global need_swap
+    global natural_key_flag
     methods = ['Default', 'Natural', 'NatDir','Order']
+    replacements = ["else c for","else c.lower()for","else c.upper()for","else c.swapcase()for",]
     choise, idx, res, readable, tltable, output_table = -1, [], [], [], [],''
     ns = shift_count(origin_table, input_table)
     if ns == 0:
         print('%s key can sovle this case.' % method)
         choise = methods.index(method)
+        if method == methods[1]:
+            complete_match[1] = complete_match[1].replace("else c for",replacements[natural_key_flag])
         if method == methods[3]:
             if not fake_separator:
                 if prefix:
@@ -295,6 +308,8 @@ def generate_tables(origin_table, input_table, method):
         print('Shift count in this method: %d.' % ns)
         idx, res, readable, output_table, t_index = make_choice(origin_table, input_table)
         need_swap = True if t_index % 2 else False
+        if method == methods[1]:
+            incomplete_match[1] = incomplete_match[1].replace("else c for",replacements[natural_key_flag])
         if method == methods[3]:
             if not fake_separator:
                 if prefix:
@@ -323,16 +338,47 @@ def default_key_method(origin_mapping):
 def natural_key(x):
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 
+def natural_key_l(x):
+    return [int(c)if c.isdigit()else c.lower() for c in re.split('(\d+)',x)]
+
+def natural_key_u(x):
+    return [int(c)if c.isdigit()else c.upper() for c in re.split('(\d+)',x)]
+
+def natural_key_s(x):
+    return [int(c)if c.isdigit()else c.swapcase() for c in re.split('(\d+)',x)]
+
+def natural_key_method(origin_mapping):
+    global natural_key_flag
+    ori = [list(origin_mapping.keys()),list(origin_mapping.values())]
+    funcs = [natural_key,natural_key_l,natural_key_u,natural_key_s] 
+    nats = []
+    scs = []     
+    for i, func in enumerate(funcs):
+        nats.append([sorted(x,key=func) for x in ori])
+        scs.append( shift_count(origin_mapping, nats[-1]))
+        if scs[-1] == 0:
+            natural_key_flag = i
+            break
+    
+    # format: 0.idx, 1.res, 2.readable, 3.cidx, 4.cres, 5.rres, 6.crres
+    data = [[] for i in range(4) ]
+    
+    output_tables = []
+    
+    if natural_key_flag == -1:
+        for i in range(4):
+            data.append(generate_swapsign_compression(origin_mapping,nats[i]))
+            output_tables.append(len(get_t_index(data[-1][1], data[-1][4], data[-1][5], data[-1][6])[0]))
+        natural_key_flag = output_tables.index(min(output_tables))
+    
+    return nats[natural_key_flag]
+
 def natdir_key(x):
     return [[int(c)if c.isdigit()else c.replace('[','')for c in re.split('(\d+)',y) ]for y in re.split('\/',x)]
 
 def natdir_key_method(origin_mapping):
     ori = [list(origin_mapping.keys()),list(origin_mapping.values())]
     return [sorted(x,key=natdir_key) for x in ori]
-
-def natural_key_method(origin_mapping):
-    ori = [list(origin_mapping.keys()),list(origin_mapping.values())]
-    return [sorted(x,key=natural_key) for x in ori]
 
 def dimensions(string,i):
     it=list(re.finditer('\[([0-9]+)\]'*i,string))
@@ -552,6 +598,7 @@ def check_type(origin_mapping,script_name):
     output_script_temp = ''
     choise = -1
     methods = ['Default', 'Natural', 'NatDir', 'Order']
+    flags = ['Normal', 'lower', 'upper', 'swapcase']
     functions = [default_key_method, natural_key_method, natdir_key_method, order_key_method]
     data = [ [ [] for j in range(5) ] for i in range(len(methods)) ] # index, one level run-length, readable, two level run-length
     for i in range(len(methods)):
@@ -574,6 +621,8 @@ def check_type(origin_mapping,script_name):
                 output_script_temp = script_tmp
                 print('%s method is better.\nWrite out temporary script.' % methods[i])
                 write_file(output_script_temp,script_name)
+            if i == 1:
+                print("Natural key flag: %s." % flags[natural_key_flag])
         print('***********************************************************')
     if choise != -1:
         output_script = complete_match[choise]
@@ -588,6 +637,8 @@ def check_type(origin_mapping,script_name):
         print('Using %s key table to record the original relationship.' % methods[t_index])
         index, one_level, readable, two_level, output_table = data[t_index][0], data[t_index][1], data[t_index][2], data[t_index][3], data[t_index][4] 
         output_script = incomplete_match[t_index]
+        if t_index == 1:
+            print("Natural key flag: %s." % flags[natural_key_flag])
     print('Script size: %d.' % len(output_script))
     print('***********************************************************')
     return output_script

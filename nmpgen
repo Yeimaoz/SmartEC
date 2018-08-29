@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 import json
-import codecs
 from functools import cmp_to_key
 from inspect import getsource
 from sys import argv
 import re
 import zlib
+import base64
 
 complete_match = ["""import json as a,sys
 A,B,C=sys.argv
@@ -270,14 +270,15 @@ def generate_tables(origin_table, input_table, method):
         idx = generate_shift_table(origin_table,input_table)
         res, readable = generate_run_length_table(idx)
         tltable = two_level_run_length(res)
-        cidx = codecs.encode(zlib.compress(remove_white_space(idx).encode()),'base64').decode()
-        cres = codecs.encode(zlib.compress(remove_white_space(res).encode()),'base64').decode()
-        cres = '''a.loads(zlib.decompress(codecs.decode('%s'.encode(),'base64')).decode())''' % cres.replace('\n','')
+        
+        cidx = base64.b85encode(zlib.compress(remove_white_space(idx).encode())).decode()
+        cres = base64.b85encode(zlib.compress(remove_white_space(res).encode())).decode()
+        cres = '''a.loads(zlib.decompress(base64.b85decode('%s')).decode())''' % cres.replace('\n','')
         rres = swap_unsign_sign(res)
-        crres = codecs.encode(zlib.compress(remove_white_space(rres).encode()),'base64').decode()
-        crres = '''a.loads(zlib.decompress(codecs.decode('%s'.encode(),'base64')).decode())''' % crres.replace('\n','')
-        ctltable = codecs.encode(zlib.compress(remove_white_space(tltable).encode()),'base64').decode()
-        ctltable = '''a.loads(zlib.decompress(codecs.decode('%s'.encode(),'base64')).decode())''' % ctltable.replace('\n','')
+        crres = base64.b85encode(zlib.compress(remove_white_space(rres).encode())).decode()
+        crres = '''a.loads(zlib.decompress(base64.b85decode('%s')).decode())''' % crres.replace('\n','')
+        #ctltable = codecs.encode(zlib.compress(remove_white_space(tltable).encode()),'base64').decode()
+        #ctltable = '''a.loads(zlib.decompress(codecs.decode('%s'.encode(),'base64')).decode())''' % ctltable.replace('\n','')
         print('The most large consecutive segment length: %d.' % max(list(zip(*readable))[1]))
         print('Shift table plain text size: %d.' % len(remove_white_space(idx)))
         print('Shift table cipher text size: %d.' % len(cidx))
@@ -285,8 +286,8 @@ def generate_tables(origin_table, input_table, method):
         print('One level run-length table cipher text size: %d.' % len(cres))
         print('After swapping, one level run-length table plain text size: %d.' % len(remove_white_space(rres)))
         print('After swapping, one level run-length table cipher text size: %d.' % len(crres))
-        print('Two level run-length table plain text size: %d.' % len(remove_white_space(tltable)))
-        print('Two level run-length table cipher text size: %d.' % len(ctltable))
+        #print('Two level run-length table plain text size: %d.' % len(remove_white_space(tltable)))
+        #print('Two level run-length table cipher text size: %d.' % len(ctltable))
         targets = [remove_white_space(res),remove_white_space(rres),cres,crres]
         targets_ = [len(targets[i])if i < 2 else len(targets[i])+13 for i in range(len(targets))]
         t_index = targets_.index(min(targets_))
@@ -308,7 +309,7 @@ def generate_tables(origin_table, input_table, method):
         else:
             incomplete_match[methods.index(method)]=incomplete_match[methods.index(method)].format(output_table)
         if t_index > 1:
-            incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('\n',',codecs,zlib\n',1)
+            incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('\n',',base64,zlib\n',1)
         if need_swap:
             incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('x+y','x-y',1)
         print('Script size using %s key: %d.' % (method,len(incomplete_match[methods.index(method)])))

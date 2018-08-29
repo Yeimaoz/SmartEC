@@ -21,15 +21,13 @@ Default key can't sovle this case.
 Shift count in this method: 10442.
 The most large consecutive segment length: 429.
 Shift table plain text size: 34646.
-Shift table cipher text size: 3567.
+Shift table cipher text size: 3300.
 One level run-length table plain text size: 20453.
-One level run-length table cipher text size: 3558.
+One level run-length table cipher text size: 3324.
 After swapping, one level run-length table plain text size: 20965.
-After swapping, one level run-length table cipher text size: 3578.
-Two level run-length table plain text size: 20935.
-Two level run-length table cipher text size: 3798.
+After swapping, one level run-length table cipher text size: 3342.
 Choose compression.
-Script size using Default key: 3774.
+Script size using Default key: 3540.
 Default method is better.
 Write out temporary script.
 ***********************************************************
@@ -37,15 +35,13 @@ Natural key can't sovle this case.
 Shift count in this method: 3274.
 The most large consecutive segment length: 429.
 Shift table plain text size: 30983.
-Shift table cipher text size: 2866.
+Shift table cipher text size: 2650.
 One level run-length table plain text size: 7518.
-One level run-length table cipher text size: 2714.
+One level run-length table cipher text size: 2534.
 After swapping, one level run-length table plain text size: 7861.
-After swapping, one level run-length table cipher text size: 2746.
-Two level run-length table plain text size: 7362.
-Two level run-length table cipher text size: 2918.
+After swapping, one level run-length table cipher text size: 2562.
 Choose compression.
-Script size using Natural key: 3004.
+Script size using Natural key: 2824.
 Natural method is better.
 Write out temporary script.
 ***********************************************************
@@ -53,15 +49,13 @@ NatDir key can't sovle this case.
 Shift count in this method: 3274.
 The most large consecutive segment length: 429.
 Shift table plain text size: 30983.
-Shift table cipher text size: 2866.
+Shift table cipher text size: 2650.
 One level run-length table plain text size: 7518.
-One level run-length table cipher text size: 2714.
+One level run-length table cipher text size: 2534.
 After swapping, one level run-length table plain text size: 7861.
-After swapping, one level run-length table cipher text size: 2746.
-Two level run-length table plain text size: 7362.
-Two level run-length table cipher text size: 2918.
+After swapping, one level run-length table cipher text size: 2562.
 Choose compression.
-Script size using NatDir key: 3046.
+Script size using NatDir key: 2866.
 ***********************************************************
 Using order sign: \$[a-zA-Z]\d+.
 Try to find order relation with A.
@@ -91,15 +85,13 @@ Default key can't sovle this case.
 Shift count in this method: 10841.
 The most large consecutive segment length: 49.
 Shift table plain text size: 63222.
-Shift table cipher text size: 3984.
+Shift table cipher text size: 3685.
 One level run-length table plain text size: 30280.
-One level run-length table cipher text size: 3758.
+One level run-length table cipher text size: 3512.
 After swapping, one level run-length table plain text size: 28220.
-After swapping, one level run-length table cipher text size: 3798.
-Two level run-length table plain text size: 30656.
-Two level run-length table cipher text size: 4074.
+After swapping, one level run-length table cipher text size: 3548.
 Choose compression.
-Script size using Default key: 3974.
+Script size using Default key: 3728.
 Default method is better.
 Write out temporary script.
 ***********************************************************
@@ -107,15 +99,13 @@ Natural key can't sovle this case.
 Shift count in this method: 10841.
 The most large consecutive segment length: 353.
 Shift table plain text size: 63222.
-Shift table cipher text size: 3080.
+Shift table cipher text size: 2848.
 One level run-length table plain text size: 8722.
-One level run-length table cipher text size: 2846.
+One level run-length table cipher text size: 2655.
 After swapping, one level run-length table plain text size: 8971.
-After swapping, one level run-length table cipher text size: 2874.
-Two level run-length table plain text size: 8498.
-Two level run-length table cipher text size: 3094.
+After swapping, one level run-length table cipher text size: 2682.
 Choose compression.
-Script size using Natural key: 3136.
+Script size using Natural key: 2945.
 Natural method is better.
 Write out temporary script.
 ***********************************************************
@@ -123,15 +113,13 @@ NatDir key can't sovle this case.
 Shift count in this method: 10841.
 The most large consecutive segment length: 353.
 Shift table plain text size: 63222.
-Shift table cipher text size: 3080.
+Shift table cipher text size: 2848.
 One level run-length table plain text size: 8722.
-One level run-length table cipher text size: 2846.
+One level run-length table cipher text size: 2655.
 After swapping, one level run-length table plain text size: 8971.
-After swapping, one level run-length table cipher text size: 2874.
-Two level run-length table plain text size: 8498.
-Two level run-length table cipher text size: 3094.
+After swapping, one level run-length table cipher text size: 2682.
 Choose compression.
-Script size using NatDir key: 3178.
+Script size using NatDir key: 2987.
 ***********************************************************
 Using order sign: \$[a-zA-Z]\d+.
 Try to find order relation with A.
@@ -161,15 +149,13 @@ Default key can't sovle this case.
 Shift count in this method: 1034.
 The most large consecutive segment length: 59738.
 Shift table plain text size: 126499.
-Shift table cipher text size: 527.
+Shift table cipher text size: 487.
 One level run-length table plain text size: 1884.
-One level run-length table cipher text size: 390.
+One level run-length table cipher text size: 355.
 After swapping, one level run-length table plain text size: 1946.
-After swapping, one level run-length table cipher text size: 390.
-Two level run-length table plain text size: 1914.
-Two level run-length table cipher text size: 410.
-Choose compression.
-Script size using Default key: 606.
+After swapping, one level run-length table cipher text size: 354.
+Choose swap-compression.
+Script size using Default key: 570.
 Default method is better.
 Write out temporary script.
 ***********************************************************
@@ -193,13 +179,11 @@ Default key can't sovle this case.
 Shift count in this method: 15.
 The most large consecutive segment length: 33394.
 Shift table plain text size: 67478.
-Shift table cipher text size: 159.
+Shift table cipher text size: 145.
 One level run-length table plain text size: 34.
-One level run-length table cipher text size: 122.
+One level run-length table cipher text size: 104.
 After swapping, one level run-length table plain text size: 34.
-After swapping, one level run-length table cipher text size: 118.
-Two level run-length table plain text size: 34.
-Two level run-length table cipher text size: 122.
+After swapping, one level run-length table cipher text size: 100.
 Choose normal.
 Script size using Default key: 238.
 Default method is better.
@@ -225,15 +209,13 @@ Default key can't sovle this case.
 Shift count in this method: 9435.
 The most large consecutive segment length: 3442.
 Shift table plain text size: 117313.
-Shift table cipher text size: 2136.
+Shift table cipher text size: 1974.
 One level run-length table plain text size: 15254.
-One level run-length table cipher text size: 1690.
+One level run-length table cipher text size: 1573.
 After swapping, one level run-length table plain text size: 14726.
-After swapping, one level run-length table cipher text size: 1694.
-Two level run-length table plain text size: 17038.
-Two level run-length table cipher text size: 1790.
+After swapping, one level run-length table cipher text size: 1578.
 Choose compression.
-Script size using Default key: 1906.
+Script size using Default key: 1789.
 Default method is better.
 Write out temporary script.
 ***********************************************************
@@ -241,15 +223,13 @@ Natural key can't sovle this case.
 Shift count in this method: 84.
 The most large consecutive segment length: 24028.
 Shift table plain text size: 111076.
-Shift table cipher text size: 337.
+Shift table cipher text size: 309.
 One level run-length table plain text size: 384.
-One level run-length table cipher text size: 238.
+One level run-length table cipher text size: 210.
 After swapping, one level run-length table plain text size: 384.
-After swapping, one level run-length table cipher text size: 234.
-Two level run-length table plain text size: 396.
-Two level run-length table cipher text size: 242.
+After swapping, one level run-length table cipher text size: 209.
 Choose swap-compression.
-Script size using Natural key: 524.
+Script size using Natural key: 499.
 Natural method is better.
 Write out temporary script.
 ***********************************************************
@@ -257,15 +237,13 @@ NatDir key can't sovle this case.
 Shift count in this method: 84.
 The most large consecutive segment length: 24028.
 Shift table plain text size: 111076.
-Shift table cipher text size: 337.
+Shift table cipher text size: 309.
 One level run-length table plain text size: 384.
-One level run-length table cipher text size: 238.
+One level run-length table cipher text size: 210.
 After swapping, one level run-length table plain text size: 384.
-After swapping, one level run-length table cipher text size: 234.
-Two level run-length table plain text size: 396.
-Two level run-length table cipher text size: 242.
+After swapping, one level run-length table cipher text size: 209.
 Choose swap-compression.
-Script size using NatDir key: 566.
+Script size using NatDir key: 541.
 ***********************************************************
 Using order sign: \$[a-zA-Z]\d+.
 Try to find order relation with A.
@@ -287,20 +265,18 @@ Order key can't sovle this case.
 Shift count in this method: 21.
 The most large consecutive segment length: 46965.
 Shift table plain text size: 111051.
-Shift table cipher text size: 203.
+Shift table cipher text size: 188.
 One level run-length table plain text size: 27.
-One level run-length table cipher text size: 114.
+One level run-length table cipher text size: 97.
 After swapping, one level run-length table plain text size: 27.
-After swapping, one level run-length table cipher text size: 114.
-Two level run-length table plain text size: 29.
-Two level run-length table cipher text size: 118.
+After swapping, one level run-length table cipher text size: 95.
 Choose normal.
 Script size using Order key: 637.
 ***********************************************************
 No method can solve this case.
-Script candidate: {'Default': (15254, 1690, 1906), 'Natural': (384, 234, 524), 'NatDir': (384, 234, 566), 'Order': (27, 27, 637)}.
+Script candidate: {'Default': (15254, 1573, 1789), 'NatDir': (384, 209, 541), 'Order': (27, 27, 637), 'Natural': (384, 209, 499)}.
 Using Natural key table to record the original relationship.
-Script size: 524.
+Script size: 499.
 ***********************************************************
 Generate input file for case5 ......
 Test script for case5 ......
@@ -315,15 +291,13 @@ Default key can't sovle this case.
 Shift count in this method: 1225.
 The most large consecutive segment length: 8423.
 Shift table plain text size: 49042.
-Shift table cipher text size: 341.
+Shift table cipher text size: 314.
 One level run-length table plain text size: 1827.
-One level run-length table cipher text size: 262.
+One level run-length table cipher text size: 233.
 After swapping, one level run-length table plain text size: 1826.
-After swapping, one level run-length table cipher text size: 262.
-Two level run-length table plain text size: 2057.
-Two level run-length table cipher text size: 278.
+After swapping, one level run-length table cipher text size: 234.
 Choose compression.
-Script size using Default key: 478.
+Script size using Default key: 449.
 Default method is better.
 Write out temporary script.
 ***********************************************************
@@ -331,15 +305,13 @@ Natural key can't sovle this case.
 Shift count in this method: 122.
 The most large consecutive segment length: 10176.
 Shift table plain text size: 47980.
-Shift table cipher text size: 199.
+Shift table cipher text size: 183.
 One level run-length table plain text size: 290.
-One level run-length table cipher text size: 186.
+One level run-length table cipher text size: 162.
 After swapping, one level run-length table plain text size: 277.
-After swapping, one level run-length table cipher text size: 182.
-Two level run-length table plain text size: 314.
-Two level run-length table cipher text size: 190.
+After swapping, one level run-length table cipher text size: 158.
 Choose swap-compression.
-Script size using Natural key: 472.
+Script size using Natural key: 448.
 Natural method is better.
 Write out temporary script.
 ***********************************************************
@@ -347,15 +319,13 @@ NatDir key can't sovle this case.
 Shift count in this method: 122.
 The most large consecutive segment length: 10176.
 Shift table plain text size: 47980.
-Shift table cipher text size: 199.
+Shift table cipher text size: 183.
 One level run-length table plain text size: 290.
-One level run-length table cipher text size: 186.
+One level run-length table cipher text size: 162.
 After swapping, one level run-length table plain text size: 277.
-After swapping, one level run-length table cipher text size: 182.
-Two level run-length table plain text size: 314.
-Two level run-length table cipher text size: 190.
+After swapping, one level run-length table cipher text size: 158.
 Choose swap-compression.
-Script size using NatDir key: 514.
+Script size using NatDir key: 490.
 ***********************************************************
 Using order sign: \$[a-zA-Z]\d+.
 Try to find order relation with A.
@@ -387,15 +357,13 @@ Default key can't sovle this case.
 Shift count in this method: 1166.
 The most large consecutive segment length: 8469.
 Shift table plain text size: 45185.
-Shift table cipher text size: 333.
+Shift table cipher text size: 308.
 One level run-length table plain text size: 1812.
-One level run-length table cipher text size: 258.
+One level run-length table cipher text size: 229.
 After swapping, one level run-length table plain text size: 1811.
-After swapping, one level run-length table cipher text size: 254.
-Two level run-length table plain text size: 2040.
-Two level run-length table cipher text size: 270.
+After swapping, one level run-length table cipher text size: 228.
 Choose swap-compression.
-Script size using Default key: 470.
+Script size using Default key: 444.
 Default method is better.
 Write out temporary script.
 ***********************************************************
@@ -403,29 +371,25 @@ Natural key can't sovle this case.
 Shift count in this method: 74.
 The most large consecutive segment length: 9327.
 Shift table plain text size: 44134.
-Shift table cipher text size: 203.
+Shift table cipher text size: 187.
 One level run-length table plain text size: 288.
-One level run-length table cipher text size: 182.
+One level run-length table cipher text size: 160.
 After swapping, one level run-length table plain text size: 275.
-After swapping, one level run-length table cipher text size: 182.
-Two level run-length table plain text size: 312.
-Two level run-length table cipher text size: 190.
-Choose compression.
-Script size using Natural key: 472.
+After swapping, one level run-length table cipher text size: 159.
+Choose swap-compression.
+Script size using Natural key: 449.
 ***********************************************************
 NatDir key can't sovle this case.
 Shift count in this method: 74.
 The most large consecutive segment length: 9327.
 Shift table plain text size: 44134.
-Shift table cipher text size: 203.
+Shift table cipher text size: 187.
 One level run-length table plain text size: 288.
-One level run-length table cipher text size: 182.
+One level run-length table cipher text size: 160.
 After swapping, one level run-length table plain text size: 275.
-After swapping, one level run-length table cipher text size: 182.
-Two level run-length table plain text size: 312.
-Two level run-length table cipher text size: 190.
-Choose compression.
-Script size using NatDir key: 514.
+After swapping, one level run-length table cipher text size: 159.
+Choose swap-compression.
+Script size using NatDir key: 491.
 ***********************************************************
 Using order sign: \$[a-zA-Z]\d+.
 Try to find order relation with A.
@@ -457,15 +421,13 @@ Default key can't sovle this case.
 Shift count in this method: 877.
 The most large consecutive segment length: 18703.
 Shift table plain text size: 112996.
-Shift table cipher text size: 677.
+Shift table cipher text size: 625.
 One level run-length table plain text size: 1997.
-One level run-length table cipher text size: 510.
+One level run-length table cipher text size: 465.
 After swapping, one level run-length table plain text size: 1775.
-After swapping, one level run-length table cipher text size: 510.
-Two level run-length table plain text size: 1431.
-Two level run-length table cipher text size: 498.
+After swapping, one level run-length table cipher text size: 467.
 Choose compression.
-Script size using Default key: 726.
+Script size using Default key: 681.
 Default method is better.
 Write out temporary script.
 ***********************************************************
@@ -473,29 +435,25 @@ Natural key can't sovle this case.
 Shift count in this method: 830.
 The most large consecutive segment length: 24283.
 Shift table plain text size: 112976.
-Shift table cipher text size: 616.
+Shift table cipher text size: 568.
 One level run-length table plain text size: 1935.
-One level run-length table cipher text size: 446.
+One level run-length table cipher text size: 407.
 After swapping, one level run-length table plain text size: 1713.
-After swapping, one level run-length table cipher text size: 442.
-Two level run-length table plain text size: 1361.
-Two level run-length table cipher text size: 434.
+After swapping, one level run-length table cipher text size: 402.
 Choose swap-compression.
-Script size using Natural key: 732.
+Script size using Natural key: 692.
 ***********************************************************
 NatDir key can't sovle this case.
 Shift count in this method: 753.
 The most large consecutive segment length: 24285.
 Shift table plain text size: 112930.
-Shift table cipher text size: 572.
+Shift table cipher text size: 529.
 One level run-length table plain text size: 1618.
-One level run-length table cipher text size: 410.
+One level run-length table cipher text size: 374.
 After swapping, one level run-length table plain text size: 1396.
-After swapping, one level run-length table cipher text size: 414.
-Two level run-length table plain text size: 1144.
-Two level run-length table cipher text size: 402.
+After swapping, one level run-length table cipher text size: 377.
 Choose compression.
-Script size using NatDir key: 742.
+Script size using NatDir key: 706.
 ***********************************************************
 Using order sign: \$[a-zA-Z]\d+.
 Try to find order relation with A.
@@ -511,20 +469,18 @@ Order key can't sovle this case.
 Shift count in this method: 830.
 The most large consecutive segment length: 24283.
 Shift table plain text size: 112976.
-Shift table cipher text size: 616.
+Shift table cipher text size: 568.
 One level run-length table plain text size: 1935.
-One level run-length table cipher text size: 446.
+One level run-length table cipher text size: 407.
 After swapping, one level run-length table plain text size: 1713.
-After swapping, one level run-length table cipher text size: 442.
-Two level run-length table plain text size: 1361.
-Two level run-length table cipher text size: 434.
+After swapping, one level run-length table cipher text size: 402.
 Choose swap-compression.
-Script size using Order key: 995.
+Script size using Order key: 955.
 ***********************************************************
 No method can solve this case.
-Script candidate: {'Default': (1997, 510, 726), 'Natural': (1935, 442, 732), 'NatDir': (1618, 410, 742), 'Order': (1935, 442, 995)}.
+Script candidate: {'Default': (1997, 465, 681), 'Natural': (1935, 402, 692), 'NatDir': (1618, 374, 706), 'Order': (1935, 402, 955)}.
 Using Default key table to record the original relationship.
-Script size: 726.
+Script size: 681.
 ***********************************************************
 Generate input file for case8 ......
 Test script for case8 ......
@@ -537,8 +493,8 @@ Match!!
  509 script/case2_script.py
  177 script/case3_script.py
  177 script/case4_script.py
- 524 script/case5_script.py
+ 499 script/case5_script.py
  440 script/case6_script.py
  440 script/case7_script.py
- 726 script/case8_script.py
-3605 總計
+ 681 script/case8_script.py
+3535 total

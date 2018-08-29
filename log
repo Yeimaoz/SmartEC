@@ -3,7 +3,11 @@ Generate script for case0 ......
 cases/case0.json
 Default key can sovle this case.
 Script size using Default key: 103.
+Default method is better.
+Write out temporary script.
+***********************************************************
 Script size: 103.
+***********************************************************
 Generate input file for case0 ......
 Test script for case0 ......
 Verify the functionality of the reconstruction ......
@@ -26,6 +30,9 @@ Two level run-length table plain text size: 20935.
 Two level run-length table cipher text size: 3798.
 Choose compression.
 Script size using Default key: 3774.
+Default method is better.
+Write out temporary script.
+***********************************************************
 Natural key can't sovle this case.
 Shift count in this method: 3274.
 The most large consecutive segment length: 429.
@@ -39,6 +46,9 @@ Two level run-length table plain text size: 7362.
 Two level run-length table cipher text size: 2918.
 Choose compression.
 Script size using Natural key: 3004.
+Natural method is better.
+Write out temporary script.
+***********************************************************
 NatDir key can't sovle this case.
 Shift count in this method: 3274.
 The most large consecutive segment length: 429.
@@ -52,6 +62,7 @@ Two level run-length table plain text size: 7362.
 Two level run-length table cipher text size: 2918.
 Choose compression.
 Script size using NatDir key: 3046.
+***********************************************************
 Using order sign: \$[a-zA-Z]\d+.
 Try to find order relation with A.
 Good try.
@@ -62,7 +73,11 @@ Separator: _DR_. Prefix pattern: TIU_FIGS_.
 Have no fake separate pattern.
 Order key can sovle this case.
 Script size using Order key: 509.
+Order method is better.
+Write out temporary script.
+***********************************************************
 Script size: 509.
+***********************************************************
 Generate input file for case1 ......
 Test script for case1 ......
 Verify the functionality of the reconstruction ......
@@ -85,6 +100,9 @@ Two level run-length table plain text size: 30656.
 Two level run-length table cipher text size: 4074.
 Choose compression.
 Script size using Default key: 3974.
+Default method is better.
+Write out temporary script.
+***********************************************************
 Natural key can't sovle this case.
 Shift count in this method: 10841.
 The most large consecutive segment length: 353.
@@ -98,6 +116,9 @@ Two level run-length table plain text size: 8498.
 Two level run-length table cipher text size: 3094.
 Choose compression.
 Script size using Natural key: 3136.
+Natural method is better.
+Write out temporary script.
+***********************************************************
 NatDir key can't sovle this case.
 Shift count in this method: 10841.
 The most large consecutive segment length: 353.
@@ -111,6 +132,7 @@ Two level run-length table plain text size: 8498.
 Two level run-length table cipher text size: 3094.
 Choose compression.
 Script size using NatDir key: 3178.
+***********************************************************
 Using order sign: \$[a-zA-Z]\d+.
 Try to find order relation with A.
 Good try.
@@ -121,7 +143,11 @@ Separator: _ZN_. Prefix pattern: DOH_HUCK_.
 Have no fake separate pattern.
 Order key can sovle this case.
 Script size using Order key: 509.
+Order method is better.
+Write out temporary script.
+***********************************************************
 Script size: 509.
+***********************************************************
 Generate input file for case2 ......
 Test script for case2 ......
 Verify the functionality of the reconstruction ......
@@ -144,9 +170,16 @@ Two level run-length table plain text size: 1914.
 Two level run-length table cipher text size: 410.
 Choose compression.
 Script size using Default key: 606.
+Default method is better.
+Write out temporary script.
+***********************************************************
 Natural key can sovle this case.
 Script size using Natural key: 177.
+Natural method is better.
+Write out temporary script.
+***********************************************************
 Script size: 177.
+***********************************************************
 Generate input file for case3 ......
 Test script for case3 ......
 Verify the functionality of the reconstruction ......
@@ -169,9 +202,16 @@ Two level run-length table plain text size: 34.
 Two level run-length table cipher text size: 122.
 Choose normal.
 Script size using Default key: 238.
+Default method is better.
+Write out temporary script.
+***********************************************************
 Natural key can sovle this case.
 Script size using Natural key: 177.
+Natural method is better.
+Write out temporary script.
+***********************************************************
 Script size: 177.
+***********************************************************
 Generate input file for case4 ......
 Test script for case4 ......
 Verify the functionality of the reconstruction ......
@@ -194,6 +234,9 @@ Two level run-length table plain text size: 17038.
 Two level run-length table cipher text size: 1790.
 Choose compression.
 Script size using Default key: 1906.
+Default method is better.
+Write out temporary script.
+***********************************************************
 Natural key can't sovle this case.
 Shift count in this method: 84.
 The most large consecutive segment length: 24028.
@@ -207,6 +250,9 @@ Two level run-length table plain text size: 396.
 Two level run-length table cipher text size: 242.
 Choose swap-compression.
 Script size using Natural key: 524.
+Natural method is better.
+Write out temporary script.
+***********************************************************
 NatDir key can't sovle this case.
 Shift count in this method: 84.
 The most large consecutive segment length: 24028.
@@ -220,6 +266,7 @@ Two level run-length table plain text size: 396.
 Two level run-length table cipher text size: 242.
 Choose swap-compression.
 Script size using NatDir key: 566.
+***********************************************************
 Using order sign: \$[a-zA-Z]\d+.
 Try to find order relation with A.
 Bad try.
@@ -249,10 +296,12 @@ Two level run-length table plain text size: 29.
 Two level run-length table cipher text size: 118.
 Choose normal.
 Script size using Order key: 637.
+***********************************************************
 No method can solve this case.
 Script candidate: {'Default': (15254, 1690, 1906), 'Natural': (384, 234, 524), 'NatDir': (384, 234, 566), 'Order': (27, 27, 637)}.
 Using Natural key table to record the original relationship.
 Script size: 524.
+***********************************************************
 Generate input file for case5 ......
 Test script for case5 ......
 Verify the functionality of the reconstruction ......
@@ -275,6 +324,9 @@ Two level run-length table plain text size: 2057.
 Two level run-length table cipher text size: 278.
 Choose compression.
 Script size using Default key: 478.
+Default method is better.
+Write out temporary script.
+***********************************************************
 Natural key can't sovle this case.
 Shift count in this method: 122.
 The most large consecutive segment length: 10176.
@@ -288,6 +340,9 @@ Two level run-length table plain text size: 314.
 Two level run-length table cipher text size: 190.
 Choose swap-compression.
 Script size using Natural key: 472.
+Natural method is better.
+Write out temporary script.
+***********************************************************
 NatDir key can't sovle this case.
 Shift count in this method: 122.
 The most large consecutive segment length: 10176.
@@ -301,6 +356,7 @@ Two level run-length table plain text size: 314.
 Two level run-length table cipher text size: 190.
 Choose swap-compression.
 Script size using NatDir key: 514.
+***********************************************************
 Using order sign: \$[a-zA-Z]\d+.
 Try to find order relation with A.
 Bad try.
@@ -313,7 +369,11 @@ Separator: _LB_. Prefix pattern: None.
 Have no fake separate pattern.
 Order key can sovle this case.
 Script size using Order key: 440.
+Order method is better.
+Write out temporary script.
+***********************************************************
 Script size: 440.
+***********************************************************
 Generate input file for case6 ......
 Test script for case6 ......
 Verify the functionality of the reconstruction ......
@@ -336,6 +396,9 @@ Two level run-length table plain text size: 2040.
 Two level run-length table cipher text size: 270.
 Choose swap-compression.
 Script size using Default key: 470.
+Default method is better.
+Write out temporary script.
+***********************************************************
 Natural key can't sovle this case.
 Shift count in this method: 74.
 The most large consecutive segment length: 9327.
@@ -349,6 +412,7 @@ Two level run-length table plain text size: 312.
 Two level run-length table cipher text size: 190.
 Choose compression.
 Script size using Natural key: 472.
+***********************************************************
 NatDir key can't sovle this case.
 Shift count in this method: 74.
 The most large consecutive segment length: 9327.
@@ -362,6 +426,7 @@ Two level run-length table plain text size: 312.
 Two level run-length table cipher text size: 190.
 Choose compression.
 Script size using NatDir key: 514.
+***********************************************************
 Using order sign: \$[a-zA-Z]\d+.
 Try to find order relation with A.
 Bad try.
@@ -374,7 +439,11 @@ Separator: _DI_. Prefix pattern: None.
 Have no fake separate pattern.
 Order key can sovle this case.
 Script size using Order key: 440.
+Order method is better.
+Write out temporary script.
+***********************************************************
 Script size: 440.
+***********************************************************
 Generate input file for case7 ......
 Test script for case7 ......
 Verify the functionality of the reconstruction ......
@@ -397,6 +466,9 @@ Two level run-length table plain text size: 1431.
 Two level run-length table cipher text size: 498.
 Choose compression.
 Script size using Default key: 726.
+Default method is better.
+Write out temporary script.
+***********************************************************
 Natural key can't sovle this case.
 Shift count in this method: 830.
 The most large consecutive segment length: 24283.
@@ -410,6 +482,7 @@ Two level run-length table plain text size: 1361.
 Two level run-length table cipher text size: 434.
 Choose swap-compression.
 Script size using Natural key: 732.
+***********************************************************
 NatDir key can't sovle this case.
 Shift count in this method: 753.
 The most large consecutive segment length: 24285.
@@ -423,6 +496,7 @@ Two level run-length table plain text size: 1144.
 Two level run-length table cipher text size: 402.
 Choose compression.
 Script size using NatDir key: 742.
+***********************************************************
 Using order sign: \$[a-zA-Z]\d+.
 Try to find order relation with A.
 Bad try.
@@ -446,10 +520,12 @@ Two level run-length table plain text size: 1361.
 Two level run-length table cipher text size: 434.
 Choose swap-compression.
 Script size using Order key: 995.
+***********************************************************
 No method can solve this case.
 Script candidate: {'Default': (1997, 510, 726), 'Natural': (1935, 442, 732), 'NatDir': (1618, 410, 742), 'Order': (1935, 442, 995)}.
 Using Default key table to record the original relationship.
 Script size: 726.
+***********************************************************
 Generate input file for case8 ......
 Test script for case8 ......
 Verify the functionality of the reconstruction ......

@@ -9,30 +9,30 @@ import base64
 
 complete_match = ["""import json as a,sys
 A,B,C=sys.argv
-a.dump(dict(zip(*[sorted(x)for x in a.load(open(B))])),open(C,'w'))""",
+a.dump(dict(zip(*[sorted(U)for U in a.load(open(B))])),open(C,'w'))""",
                       """import json as a,sys,re
 A,B,C=sys.argv
-a.dump(dict(zip(*[sorted(i,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for i in a.load(open(B))])),open(C,'w'))""",
+a.dump(dict(zip(*[sorted(U,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for U in a.load(open(B))])),open(C,'w'))""",
                       """import json as a,sys,re
 A,B,C=sys.argv
-a.dump(dict(zip(*[sorted(i,key=lambda x:[[int(c)if c.isdigit()else c.replace('[','')for c in re.split('(\d+)',y)]for y in re.split('\/',x)])for i in a.load(open(B))])),open(C,'w'))""",
+a.dump(dict(zip(*[sorted(U,key=lambda x:[[int(c)if c.isdigit()else c.replace('[','')for c in re.split('(\d+)',y)]for y in re.split('\/',x)])for U in a.load(open(B))])),open(C,'w'))""",
                   '']
     
 incomplete_match = ["""import json as a,sys
 X,Y,Z=sys.argv
-A=[sorted(x)for x in a.load(open(Y))]
+A=[sorted(U)for U in a.load(open(Y))]
 t={}
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(Z,'w'))""",
                         '''import json as a,sys,re
 X,Y,Z=sys.argv
-A=[sorted(x,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for x in a.load(open(Y))]
+A=[sorted(U,key=lambda y:[int(c)if c.isdigit()else c for c in re.split('(\d+)',y)])for U in a.load(open(Y))]
 t={}
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(Z,'w'))''',
                     '''import json as a,sys,re
 X,Y,Z=sys.argv
-A=[sorted(i,key=lambda x:[[int(c)if c.isdigit()else c.replace('[','')for c in re.split('(\d+)',y)]for y in re.split('\/',x)])for i in a.load(open(Y))]
+A=[sorted(U,key=lambda x:[[int(c)if c.isdigit()else c.replace('[','')for c in re.split('(\d+)',y)]for y in re.split('\/',x)])for U in a.load(open(Y))]
 t={}
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(Z,'w'))''','']
@@ -49,7 +49,7 @@ def _(A):
     T= '/'.join(F[:O-1])
     m=re.split('{1}',F[O-1])
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
-a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(Y))])),open(Z,'w'))''',
+a.dump(dict(zip(*[sorted(U,key=_)for U in a.load(open(Y))])),open(Z,'w'))''',
 '''import json as a,sys,re
 X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
@@ -64,7 +64,7 @@ def _(A):
     C=re.split('{2}',m[0])
     m[0]=m[0]if len(C)==1 else C[1]
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
-a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(Y))])),open(Z,'w'))''']
+a.dump(dict(zip(*[sorted(U,key=_)for U in a.load(open(Y))])),open(Z,'w'))''']
 
 incomplete_order_key = ['''import json as a,sys,re
 X,Y,Z=sys.argv
@@ -79,7 +79,7 @@ def _(A):
     m=re.split('{1}',F[O-1])
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
 t={2}
-A=[sorted(i,key=_)for i in a.load(open(Y))]
+A=[sorted(U,key=_)for U in a.load(open(Y))]
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(Z,'w'))''',
 '''import json as a,sys,re
@@ -97,7 +97,7 @@ def _(A):
     m[0]=m[0]if len(C)==1 else C[1]
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
 t={3}
-A=[sorted(i,key=_)for i in a.load(open(Y))]
+A=[sorted(U,key=_)for U in a.load(open(Y))]
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(Z,'w'))''']
 
@@ -113,7 +113,7 @@ def _(A):
     temp='/'.join(D[:O-1])
     m=re.split('{1}',D[O-1])
     return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{2}')==-1 and D[O-1].find('{1}')> -1 else A)
-a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(Y))])),open(Z,'w'))''',
+a.dump(dict(zip(*[sorted(U,key=_)for U in a.load(open(Y))])),open(Z,'w'))''',
 '''import json as a,sys,re
 X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
@@ -128,7 +128,7 @@ def _(A):
     C=re.split('{2}',m[0])
     m[0]=m[0]if len(C)==1 else C[1]
     return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{3}')==-1 and D[O-1].find('{1}')> -1 else A)
-a.dump(dict(zip(*[sorted(i,key=_)for i in a.load(open(Y))])),open(Z,'w'))''']
+a.dump(dict(zip(*[sorted(U,key=_)for U in a.load(open(Y))])),open(Z,'w'))''']
 
 incomplete_fake = ['''import json as a,sys,re
 X,Y,Z=sys.argv
@@ -143,7 +143,7 @@ def _(A):
     m=re.split('{1}',D[O-1])
     return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{2}')==-1 and D[O-1].find('{1}')> -1 else A)
 t={3}
-A=[sorted(i,key=_)for i in a.load(open(Y))]
+A=[sorted(U,key=_)for U in a.load(open(Y))]
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(Z,'w'))''',
 '''import json as a,sys,re
@@ -161,7 +161,7 @@ def _(A):
     m[0]=m[0]if len(C)==1 else C[1]
     return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{3}')==-1 and D[O-1].find('{1}')> -1 else A)
 t={4}
-A=[sorted(i,key=_)for i in a.load(open(Y))]
+A=[sorted(U,key=_)for U in a.load(open(Y))]
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
 a.dump(dict(zip(*A)),open(Z,'w'))''']
 
@@ -174,6 +174,8 @@ prefix = ''
 fake_separator = ''
 need_swap = False
 natural_key_flag = -1
+zfill_flag = False
+bit_size = -1
 
 def remove_white_space(ori):
     return "".join(str(ori).split(' '))
@@ -596,10 +598,40 @@ def order_key_method(origin_mapping):
     KV=[sorted(x,key=lambda x:x[1]) for x in KV]
     return [[z[0]for z in y]for y in KV]
 
+def get_bit_size(origin_mapping):
+    global zfill_flag
+    max_size = -1
+    for k, v in origin_mapping.items():
+        values = re.findall('(\d+)',k)
+        for value in values:
+            if len(value) > 1 and value[0] == '0':
+                zfill_flag = True
+            else:
+                bs = len(value)
+                max_size = bs if bs > max_size else max_size
+        values = re.findall('(\d+)',v)
+        for value in values:
+            if len(value) > 1 and value[0] == '0':
+                zfill_flag = True
+            else:
+                bs = len(value)
+                max_size = bs if bs > max_size else max_size  
+    return max_size
+
+def add_zfill_2_script(output_script_temp):
+    if zfill_flag and output_script_temp.find('[int(c)') > -1:
+        print('Need to zfill.')
+        return output_script_temp.replace('\n','\ns=sorted\n',1).replace('[sorted(U','[s(s(U)')
+    return output_script_temp
+
 def check_type(origin_mapping,script_name):
     global complete_match
     global incomplete_match
     global order_key_scripts
+    global bit_size
+    bit_size = get_bit_size(origin_mapping)
+    print("Bit size: %d." % bit_size)
+    print("Zero leading issue occurred: %s." %('yes' if zfill_flag else 'no'))
     output_script = ""
     output_script_temp = ''
     choise = -1
@@ -618,10 +650,11 @@ def check_type(origin_mapping,script_name):
             flag, data[i][0], data[i][1], data[i][2], data[i][3], data[i][4]  = generate_tables(origin_mapping, input_table, methods[i])
             choise = i if flag == i else -1
             script_tmp = complete_match[i] if flag == i else incomplete_match[i]
+            script_tmp = add_zfill_2_script(script_tmp)
             if output_script_temp:
                 if len(output_script_temp) > len(script_tmp):
                     output_script_temp = script_tmp
-                    print('%s method is better.\nWrite out temporary script.' % methods[i])
+                    print('%s method is better.\nWrite out temporary script.' % methods[i]) 
                     write_file(output_script_temp,script_name)
             else:
                 output_script_temp = script_tmp
@@ -647,6 +680,7 @@ def check_type(origin_mapping,script_name):
             print("Natural key flag: %s." % flags[natural_key_flag])
     print('Script size: %d.' % len(output_script))
     print('***********************************************************')
+    output_script = add_zfill_2_script(output_script)
     return output_script
    
 def write_file(output_script,script_name):
@@ -661,7 +695,4 @@ if __name__ == '__main__':
     origin_mapping = json.load(map_in_file)
     map_in_file.close()
     output_script = check_type(origin_mapping,script_name)
- 
-
-  
     write_file(output_script,script_name)

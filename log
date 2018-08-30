@@ -14,6 +14,635 @@ Verify the functionality of the reconstruction ......
 Match!!
 
 
+Test case10 ......
+Generate script for case10 ......
+cases/case10.json
+Default key can't sovle this case.
+Shift count in this method: 43405.
+The most large consecutive segment length: 30182.
+Shift table plain text size: 287034.
+Shift table cipher text size: 4753.
+One level run-length table plain text size: 33303.
+One level run-length table cipher text size: 3890.
+After swapping, one level run-length table plain text size: 30867.
+After swapping, one level run-length table cipher text size: 3937.
+Choose compression.
+Script size using Default key: 4106.
+Default method is better.
+Write out temporary script.
+***********************************************************
+Natural key can't sovle this case.
+Shift count in this method: 40170.
+The most large consecutive segment length: 33425.
+Shift table plain text size: 247941.
+Shift table cipher text size: 3517.
+One level run-length table plain text size: 8944.
+One level run-length table cipher text size: 2705.
+After swapping, one level run-length table plain text size: 8662.
+After swapping, one level run-length table cipher text size: 2678.
+Choose swap-compression.
+Script size using Natural key: 2978.
+Natural method is better.
+Write out temporary script.
+Natural key flag: swapcase.
+***********************************************************
+NatDir key can't sovle this case.
+Shift count in this method: 43405.
+The most large consecutive segment length: 32611.
+Shift table plain text size: 287034.
+Shift table cipher text size: 3462.
+One level run-length table plain text size: 9001.
+One level run-length table cipher text size: 2682.
+After swapping, one level run-length table plain text size: 9250.
+After swapping, one level run-length table cipher text size: 2735.
+Choose compression.
+Script size using NatDir key: 3014.
+***********************************************************
+Using order sign: \$[a-zA-Z]\d+.
+Try to find order relation with A.
+Good try.
+Verify separator: _ZN_.
+Verify prefix: DOH_HUCK_.
+Have prefix: DOH_HUCK_.
+Separator: _ZN_. Prefix pattern: DOH_HUCK_.
+Have no fake separate pattern.
+Order key can sovle this case.
+Script size using Order key: 509.
+Order method is better.
+Write out temporary script.
+***********************************************************
+Script size: 509.
+***********************************************************
+Generate input file for case10 ......
+Test script for case10 ......
+Verify the functionality of the reconstruction ......
+Match!!
+
+
+Test case11 ......
+Generate script for case11 ......
+cases/case11.json
+Default key can't sovle this case.
+Shift count in this method: 1049.
+The most large consecutive segment length: 77018.
+Shift table plain text size: 193972.
+Shift table cipher text size: 589.
+One level run-length table plain text size: 1912.
+One level run-length table cipher text size: 372.
+After swapping, one level run-length table plain text size: 1974.
+After swapping, one level run-length table cipher text size: 370.
+Choose swap-compression.
+Script size using Default key: 586.
+Default method is better.
+Write out temporary script.
+***********************************************************
+Natural key can sovle this case.
+Script size using Natural key: 177.
+Natural method is better.
+Write out temporary script.
+Natural key flag: Normal.
+***********************************************************
+Script size: 177.
+***********************************************************
+Generate input file for case11 ......
+Test script for case11 ......
+Verify the functionality of the reconstruction ......
+Match!!
+
+
+Test case12 ......
+Generate script for case12 ......
+cases/case12.json
+Default key can't sovle this case.
+Shift count in this method: 9450.
+The most large consecutive segment length: 11209.
+Shift table plain text size: 184786.
+Shift table cipher text size: 2170.
+One level run-length table plain text size: 15289.
+One level run-length table cipher text size: 1582.
+After swapping, one level run-length table plain text size: 14761.
+After swapping, one level run-length table cipher text size: 1578.
+Choose swap-compression.
+Script size using Default key: 1794.
+Default method is better.
+Write out temporary script.
+***********************************************************
+Natural key can't sovle this case.
+Shift count in this method: 84.
+The most large consecutive segment length: 53167.
+Shift table plain text size: 178538.
+Shift table cipher text size: 390.
+One level run-length table plain text size: 385.
+One level run-length table cipher text size: 213.
+After swapping, one level run-length table plain text size: 385.
+After swapping, one level run-length table cipher text size: 210.
+Choose swap-compression.
+Script size using Natural key: 500.
+Natural method is better.
+Write out temporary script.
+Natural key flag: Normal.
+***********************************************************
+NatDir key can't sovle this case.
+Shift count in this method: 84.
+The most large consecutive segment length: 53167.
+Shift table plain text size: 178538.
+Shift table cipher text size: 390.
+One level run-length table plain text size: 385.
+One level run-length table cipher text size: 213.
+After swapping, one level run-length table plain text size: 385.
+After swapping, one level run-length table cipher text size: 210.
+Choose swap-compression.
+Script size using NatDir key: 542.
+***********************************************************
+Using order sign: \$[a-zA-Z]\d+.
+Try to find order relation with A.
+Bad try.
+Try to find order relation with B.
+Separator: None. Prefix pattern: None.
+Order sign '\$[a-zA-Z]\d+' has no use.
+Using order sign: [a-zA-Z]\$\d+.
+Try to find order relation with A.
+Bad try.
+Try to find order relation with B.
+Good try.
+Verify separator: _YA_.
+Verify prefix: _.
+Found a bad prefix: _.
+Separator: _YA_. Prefix pattern: None.
+There is a fake separate pattern: SEL_YA_.
+Order key can't sovle this case.
+Shift count in this method: 21.
+The most large consecutive segment length: 80395.
+Shift table plain text size: 178513.
+Shift table cipher text size: 269.
+One level run-length table plain text size: 27.
+One level run-length table cipher text size: 95.
+After swapping, one level run-length table plain text size: 27.
+After swapping, one level run-length table cipher text size: 94.
+Choose normal.
+Script size using Order key: 637.
+***********************************************************
+No method can solve this case.
+Script candidate: {'Natural': (385, 210, 500), 'NatDir': (385, 210, 542), 'Order': (27, 27, 637), 'Default': (15289, 1578, 1794)}.
+Using Natural key table to record the original relationship.
+Natural key flag: Normal.
+Script size: 500.
+***********************************************************
+Generate input file for case12 ......
+Test script for case12 ......
+Verify the functionality of the reconstruction ......
+Match!!
+
+
+Test case13 ......
+Generate script for case13 ......
+cases/case13.json
+Default key can't sovle this case.
+Shift count in this method: 10660.
+The most large consecutive segment length: 8731.
+Shift table plain text size: 166350.
+Shift table cipher text size: 2340.
+One level run-length table plain text size: 17073.
+One level run-length table cipher text size: 1722.
+After swapping, one level run-length table plain text size: 16544.
+After swapping, one level run-length table cipher text size: 1724.
+Choose compression.
+Script size using Default key: 1938.
+Default method is better.
+Write out temporary script.
+***********************************************************
+Natural key can't sovle this case.
+Shift count in this method: 206.
+The most large consecutive segment length: 31977.
+Shift table plain text size: 159051.
+Shift table cipher text size: 442.
+One level run-length table plain text size: 666.
+One level run-length table cipher text size: 274.
+After swapping, one level run-length table plain text size: 653.
+After swapping, one level run-length table cipher text size: 269.
+Choose swap-compression.
+Script size using Natural key: 559.
+Natural method is better.
+Write out temporary script.
+Natural key flag: Normal.
+***********************************************************
+NatDir key can't sovle this case.
+Shift count in this method: 206.
+The most large consecutive segment length: 31977.
+Shift table plain text size: 159051.
+Shift table cipher text size: 442.
+One level run-length table plain text size: 666.
+One level run-length table cipher text size: 274.
+After swapping, one level run-length table plain text size: 653.
+After swapping, one level run-length table cipher text size: 269.
+Choose swap-compression.
+Script size using NatDir key: 601.
+***********************************************************
+Using order sign: \$[a-zA-Z]\d+.
+Try to find order relation with A.
+Bad try.
+Try to find order relation with B.
+Good try.
+Verify separator: _LB_.
+Verify prefix: .
+Have prefix: .
+Separator: _LB_. Prefix pattern: None.
+Have no fake separate pattern.
+Order key can't sovle this case.
+Shift count in this method: 84.
+The most large consecutive segment length: 31977.
+Shift table plain text size: 158942.
+Shift table cipher text size: 367.
+One level run-length table plain text size: 385.
+One level run-length table cipher text size: 214.
+After swapping, one level run-length table plain text size: 385.
+After swapping, one level run-length table cipher text size: 212.
+Choose swap-compression.
+Script size using Order key: 765.
+***********************************************************
+No method can solve this case.
+Script candidate: {'NatDir': (666, 269, 601), 'Default': (17073, 1722, 1938), 'Order': (385, 212, 765), 'Natural': (666, 269, 559)}.
+Using Natural key table to record the original relationship.
+Natural key flag: Normal.
+Script size: 559.
+***********************************************************
+Generate input file for case13 ......
+Test script for case13 ......
+Verify the functionality of the reconstruction ......
+Match!!
+
+
+Test case14 ......
+Generate script for case14 ......
+cases/case14.json
+Default key can't sovle this case.
+Shift count in this method: 2391.
+The most large consecutive segment length: 16868.
+Shift table plain text size: 94222.
+Shift table cipher text size: 519.
+One level run-length table plain text size: 3630.
+One level run-length table cipher text size: 308.
+After swapping, one level run-length table plain text size: 3628.
+After swapping, one level run-length table cipher text size: 303.
+Choose swap-compression.
+Script size using Default key: 519.
+Default method is better.
+Write out temporary script.
+***********************************************************
+Natural key can't sovle this case.
+Shift count in this method: 196.
+The most large consecutive segment length: 25039.
+Shift table plain text size: 92109.
+Shift table cipher text size: 283.
+One level run-length table plain text size: 571.
+One level run-length table cipher text size: 195.
+After swapping, one level run-length table plain text size: 545.
+After swapping, one level run-length table cipher text size: 190.
+Choose swap-compression.
+Script size using Natural key: 487.
+Natural method is better.
+Write out temporary script.
+Natural key flag: lower.
+***********************************************************
+NatDir key can't sovle this case.
+Shift count in this method: 196.
+The most large consecutive segment length: 17352.
+Shift table plain text size: 92109.
+Shift table cipher text size: 284.
+One level run-length table plain text size: 572.
+One level run-length table cipher text size: 193.
+After swapping, one level run-length table plain text size: 546.
+After swapping, one level run-length table cipher text size: 193.
+Choose compression.
+Script size using NatDir key: 525.
+***********************************************************
+Using order sign: \$[a-zA-Z]\d+.
+Try to find order relation with A.
+Bad try.
+Try to find order relation with B.
+Good try.
+Verify separator: _LB_.
+Verify prefix: _DI_.
+Found a bad prefix: _DI_.
+Separator: _LB_. Prefix pattern: None.
+Have no fake separate pattern.
+Generate input file for case14 ......
+Test script for case14 ......
+Verify the functionality of the reconstruction ......
+Match!!
+
+
+Test case15 ......
+Generate script for case15 ......
+cases/case15.json
+Default key can't sovle this case.
+Shift count in this method: 2043.
+The most large consecutive segment length: 19271.
+Shift table plain text size: 158176.
+Shift table cipher text size: 905.
+One level run-length table plain text size: 3803.
+One level run-length table cipher text size: 600.
+After swapping, one level run-length table plain text size: 3580.
+After swapping, one level run-length table cipher text size: 597.
+Choose swap-compression.
+Script size using Default key: 813.
+Default method is better.
+Write out temporary script.
+***********************************************************
+Natural key can't sovle this case.
+Shift count in this method: 565.
+The most large consecutive segment length: 20991.
+Shift table plain text size: 156753.
+Shift table cipher text size: 669.
+One level run-length table plain text size: 2169.
+One level run-length table cipher text size: 450.
+After swapping, one level run-length table plain text size: 1931.
+After swapping, one level run-length table cipher text size: 450.
+Choose compression.
+Script size using Natural key: 747.
+Natural method is better.
+Write out temporary script.
+Natural key flag: lower.
+***********************************************************
+NatDir key can't sovle this case.
+Shift count in this method: 827.
+The most large consecutive segment length: 25893.
+Shift table plain text size: 157059.
+Shift table cipher text size: 672.
+One level run-length table plain text size: 1900.
+One level run-length table cipher text size: 440.
+After swapping, one level run-length table plain text size: 1665.
+After swapping, one level run-length table cipher text size: 439.
+Choose swap-compression.
+Script size using NatDir key: 771.
+***********************************************************
+Using order sign: \$[a-zA-Z]\d+.
+Try to find order relation with A.
+Bad try.
+Try to find order relation with B.
+Good try.
+Verify separator: _DI_.
+Verify prefix: _KM_.
+Found a bad prefix: _KM_.
+Separator: _DI_. Prefix pattern: None.
+Have no fake separate pattern.
+Generate input file for case15 ......
+Test script for case15 ......
+Verify the functionality of the reconstruction ......
+Match!!
+
+
+Test case16 ......
+Generate script for case16 ......
+cases/case16.json
+Default key can't sovle this case.
+Shift count in this method: 877.
+The most large consecutive segment length: 102377.
+Shift table plain text size: 323748.
+Shift table cipher text size: 1015.
+One level run-length table plain text size: 2000.
+One level run-length table cipher text size: 468.
+After swapping, one level run-length table plain text size: 1778.
+After swapping, one level run-length table cipher text size: 470.
+Choose compression.
+Script size using Default key: 684.
+Default method is better.
+Write out temporary script.
+***********************************************************
+Natural key can't sovle this case.
+Shift count in this method: 491.
+The most large consecutive segment length: 102497.
+Shift table plain text size: 323376.
+Shift table cipher text size: 893.
+One level run-length table plain text size: 1889.
+One level run-length table cipher text size: 389.
+After swapping, one level run-length table plain text size: 1664.
+After swapping, one level run-length table cipher text size: 387.
+Choose swap-compression.
+Script size using Natural key: 684.
+Natural key flag: lower.
+***********************************************************
+NatDir key can't sovle this case.
+Shift count in this method: 753.
+The most large consecutive segment length: 102377.
+Shift table plain text size: 323682.
+Shift table cipher text size: 917.
+One level run-length table plain text size: 1621.
+One level run-length table cipher text size: 379.
+After swapping, one level run-length table plain text size: 1399.
+After swapping, one level run-length table cipher text size: 382.
+Choose compression.
+Script size using NatDir key: 711.
+***********************************************************
+Using order sign: \$[a-zA-Z]\d+.
+Try to find order relation with A.
+Bad try.
+Try to find order relation with B.
+Good try.
+Verify separator: _KM_.
+Verify prefix: .
+Have prefix: .
+Separator: _KM_. Prefix pattern: None.
+Have no fake separate pattern.
+Order key can't sovle this case.
+Shift count in this method: 830.
+The most large consecutive segment length: 102377.
+Shift table plain text size: 323728.
+Shift table cipher text size: 932.
+One level run-length table plain text size: 1938.
+One level run-length table cipher text size: 409.
+After swapping, one level run-length table plain text size: 1716.
+After swapping, one level run-length table cipher text size: 404.
+Choose swap-compression.
+Script size using Order key: 957.
+***********************************************************
+No method can solve this case.
+Script candidate: {'Default': (2000, 468, 684), 'Order': (1938, 404, 957), 'NatDir': (1621, 379, 711), 'Natural': (1889, 387, 684)}.
+Using Default key table to record the original relationship.
+Script size: 684.
+***********************************************************
+Generate input file for case16 ......
+Test script for case16 ......
+Verify the functionality of the reconstruction ......
+Match!!
+
+
+Test case17 ......
+Generate script for case17 ......
+cases/case17.json
+Default key can't sovle this case.
+Shift count in this method: 114346.
+The most large consecutive segment length: 104333.
+Shift table plain text size: 558451.
+Shift table cipher text size: 4665.
+One level run-length table plain text size: 21192.
+One level run-length table cipher text size: 3368.
+After swapping, one level run-length table plain text size: 21704.
+After swapping, one level run-length table cipher text size: 3389.
+Choose compression.
+Script size using Default key: 3584.
+Default method is better.
+Write out temporary script.
+***********************************************************
+Natural key can't sovle this case.
+Shift count in this method: 12324.
+The most large consecutive segment length: 104288.
+Shift table plain text size: 259791.
+Shift table cipher text size: 3313.
+One level run-length table plain text size: 7692.
+One level run-length table cipher text size: 2578.
+After swapping, one level run-length table plain text size: 7613.
+After swapping, one level run-length table cipher text size: 2549.
+Choose swap-compression.
+Script size using Natural key: 2849.
+Natural method is better.
+Write out temporary script.
+Natural key flag: swapcase.
+***********************************************************
+NatDir key can't sovle this case.
+Shift count in this method: 107178.
+The most large consecutive segment length: 104333.
+Shift table plain text size: 554788.
+Shift table cipher text size: 3928.
+One level run-length table plain text size: 8075.
+One level run-length table cipher text size: 2584.
+After swapping, one level run-length table plain text size: 8418.
+After swapping, one level run-length table cipher text size: 2617.
+Choose compression.
+Script size using NatDir key: 2916.
+***********************************************************
+Using order sign: \$[a-zA-Z]\d+.
+Try to find order relation with A.
+Good try.
+Verify separator: _DR_.
+Verify prefix: TIU_FIGS_.
+Have prefix: TIU_FIGS_.
+Separator: _DR_. Prefix pattern: TIU_FIGS_.
+Have no fake separate pattern.
+Order key can sovle this case.
+Script size using Order key: 509.
+Order method is better.
+Write out temporary script.
+***********************************************************
+Script size: 509.
+***********************************************************
+Generate input file for case17 ......
+Test script for case17 ......
+Verify the functionality of the reconstruction ......
+j_toon/blazy0/toon_kith/e011_msg
+j_toon/blazy0/toon_kith/e011_msg/resizes0/f_msg
+j_toon/blazy0/toon_kith/e011_msg
+j_toon/blazy0/toon_kith/e11_msg/resizes0/f_msg
+Error!!
+error count: 1
+
+
+Test case18 ......
+Generate script for case18 ......
+cases/case18.json
+Default key can't sovle this case.
+Shift count in this method: 114830.
+The most large consecutive segment length: 103956.
+Shift table plain text size: 587355.
+Shift table cipher text size: 4974.
+One level run-length table plain text size: 31011.
+One level run-length table cipher text size: 3602.
+After swapping, one level run-length table plain text size: 28951.
+After swapping, one level run-length table cipher text size: 3639.
+Choose compression.
+Script size using Default key: 3818.
+Default method is better.
+Write out temporary script.
+***********************************************************
+Natural key can't sovle this case.
+Shift count in this method: 12140.
+The most large consecutive segment length: 104105.
+Shift table plain text size: 276675.
+Shift table cipher text size: 3412.
+One level run-length table plain text size: 8676.
+One level run-length table cipher text size: 2680.
+After swapping, one level run-length table plain text size: 8394.
+After swapping, one level run-length table cipher text size: 2673.
+Choose swap-compression.
+Script size using Natural key: 2973.
+Natural method is better.
+Write out temporary script.
+Natural key flag: swapcase.
+***********************************************************
+NatDir key can't sovle this case.
+Shift count in this method: 114830.
+The most large consecutive segment length: 103956.
+Shift table plain text size: 587355.
+Shift table cipher text size: 4029.
+One level run-length table plain text size: 9264.
+One level run-length table cipher text size: 2724.
+After swapping, one level run-length table plain text size: 9513.
+After swapping, one level run-length table cipher text size: 2763.
+Choose compression.
+Script size using NatDir key: 3056.
+***********************************************************
+Using order sign: \$[a-zA-Z]\d+.
+Try to find order relation with A.
+Good try.
+Verify separator: _ZN_.
+Verify prefix: DOH_HUCK_.
+Have prefix: DOH_HUCK_.
+Separator: _ZN_. Prefix pattern: DOH_HUCK_.
+Have no fake separate pattern.
+Order key can sovle this case.
+Script size using Order key: 509.
+Order method is better.
+Write out temporary script.
+***********************************************************
+Script size: 509.
+***********************************************************
+Generate input file for case18 ......
+Test script for case18 ......
+Verify the functionality of the reconstruction ......
+j_toon/blazy1/toon_kith/e14_msg
+j_toon/blazy1/toon_kith/e14_msg/resizes0/f_msg
+j_toon/blazy1/toon_kith/e14_msg
+j_toon/blazy1/toon_kith/e014_msg/resizes0/f_msg
+Error!!
+error count: 1
+
+
+Test case19 ......
+Generate script for case19 ......
+cases/case19.json
+Default key can't sovle this case.
+Shift count in this method: 1034.
+The most large consecutive segment length: 102321.
+Shift table plain text size: 337251.
+Shift table cipher text size: 749.
+One level run-length table plain text size: 1888.
+One level run-length table cipher text size: 357.
+After swapping, one level run-length table plain text size: 1950.
+After swapping, one level run-length table cipher text size: 355.
+Choose swap-compression.
+Script size using Default key: 571.
+Default method is better.
+Write out temporary script.
+***********************************************************
+Natural key can sovle this case.
+Script size using Natural key: 177.
+Natural method is better.
+Write out temporary script.
+Natural key flag: Normal.
+***********************************************************
+Script size: 177.
+***********************************************************
+Generate input file for case19 ......
+Test script for case19 ......
+Verify the functionality of the reconstruction ......
+j_toon/blazy0/toon_kith/e011_msg
+j_toon/blazy0/toon_kith/e011_msg/resizes0/f_msg
+j_toon/blazy0/toon_kith/e011_msg
+j_toon/blazy0/toon_kith/e11_msg/resizes0/f_msg
+Error!!
+error count: 1
+
+
 Test case1 ......
 Generate script for case1 ......
 cases/case1.json
@@ -77,6 +706,165 @@ Generate input file for case1 ......
 Test script for case1 ......
 Verify the functionality of the reconstruction ......
 Match!!
+
+
+Test case20 ......
+Generate script for case20 ......
+cases/case20.json
+Default key can't sovle this case.
+Shift count in this method: 9435.
+The most large consecutive segment length: 102192.
+Shift table plain text size: 328065.
+Shift table cipher text size: 2327.
+One level run-length table plain text size: 15263.
+One level run-length table cipher text size: 1582.
+After swapping, one level run-length table plain text size: 14735.
+After swapping, one level run-length table cipher text size: 1579.
+Choose swap-compression.
+Script size using Default key: 1795.
+Default method is better.
+Write out temporary script.
+***********************************************************
+Natural key can't sovle this case.
+Shift count in this method: 84.
+The most large consecutive segment length: 128066.
+Shift table plain text size: 321828.
+Shift table cipher text size: 564.
+One level run-length table plain text size: 386.
+One level run-length table cipher text size: 214.
+After swapping, one level run-length table plain text size: 386.
+After swapping, one level run-length table cipher text size: 212.
+Choose swap-compression.
+Script size using Natural key: 502.
+Natural method is better.
+Write out temporary script.
+Natural key flag: Normal.
+***********************************************************
+NatDir key can't sovle this case.
+Shift count in this method: 84.
+The most large consecutive segment length: 128066.
+Shift table plain text size: 321828.
+Shift table cipher text size: 564.
+One level run-length table plain text size: 386.
+One level run-length table cipher text size: 214.
+After swapping, one level run-length table plain text size: 386.
+After swapping, one level run-length table cipher text size: 212.
+Choose swap-compression.
+Script size using NatDir key: 544.
+***********************************************************
+Using order sign: \$[a-zA-Z]\d+.
+Try to find order relation with A.
+Bad try.
+Try to find order relation with B.
+Separator: None. Prefix pattern: None.
+Order sign '\$[a-zA-Z]\d+' has no use.
+Using order sign: [a-zA-Z]\$\d+.
+Try to find order relation with A.
+Bad try.
+Try to find order relation with B.
+Good try.
+Verify separator: _YA_.
+Verify prefix: _.
+Found a bad prefix: _.
+Separator: _YA_. Prefix pattern: None.
+There is a fake separate pattern: SEL_YA_.
+Order key can't sovle this case.
+Shift count in this method: 21.
+The most large consecutive segment length: 152259.
+Shift table plain text size: 321803.
+Shift table cipher text size: 443.
+One level run-length table plain text size: 28.
+One level run-length table cipher text size: 97.
+After swapping, one level run-length table plain text size: 28.
+After swapping, one level run-length table cipher text size: 95.
+Choose normal.
+Script size using Order key: 638.
+***********************************************************
+No method can solve this case.
+Script candidate: {'Natural': (386, 212, 502), 'NatDir': (386, 212, 544), 'Order': (28, 28, 638), 'Default': (15263, 1579, 1795)}.
+Using Natural key table to record the original relationship.
+Natural key flag: Normal.
+Script size: 502.
+***********************************************************
+Generate input file for case20 ......
+Test script for case20 ......
+Verify the functionality of the reconstruction ......
+j_toon/blazy0/toon_kith/e011_msg
+j_toon/blazy0/toon_kith/e011_msg/resizes0/f_msg
+j_toon/blazy0/toon_kith/e011_msg
+j_toon/blazy0/toon_kith/e11_msg/resizes0/f_msg
+Error!!
+error count: 1
+
+
+Test case21 ......
+Generate script for case21 ......
+cases/case21.json
+Default key can't sovle this case.
+Shift count in this method: 1225.
+The most large consecutive segment length: 104126.
+Shift table plain text size: 259794.
+Shift table cipher text size: 577.
+One level run-length table plain text size: 1829.
+One level run-length table cipher text size: 233.
+After swapping, one level run-length table plain text size: 1828.
+After swapping, one level run-length table cipher text size: 233.
+Choose compression.
+Script size using Default key: 449.
+Default method is better.
+Write out temporary script.
+***********************************************************
+Natural key can't sovle this case.
+Shift count in this method: 122.
+The most large consecutive segment length: 115474.
+Shift table plain text size: 258732.
+Shift table cipher text size: 439.
+One level run-length table plain text size: 291.
+One level run-length table cipher text size: 162.
+After swapping, one level run-length table plain text size: 278.
+After swapping, one level run-length table cipher text size: 159.
+Choose swap-compression.
+Script size using Natural key: 449.
+Natural key flag: Normal.
+***********************************************************
+NatDir key can't sovle this case.
+Shift count in this method: 122.
+The most large consecutive segment length: 115474.
+Shift table plain text size: 258732.
+Shift table cipher text size: 439.
+One level run-length table plain text size: 291.
+One level run-length table cipher text size: 162.
+After swapping, one level run-length table plain text size: 278.
+After swapping, one level run-length table cipher text size: 159.
+Choose swap-compression.
+Script size using NatDir key: 491.
+***********************************************************
+Using order sign: \$[a-zA-Z]\d+.
+Try to find order relation with A.
+Bad try.
+Try to find order relation with B.
+Good try.
+Verify separator: _LB_.
+Verify prefix: .
+Have prefix: .
+Separator: _LB_. Prefix pattern: None.
+Have no fake separate pattern.
+Order key can sovle this case.
+Script size using Order key: 440.
+Order method is better.
+Write out temporary script.
+***********************************************************
+Script size: 440.
+***********************************************************
+Generate input file for case21 ......
+Test script for case21 ......
+Verify the functionality of the reconstruction ......
+j_toon/blazy0/toon_kith/e13_msg
+j_toon/blazy0/toon_kith/e13_msg/resizes0/f_msg
+j_toon/blazy0/toon_kith/e13_msg
+j_toon/blazy0/toon_kith/e013_msg/resizes0/f_msg
+Error!!
+error count: 1
 
 
 Test case2 ......
@@ -279,7 +1067,7 @@ Choose normal.
 Script size using Order key: 637.
 ***********************************************************
 No method can solve this case.
-Script candidate: {'Natural': (384, 209, 499), 'NatDir': (384, 209, 541), 'Order': (27, 27, 637), 'Default': (15254, 1573, 1789)}.
+Script candidate: {'Default': (15254, 1573, 1789), 'Natural': (384, 209, 499), 'Order': (27, 27, 637), 'NatDir': (384, 209, 541)}.
 Using Natural key table to record the original relationship.
 Natural key flag: Normal.
 Script size: 499.
@@ -489,7 +1277,7 @@ Choose swap-compression.
 Script size using Order key: 955.
 ***********************************************************
 No method can solve this case.
-Script candidate: {'Default': (1997, 465, 681), 'Natural': (1887, 382, 679), 'NatDir': (1618, 374, 706), 'Order': (1935, 402, 955)}.
+Script candidate: {'Order': (1935, 402, 955), 'Natural': (1887, 382, 679), 'Default': (1997, 465, 681), 'NatDir': (1618, 374, 706)}.
 Using Natural key table to record the original relationship.
 Natural key flag: lower.
 Script size: 679.
@@ -500,13 +1288,92 @@ Verify the functionality of the reconstruction ......
 Match!!
 
 
- 103 script/case0_script.py
- 509 script/case1_script.py
- 509 script/case2_script.py
- 177 script/case3_script.py
- 177 script/case4_script.py
- 499 script/case5_script.py
- 440 script/case6_script.py
- 440 script/case7_script.py
- 679 script/case8_script.py
-3533 total
+Test case9 ......
+Generate script for case9 ......
+cases/case9.json
+Default key can't sovle this case.
+Shift count in this method: 21992.
+The most large consecutive segment length: 477.
+Shift table plain text size: 127970.
+Shift table cipher text size: 7192.
+One level run-length table plain text size: 59916.
+One level run-length table cipher text size: 6723.
+After swapping, one level run-length table plain text size: 55376.
+After swapping, one level run-length table cipher text size: 6770.
+Choose compression.
+Script size using Default key: 6939.
+Default method is better.
+Write out temporary script.
+***********************************************************
+Natural key can't sovle this case.
+Shift count in this method: 21949.
+The most large consecutive segment length: 477.
+Shift table plain text size: 127910.
+Shift table cipher text size: 5597.
+One level run-length table plain text size: 16895.
+One level run-length table cipher text size: 5133.
+After swapping, one level run-length table plain text size: 17091.
+After swapping, one level run-length table cipher text size: 5205.
+Choose compression.
+Script size using Natural key: 5423.
+Natural method is better.
+Write out temporary script.
+Natural key flag: Normal.
+***********************************************************
+NatDir key can't sovle this case.
+Shift count in this method: 21949.
+The most large consecutive segment length: 477.
+Shift table plain text size: 127910.
+Shift table cipher text size: 5597.
+One level run-length table plain text size: 16895.
+One level run-length table cipher text size: 5133.
+After swapping, one level run-length table plain text size: 17091.
+After swapping, one level run-length table cipher text size: 5205.
+Choose compression.
+Script size using NatDir key: 5465.
+***********************************************************
+Using order sign: \$[a-zA-Z]\d+.
+Try to find order relation with A.
+Good try.
+Verify separator: _DR_.
+Verify prefix: _ZN_.
+Found a bad prefix: _ZN_.
+Separator: _DR_. Prefix pattern: None.
+Have no fake separate pattern.
+Generate input file for case9 ......
+Test script for case9 ......
+Verify the functionality of the reconstruction ......
+Match!!
+
+
+Test log ......
+Generate script for log ......
+cases/log
+Generate input file for log ......
+Test script for log ......
+Verify the functionality of the reconstruction ......
+
+
+  103 script/case0_script.py
+  509 script/case10_script.py
+  177 script/case11_script.py
+  500 script/case12_script.py
+  559 script/case13_script.py
+  487 script/case14_script.py
+  747 script/case15_script.py
+  684 script/case16_script.py
+  509 script/case17_script.py
+  509 script/case18_script.py
+  177 script/case19_script.py
+  509 script/case1_script.py
+  502 script/case20_script.py
+  440 script/case21_script.py
+  509 script/case2_script.py
+  177 script/case3_script.py
+  177 script/case4_script.py
+  499 script/case5_script.py
+  440 script/case6_script.py
+  440 script/case7_script.py
+  679 script/case8_script.py
+ 5423 script/case9_script.py
+14756 total

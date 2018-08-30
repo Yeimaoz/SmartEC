@@ -189,9 +189,15 @@ def generate_shift_table(ori,new):
     idx=[]
     if not new:
         return []
+    index_dict = {}
     for i in range(len(ori)):
-        if ori[new[0][i]] != new[1][i]:
-            idx.append(new[1].index(ori[new[0][i]])-i)
+        target = ori[new[0][i]]
+        if target != new[1][i]:
+            index_dict.setdefault(new[1][i],i)
+            if target in index_dict:
+                idx.append(index_dict[target]-i)
+            else:
+                idx.append(new[1].index(target)-i)
         else:
             idx.append(0)
     return idx

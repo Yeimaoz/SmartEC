@@ -167,7 +167,7 @@ a.dump(dict(zip(*A)),open(Z,'w'))''']
 
 map_in_name = ''
 script_name = ''
-order_signs = ['\$[a-zA-Z]\d+','[a-zA-Z]\$\d+']
+order_signs = ['\$\w\d+','\w\$\d+']
 order_sign = ''
 separator = ''
 prefix = ''
@@ -176,6 +176,7 @@ need_swap = False
 natural_key_flag = -1
 zfill_flag = False
 bit_size = -1
+same_value_flag = False
 
 def remove_white_space(ori):
     return "".join(str(ori).split(' '))
@@ -539,7 +540,7 @@ def order_key_(ori,sep,pre):
 
 def _fake(ori,sep,pre,fake_separator):
     new  =  ori[:]
-    match = re.findall('[a-zA-Z]\$\d+',ori)
+    match = re.findall(order_sign,ori)
     if not match:
         return [int(c)if c.isdigit()else c for c in re.split('(\d+)',ori)]
     m1=re.split('/',  ori) 
@@ -554,7 +555,7 @@ def _fake(ori,sep,pre,fake_separator):
 
 def fake_(ori,sep,pre,fake_separator):
     new  =  ori[:]
-    match = re.findall('[a-zA-Z]\$\d+',ori)
+    match = re.findall(order_sign,ori)
     if not match:
         return [int(c)if c.isdigit()else c for c in re.split('(\d+)',ori)]
     m1=re.split('/',  ori) 
@@ -619,16 +620,56 @@ def get_bit_size(origin_mapping):
     return max_size
 
 def add_zfill_2_script(output_script_temp):
-    if zfill_flag and output_script_temp.find('[int(c)') > -1:
-        print('Need to zfill.')
+    if same_value_flag and output_script_temp.find('[int(c)') > -1:
+        print('Need to pre-sorting.')
         return output_script_temp.replace('\n','\ns=sorted\n',1).replace('[sorted(U','[s(s(U)')
     return output_script_temp
+
+def same_value_checker(input_table,choice):
+    nats = [natural_key,natural_key_l,natural_key_u,natural_key_s] 
+    # sep, sep-pre, sep-fake, sep-pre-fake
+    ords = [_order_key,order_key_,_fake,fake_]
+    funcs = [lambda x:x,[],natdir_key,[]]
+    #pure nat
+    ordc = -1
+    if choice == 1:
+        funcs[choice] = nats[natural_key_flag]
+    elif choice ==3:
+        if not fake_separator:
+            if not prefix:
+                funcs[choice] = ords[0]
+                ordc = 0
+            else:
+                funcs[choice] = ords[1]
+                ordc = 1
+        else:
+            if not prefix:
+                funcs[choice] = ords[2]
+                ordc = 2
+            else:
+                funcs[choice] = ords[3]
+                ordc = 3
+    func = funcs[choice]
+    for i in [0,1]:
+        for j in range(len(input_table[0])-1):
+            if ordc > -1:
+                if ordc < 2:
+                    if func(input_table[i][j],separator,prefix) == func(input_table[i][j+1],separator,prefix):
+                        return True
+                else:
+                    if func(input_table[i][j],separator,prefix,fake_separator) == func(input_table[i][j+1],separator,prefix,fake_separator):
+                        return True
+            else:
+                if func(input_table[i][j]) == func(input_table[i][j+1]):
+                    return True
+    return False
 
 def check_type(origin_mapping,script_name):
     global complete_match
     global incomplete_match
     global order_key_scripts
     global bit_size
+    global same_value_flag 
     bit_size = get_bit_size(origin_mapping)
     print("Bit size: %d." % bit_size)
     print("Zero leading issue occurred: %s." %('yes' if zfill_flag else 'no'))
@@ -647,6 +688,7 @@ def check_type(origin_mapping,script_name):
             if not input_table:
                 print('%s key can\'t apply to this case.' % methods[i])
                 continue
+            same_value_flag = same_value_checker(input_table,i)
             flag, data[i][0], data[i][1], data[i][2], data[i][3], data[i][4]  = generate_tables(origin_mapping, input_table, methods[i])
             choise = i if flag == i else -1
             script_tmp = complete_match[i] if flag == i else incomplete_match[i]

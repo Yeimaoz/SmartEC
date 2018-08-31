@@ -46,7 +46,7 @@ def _(A):
         return N(A)
     F=re.split('/',A) 
     O=[(i.find(D[0])!=-1)for i in F].index(True)
-    T= '/'.join(F[:O-1])
+    T='/'.join(F[:O-1])
     m=re.split('{1}',F[O-1])
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
 a.dump(dict(zip(*[sorted(U,key=_)for U in a.load(open(Y))])),open(Z,'w'))''',
@@ -59,7 +59,7 @@ def _(A):
         return N(A)
     F=re.split('/',A) 
     O=[(i.find(D[0])!=-1)for i in F].index(True)
-    T= '/'.join(F[:O-1])
+    T='/'.join(F[:O-1])
     m=re.split('{1}',F[O-1])
     C=re.split('{2}',m[0])
     m[0]=m[0]if len(C)==1 else C[1]
@@ -75,7 +75,7 @@ def _(A):
         return N(A)
     F=re.split('/',A) 
     O=[(i.find(D[0])!=-1)for i in F].index(True)
-    T= '/'.join(F[:O-1])
+    T='/'.join(F[:O-1])
     m=re.split('{1}',F[O-1])
     return N((T+'/'if T else'')+m[int(D[0][2:])-1])
 t={2}
@@ -91,7 +91,7 @@ def _(A):
         return N(A)
     F=re.split('/',A) 
     O=[(i.find(D[0])!=-1)for i in F].index(True)
-    T= '/'.join(F[:O-1])
+    T='/'.join(F[:O-1])
     m=re.split('{1}',F[O-1])
     C=re.split('{2}',m[0])
     m[0]=m[0]if len(C)==1 else C[1]
@@ -105,43 +105,43 @@ fake_scripts = ['''import json as a,sys,re
 X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
-    M=re.findall('{0}',A)
-    if not M:
+    D=re.findall('{0}',A)
+    if not D:
         return N(A)
-    D=re.split('/',A) 
-    O=[(i.find(M[0])!=-1)for i in D].index(True)
-    temp='/'.join(D[:O-1])
-    m=re.split('{1}',D[O-1])
-    return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{2}')==-1 and D[O-1].find('{1}')> -1 else A)
+    F=re.split('/',A) 
+    O=[(i.find(D[0])!=-1)for i in F].index(True)
+    L='/'.join(F[:O-1])
+    m=re.split('{1}',F[O-1])
+    return N((L+'/' if L else '')+m[int(D[0][2:])-1]if A.find('{2}')==-1 and F[O-1].find('{1}')> -1 else A)
 a.dump(dict(zip(*[sorted(U,key=_)for U in a.load(open(Y))])),open(Z,'w'))''',
 '''import json as a,sys,re
 X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
-    M = re.findall('{0}',A)
-    if not M:
+    D=re.findall('{0}',A)
+    if not D:
         return N(A)
-    D=re.split('/',A) 
-    O=[(i.find(M[0])!=-1)for i in D].index(True)
-    temp='/'.join(D[:O-1])
-    m=re.split('{1}',D[O-1])
+    F=re.split('/',A) 
+    O=[(i.find(D[0])!=-1)for i in F].index(True)
+    L='/'.join(F[:O-1])
+    m=re.split('{1}',F[O-1])
     C=re.split('{2}',m[0])
     m[0]=m[0]if len(C)==1 else C[1]
-    return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{3}')==-1 and D[O-1].find('{1}')> -1 else A)
+    return N((L+'/' if L else '')+m[int(D[0][2:])-1]if A.find('{3}')==-1 and F[O-1].find('{1}')> -1 else A)
 a.dump(dict(zip(*[sorted(U,key=_)for U in a.load(open(Y))])),open(Z,'w'))''']
 
 incomplete_fake = ['''import json as a,sys,re
 X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
-    M=re.findall('{0}',A)
-    if not M:
+    D=re.findall('{0}',A)
+    if not D:
         return N(A)
-    D=re.split('/',A) 
-    O=[(i.find(M[0])!=-1)for i in D].index(True)
-    temp='/'.join(D[:O-1])
-    m=re.split('{1}',D[O-1])
-    return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{2}')==-1 and D[O-1].find('{1}')> -1 else A)
+    F=re.split('/',A) 
+    O=[(i.find(D[0])!=-1)for i in F].index(True)
+    L='/'.join(F[:O-1])
+    m=re.split('{1}',F[O-1])
+    return N((L+'/' if L else '')+m[int(D[0][2:])-1]if A.find('{2}')==-1 and F[O-1].find('{1}')> -1 else A)
 t={3}
 A=[sorted(U,key=_)for U in a.load(open(Y))]
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
@@ -150,16 +150,16 @@ a.dump(dict(zip(*A)),open(Z,'w'))''',
 X,Y,Z=sys.argv
 N=lambda x:[int(c)if c.isdigit()else c for c in re.split('(\d+)',x)]
 def _(A):
-    M = re.findall('{0}',A)
-    if not M:
+    D=re.findall('{0}',A)
+    if not D:
         return N(A)
-    D=re.split('/',A) 
-    O=[(i.find(M[0])!=-1)for i in D].index(True)
-    temp='/'.join(D[:O-1])
-    m=re.split('{1}',D[O-1])
+    F=re.split('/',A) 
+    O=[(i.find(D[0])!=-1)for i in F].index(True)
+    L='/'.join(F[:O-1])
+    m=re.split('{1}',F[O-1])
     C=re.split('{2}',m[0])
     m[0]=m[0]if len(C)==1 else C[1]
-    return N((temp+'/' if temp else '')+m[int(M[0][2:])-1]if A.find('{3}')==-1 and D[O-1].find('{1}')> -1 else A)
+    return N((L+'/' if L else '')+m[int(D[0][2:])-1]if A.find('{3}')==-1 and F[O-1].find('{1}')> -1 else A)
 t={4}
 A=[sorted(U,key=_)for U in a.load(open(Y))]
 A[1]=[A[1][x+y]for x,y in enumerate([t[i]for i in range(0,len(t),2)for j in range(t[i+1])])] 
@@ -177,6 +177,7 @@ natural_key_flag = -1
 zfill_flag = False
 bit_size = -1
 same_value_flag = False
+out_of_range = False
 
 def remove_white_space(ori):
     return "".join(str(ori).split(' '))
@@ -508,8 +509,7 @@ def find_separator_prefix(origin_mapping):
     return separator, prefix, fake_separator
 
 def _order_key(ori,sep,pre):
-    
-    global order_sign
+    global out_of_range
     new  =  ori[:]
     match = re.findall(order_sign,ori)
     if not match:
@@ -519,11 +519,16 @@ def _order_key(ori,sep,pre):
         opos =[(i.find(match[0])!=-1)for i in m1].index(True)
         temp = '/'.join(m1[:opos-1])
         m=re.split(sep,m1[opos-1])
-        new=(temp+'/' if temp else '')+m[int(match[0][2:])-1]
+        idx = int(match[0][2:])-1
+        if idx in range(len(m)):
+            new=(temp+'/' if temp else '')+m[idx]
+        else:
+            new=(temp+'/' if temp else '')+m[-1]
+            out_of_range = True
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',new)]
 
 def order_key_(ori,sep,pre): 
-    global order_sign
+    global out_of_range
     new  =  ori[:]
     match = re.findall(order_sign,ori)
     if not match:
@@ -533,12 +538,18 @@ def order_key_(ori,sep,pre):
         opos =[(i.find(match[0])!=-1)for i in m1].index(True)
         temp = '/'.join(m1[:opos-1])
         m=re.split(sep,m1[opos-1])
-        cut=re.split(pre,m[0])
-        m[0] = m[0]if len(cut) == 1 else cut[1]
-        new=(temp+'/' if temp else '')+m[int(match[0][2:])-1]
+        idx = int(match[0][2:])-1
+        if idx in range(len(m)):
+            cut=re.split(pre,m[0])
+            m[0] = m[0]if len(cut) == 1 else cut[1]
+            new=(temp+'/' if temp else '')+m[idx]
+        else:
+            new=(temp+'/' if temp else '')+m[-1]
+            out_of_range = True
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',new)]
 
 def _fake(ori,sep,pre,fake_separator):
+    global out_of_range
     new  =  ori[:]
     match = re.findall(order_sign,ori)
     if not match:
@@ -548,12 +559,18 @@ def _fake(ori,sep,pre,fake_separator):
     temp = '/'.join(m1[:opos-1])
     m=re.split(sep,m1[opos-1])
     if ori.find(fake_separator) == -1 and m1[opos-1].find(sep) > -1:
-        new=(temp+'/' if temp else '')+m[int(match[0][2:])-1]
+        idx = int(match[0][2:])-1
+        if idx in range(len(m)):
+            new=(temp+'/' if temp else '')+m[idx]
+        else:
+            new=(temp+'/' if temp else '')+m[-1]
+            out_of_range = True
     else:
         new = ori
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',new)]
 
 def fake_(ori,sep,pre,fake_separator):
+    global out_of_range
     new  =  ori[:]
     match = re.findall(order_sign,ori)
     if not match:
@@ -562,9 +579,15 @@ def fake_(ori,sep,pre,fake_separator):
     opos =[(i.find(match[0])!=-1)for i in m1].index(True)
     temp = '/'.join(m1[:opos-1])
     m=re.split(sep,m1[opos-1])
-    m[0] = m[0][len(pre):] if m[0].find(pre) > -1 else m[0]
     if ori.find(fake_separator) == -1 and m1[opos-1].find(sep) > -1:
-        new=(temp+'/' if temp else '')+m[int(match[0][2:])-1]
+        idx = int(match[0][2:])-1
+        if idx in range(len(m)):
+            cut=re.split(pre,m[0])
+            m[0] = m[0]if len(cut) == 1 else cut[1]
+            new=(temp+'/' if temp else '')+m[idx]
+        else:
+            new=(temp+'/' if temp else '')+m[-1]
+            out_of_range = True
     else:
         new = ori
     return [int(c)if c.isdigit()else c for c in re.split('(\d+)',new)]
@@ -664,6 +687,12 @@ def same_value_checker(input_table,choice):
                     return True
     return False
 
+def handle_out_of_range(output_script_temp):
+    if out_of_range:
+        print('Order key out of range!')
+        return output_script_temp.replace('int(D[0][2:])-1','I(D)if I(D)in range(len(m))else -1').replace('\n','\nI=lambda x:int(x[0][2:])-1\n',1)
+    return output_script_temp
+    
 def check_type(origin_mapping,script_name):
     global complete_match
     global incomplete_match
@@ -692,7 +721,7 @@ def check_type(origin_mapping,script_name):
             flag, data[i][0], data[i][1], data[i][2], data[i][3], data[i][4]  = generate_tables(origin_mapping, input_table, methods[i])
             choise = i if flag == i else -1
             script_tmp = complete_match[i] if flag == i else incomplete_match[i]
-            script_tmp = add_zfill_2_script(script_tmp)
+            script_tmp = handle_out_of_range(add_zfill_2_script(script_tmp))
             if output_script_temp:
                 if len(output_script_temp) > len(script_tmp):
                     output_script_temp = script_tmp
@@ -722,7 +751,7 @@ def check_type(origin_mapping,script_name):
             print("Natural key flag: %s." % flags[natural_key_flag])
     print('Script size: %d.' % len(output_script))
     print('***********************************************************')
-    output_script = add_zfill_2_script(output_script)
+    output_script = handle_out_of_range(add_zfill_2_script(output_script))
     return output_script
    
 def write_file(output_script,script_name):

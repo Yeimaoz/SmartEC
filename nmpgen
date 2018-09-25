@@ -271,17 +271,9 @@ def get_t_index(res, cres, rres, crres):
 #make choice between swapsign and compression, 
 def make_choice(origin_table,input_table):
     idx, res, readable, cidx, cres, rres, crres = generate_swapsign_compression(origin_table,input_table)
-    print('The most large consecutive segment length: %d.' % max(list(zip(*readable))[1]))
-    print('Shift table plain text size: %d.' % len(remove_white_space(idx)))
-    print('Shift table cipher text size: %d.' % len(cidx))
-    print('One level run-length table plain text size: %d.' % len(remove_white_space(res)))
-    print('One level run-length table cipher text size: %d.' % len(cres))
-    print('After swapping, one level run-length table plain text size: %d.' % len(remove_white_space(rres)))
-    print('After swapping, one level run-length table cipher text size: %d.' % len(crres))
     
     output_table, t_index = get_t_index(res, cres, rres, crres)
     targets_name = ['normal','swap-normal', 'compression','swap-compression']
-    print('Choose %s.' % targets_name[t_index])
     # st, 1-rl, readable 1-rl, ot, tidx
     return idx, res, readable, output_table, t_index
     
@@ -297,7 +289,6 @@ def generate_tables(origin_table, input_table, method):
     choise, idx, res, readable, tltable, output_table = -1, [], [], [], [],''
     ns = shift_count(origin_table, input_table)
     if ns == 0:
-        print('%s key can sovle this case.' % method)
         choise = methods.index(method)
         if method == methods[1]:
             complete_match[1] = complete_match[1].replace("else c for",replacements[natural_key_flag])
@@ -312,10 +303,7 @@ def generate_tables(origin_table, input_table, method):
                     complete_match[3] = fake_scripts[1].format(order_sign,separator,prefix,fake_separator)
                 else:
                     complete_match[3] = fake_scripts[0].format(order_sign,separator,fake_separator)
-        print('Script size using %s key: %d.' % (method,len(complete_match[methods.index(method)])))
     else:
-        print('%s key can\'t sovle this case.' % method)
-        print('Shift count in this method: %d.' % ns)
         idx, res, readable, output_table, t_index = make_choice(origin_table, input_table)
         need_swap = True if t_index % 2 else False
         if method == methods[1]:
@@ -337,7 +325,6 @@ def generate_tables(origin_table, input_table, method):
             incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('\n',',base64,zlib\n',1)
         if need_swap:
             incomplete_match[methods.index(method)] = incomplete_match[methods.index(method)].replace('x+y','x-y',1)
-        print('Script size using %s key: %d.' % (method,len(incomplete_match[methods.index(method)])))
     return choise, idx, res, readable, tltable, output_table
 
 def default_key_method(origin_mapping):
@@ -432,7 +419,6 @@ def vote(have_order, flag):
     return voting_result
 
 def verify_prefix(have_order,flag,prefix):  
-    print('Verify prefix: %s.' % prefix)
     global order_sign
     for k, v in have_order:
         Order=re.search(order_sign.replace('\\d+','(\\d+)'), k if flag else v)
@@ -449,7 +435,6 @@ def verify_prefix(have_order,flag,prefix):
     return False
 
 def verify_separator(have_order,flag,separator): 
-    print('Verify separator: %s.' % separator)
     global order_sign
     fake_separators = {}
     for k, v in have_order:
@@ -477,18 +462,14 @@ def find_separator_prefix(origin_mapping):
     if not (ko or vo):
         return '', '', ''
     flag = True
-    print('Try to find order relation with A.')
     v1 = vote(ko, True)
     if v1:
         voting_result = v1
     else:
-        print('Bad try.')
-        print('Try to find order relation with B.')
         voting_result = vote(vo, False)
         flag = False
     if not voting_result:
         return '', '', ''
-    print('Good try.')
     voting_result = sorted(list(voting_result.items()),key=lambda x:x[1],reverse=True)
     separator = voting_result[0][0]
     fake_separator = verify_separator((ko if flag else vo),flag,separator)
@@ -500,10 +481,7 @@ def find_separator_prefix(origin_mapping):
         prefix = voting_result[1][0]
     
     vvv = verify_prefix((ko if flag else vo),flag,prefix)
-    if vvv:
-        print("Have prefix: %s." % prefix)
-    else:
-        print("Found a bad prefix: %s." % prefix)
+    if not vvv:
         prefix = ''
         
     return separator, prefix, fake_separator
@@ -598,25 +576,17 @@ def order_key_method(origin_mapping):
     global prefix
     global fake_separator
     order_sign = order_signs[0]
-    print('Using order sign: %s.' % order_sign)
     separator, prefix, fake_separator = find_separator_prefix(origin_mapping)
-    print('Separator: %s. Prefix pattern: %s.' % ( (separator if separator else 'None'),(prefix if prefix else 'None') ) ) 
     if not(separator or prefix):
-        print('Order sign \'%s\' has no use.' % order_sign)
         order_sign = order_signs[1]
-        print('Using order sign: %s.' % order_sign)
         separator, prefix, fake_separator = '', '', ''
         separator, prefix, fake_separator = find_separator_prefix(origin_mapping)
-        print('Separator: %s. Prefix pattern: %s.' % ( (separator if separator else 'None'),(prefix if prefix else 'None') ) ) 
     if not(separator or prefix):
         return []
     ori=[sorted(list(origin_mapping.keys())),sorted(list(origin_mapping.values()))]
     func=order_key_ if prefix else _order_key
     if fake_separator:
         func=fake_ if prefix else _fake
-        print('There is a fake separate pattern: %s.' % fake_separator)
-    else:
-        print('Have no fake separate pattern.')
     _ori=[[ func(j,separator,prefix,fake_separator)if fake_separator else func(j,separator,prefix)for j in i] for i in ori]
     KV=[list(zip(ori[i],_ori[i])) for i in[0,1]]
     KV=[sorted(x,key=lambda x:x[1]) for x in KV]
@@ -644,7 +614,6 @@ def get_bit_size(origin_mapping):
 
 def add_zfill_2_script(output_script_temp):
     if same_value_flag and output_script_temp.find('[int(c)') > -1:
-        print('Need to pre-sorting.')
         return output_script_temp.replace('\n','\ns=sorted\n',1).replace('[sorted(U','[s(s(U)')
     return output_script_temp
 
@@ -689,7 +658,6 @@ def same_value_checker(input_table,choice):
 
 def handle_out_of_range(output_script_temp):
     if out_of_range:
-        print('Order key out of range!')
         return output_script_temp.replace('int(D[0][2:])-1','I(D)if I(D)in range(len(m))else -1').replace('\n','\nI=lambda x:int(x[0][2:])-1\n',1)
     return output_script_temp
     
@@ -700,8 +668,6 @@ def check_type(origin_mapping,script_name):
     global bit_size
     global same_value_flag 
     bit_size = get_bit_size(origin_mapping)
-    print("Bit size: %d." % bit_size)
-    print("Zero leading issue occurred: %s." %('yes' if zfill_flag else 'no'))
     output_script = ""
     output_script_temp = ''
     choise = -1
@@ -715,7 +681,6 @@ def check_type(origin_mapping,script_name):
         else:
             input_table = functions[i](origin_mapping)   
             if not input_table:
-                print('%s key can\'t apply to this case.' % methods[i])
                 continue
             same_value_flag = same_value_checker(input_table,i)
             flag, data[i][0], data[i][1], data[i][2], data[i][3], data[i][4]  = generate_tables(origin_mapping, input_table, methods[i])
@@ -725,32 +690,20 @@ def check_type(origin_mapping,script_name):
             if output_script_temp:
                 if len(output_script_temp) > len(script_tmp):
                     output_script_temp = script_tmp
-                    print('%s method is better.\nWrite out temporary script.' % methods[i]) 
                     write_file(output_script_temp,script_name)
             else:
                 output_script_temp = script_tmp
-                print('%s method is better.\nWrite out temporary script.' % methods[i])
                 write_file(output_script_temp,script_name)
-            if i == 1:
-                print("Natural key flag: %s." % flags[natural_key_flag])
-        print('***********************************************************')
     if choise != -1:
         output_script = complete_match[choise]
     else:
-        print('No method can solve this case.')
         total= lambda x,y: len("".join(str(x).split(' ')))+len(y)
         two_level = [(methods[i],len(incomplete_match[i]))if data[i][0] else (methods[i],-1) for i in range(len(methods))] 
         two_level = list(filter(lambda x: x[1] > -1,sorted(two_level,key=lambda x:x[1])))
         t_index = methods.index(two_level[0][0])
         script_candidate = [ (len("".join(str(data[i][1]).split(' '))),len(data[i][4]),len(incomplete_match[i]))for i in range(len(methods)) ]
-        print('Script candidate: %s.' % str(dict(zip(methods,script_candidate))) )
-        print('Using %s key table to record the original relationship.' % methods[t_index])
         index, one_level, readable, two_level, output_table = data[t_index][0], data[t_index][1], data[t_index][2], data[t_index][3], data[t_index][4] 
         output_script = incomplete_match[t_index]
-        if t_index == 1:
-            print("Natural key flag: %s." % flags[natural_key_flag])
-    print('Script size: %d.' % len(output_script))
-    print('***********************************************************')
     output_script = handle_out_of_range(add_zfill_2_script(output_script))
     return output_script
    
@@ -761,7 +714,6 @@ def write_file(output_script,script_name):
 
 if __name__ == '__main__':
     map_in_name, script_name = argv[1], argv[2]
-    print(map_in_name)
     map_in_file = open(map_in_name)
     origin_mapping = json.load(map_in_file)
     map_in_file.close()
